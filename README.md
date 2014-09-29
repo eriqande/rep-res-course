@@ -1,4 +1,4 @@
-# Advanced R programming
+# Reproducible Research Course
 
 This is code and text behind the [Reproducible Research Course](http://eriqande.github.io/rep-res-course/)
 taught by Eric C. Anderson of the National Marine Fisheries Service. 
