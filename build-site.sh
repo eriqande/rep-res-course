@@ -60,7 +60,7 @@ mv blog_figs _site/blog/
 # but only if index.rmd has changed from the previous version or
 # if the files index.pdf and index.docx are missing
 shasum index.rmd > .temp_shasum
-if cmp .temp_shasum extras/index_shasum.txt && [ -e _site/word_and_pdf/index.pdf ] && [ -e _site/word_and_pdf/index.docx ]; then
+if (cmp .temp_shasum extras/index_shasum.txt) && [ -e _site/word_and_pdf/index.pdf ] && [ -e _site/word_and_pdf/index.docx ]; then
   echo; echo "index.rmd unchanged. And the pdf and docx files exist. No-need to re-render PDF and WORD formats"; echo
   rm .temp_shasum
 else
