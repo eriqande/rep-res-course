@@ -52,18 +52,19 @@ jekyll build  $CONFIG
 
 # now, move the figures made while knitting
 # to the appropriate locations
-mv _site/lecture_figs _site/lectures/
-mv _site/blog_figs _site/blog/
+mv lecture_figs _site/lectures/
+mv blog_figs _site/blog/
 
 
 # and also render the index.rmd to PDF and WORD formats
-# but only if the file has changed from the previous version.
+# but only if index.rmd has changed from the previous version or
+# if the files index.pdf and index.docx are missing
 shasum index.rmd > .temp_shasum
-if cmp .temp_shasum extras/index_shasum.txt; then
-  echo; echo "index.rmd unchanged. No-need to re-render PDF and WORD formats"; echo
+if cmp .temp_shasum extras/index_shasum.txt && [ -e _site/word_and_pdf/index.pdf ] && [ -e _site/word_and_pdf/index.docx ]; then
+  echo; echo "index.rmd unchanged. And the pdf and docx files exist. No-need to re-render PDF and WORD formats"; echo
   rm .temp_shasum
 else
-  echo; echo "index.rmd changed. Re-rendering PDF and WORD formats"; echo
+  echo; echo "index.rmd changed or pdf and docx files don't exist. Re-rendering PDF and WORD formats"; echo
   Rscript extras/render_welcome.R
   mv .temp_shasum extras/index_shasum.txt
 fi
