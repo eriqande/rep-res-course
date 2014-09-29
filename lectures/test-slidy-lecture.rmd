@@ -1,0 +1,114 @@
+---
+title: "Multinomial and Multivariate Normal Models"
+layout: default
+author: Bruno Sanso (translated to Rmarkdown and augmented by Eric Anderson)
+date: 2014
+output:
+  html_document:
+    toc: true
+    highlight: pygments
+  pdf_document:
+    toc: true
+    highlight: pygments
+  ioslides_presentation:
+    smaller: true
+    fig_width: 5.5
+    fig_height: 3.5
+    mathjax: default
+  slidy_presentation:
+    highlight: pygments
+    fig_width: 5.5
+    fig_height: 3.5
+    mathjax: default
+    footer: "here is some footer text"
+  beamer_presentation:
+    theme: Warsaw
+    highlight: pygments
+    keep_tex: false
+    fig_width: 5.5
+    fig_height: 3.5
+---
+
+```{r setup-options, echo=FALSE, results='hide'}
+opts_chunk$set(fig.path = 'lecture_figs/dirch-')
+```
+
+
+# Multinomial Models
+
+This is just some stuff I had lying around that Bruno had written and I had copied at one point to see how slidy worked.
+
+
+
+## The multinomial distribution
+The binomial distribution can be generalized to allow for more than two mutually exclusive outcomes. We consider a random variable taking one of of $k$ possible outcomes and count the number of occurrences of each type of outcome. The vector of such counts, $y$ has the density
+\[
+p(y|\theta) \propto \prod_{j=1}^k \theta_j^{y_j}~~,~~\sum_{j=1}^k \theta_j = 1.
+\]
+We assume that $\sum_{j=1}^k y_j = n$ is known.
+
+
+
+
+
+
+## The Dirichlet distribution
+A generalization of the beta distribution to $k$ components is given by the Dirichlet distribution
+\[
+p(\theta|\alpha) \propto \prod_{j=1}^k \theta_j^{\alpha_j-1}~~,~~
+\sum_{j=1}^k \theta_j =1~~,~~\theta_j>0,~ \alpha_j >0,~~ j=1,...,k. 
+\]
+This distribution is a conjugate prior for the multinomial
+likelihood. The corresponding posterior distribution is
+\[
+p(\theta|y)  \propto \prod_{j=1}^k \theta_j^{\alpha_j + y_j -1}.
+\]
+This implies that the posterior distribution is a Dirichlet with parameters
+$\alpha_j+y_j~~,~~j=1,\ldots,k$.
+
+
+## Sampling from a Dirichlet
+To obtain a sample from a Dirichlet $\alpha = (\alpha_1,\ldots,\alpha_k)$, generate $k$ independent gamma
+random variates $x_1,\ldots,x_k$, with shape parameters $\alpha_1,\ldots,\alpha_k$. Let
+\[
+\theta_j = \frac{x_j}{\sum_{j=1}^k x_j}.
+\]
+We notice that the scale that is used to generate the gamma variates is irrelevant, as it cancels in the ratio.
+
+Here we can define a function to do that in R:
+```{r}
+#     footer: "<a href="https://github.com/eriqande/test-pages/edit/master/slidy/test-slidy-lecture.rmd">Edit Rmarkdown source for slides on GitHub</a>"
+# a is a vector of alphas
+rdirch.one <- function(a) {
+  x <- rgamma(length(a), a)
+  x/sum(x)
+}
+```
+
+## Sampling from a Dirichlet
+### (a vectorized version)
+
+Of course, if we want multiple replicates of $\theta$ we would want to pass it an `n` 
+argument too.  In that case, we can make a nice vectorized version like this:
+```{r}
+rdirch <- function(n = 1, a) {
+  x <- matrix(rgamma(n * length(a), a), nrow = length(a))
+  denoms <- colSums(x)
+  x/rep(denoms, each = length(a))
+}
+```
+which returns random vectors as columns in a matrix.
+Here is an example:
+```{r}
+set.seed(10)
+rdirch(5, c(1,5,10))
+```
+
+## Sampling From a Dirichlet | (plotted results)
+Here we make boxplots of the components of 1000 random vectors:
+```{r}
+alpha <- c(3.5, 7, 15, 1.2, 62)
+x <- rdirch(1000, a = alpha)
+boxplot(as.numeric(x) ~ factor(rep(alpha, length.out = length(x)), levels = alpha),
+        xlab = "alpha")
+```

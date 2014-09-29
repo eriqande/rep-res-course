@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+_cache
+_site
+cache
+diamonds.csv
+temp.Rmd
+*.html
+*_cache
+*_files
+blog_figs
+lecture_figs

@@ -1,0 +1,47 @@
+---
+title: Brewing up a course website
+layout: default
+output: bookdown::html_chapter
+---
+
+```{r setup-options, echo=FALSE, results='hide'}
+opts_chunk$set(fig.path = 'blog_figs/2014-09-28-')
+```
+
+# This is just a test at the moment.
+
+Yeeha!
+
+Let's see what happens here.
+```{r}
+x <- 1:10
+```
+
+and add some more
+```{r}
+y <- x^2
+```
+
+and finally:
+```{r SimpleOneTenPlot}
+plot(x,y)
+```
+
+
+
+## here is another section
+
+blah blah
+
+
+## A subsection
+
+yep yap
+
+## Another subsection
+
+and this
+
+### What about this
+
+did that get turned into contents?

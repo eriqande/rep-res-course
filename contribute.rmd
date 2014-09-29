@@ -1,0 +1,30 @@
+---
+layout: default
+title: How to contribute
+---
+
+# How to Contribute
+The content of this website is Eric C. Anderson's first attempt at teaching
+a course in which 98% of the content is written using Rmarkdown. Currently
+all the sources are built on my local machine using Jekyll (because GitHub does
+not support custom Jekyll plugins) and then I push the results (in the _site directory) up to the
+gh-pages branch of my rep-res-course repository on GitHub.
+
+If you have recommended edits, the best way to get them to me is to:
+
+1. Have a GitHub account.
+2. Click on the "Edit this page" button.
+
+Doing so will give you a fork of the rep-res-course repository, and you can
+edit the raw Rmarkdown source that produced the page and send me a pull request.
+Understand that any contributions you make that are pulled into the project
+will enter the public domain.
+
+I welcome any recommendations from simple typo-fixes to suggestions on how my R code 
+can be improved and suggestions
+on how this material could be taught more effectively.   I would particularly appreciate
+it if you were to send me any fun "homework exercises" that would be beneficial for students
+learning this material.
+
+If you have any questions, feel free to raise them in the pull request, or
+send me [an email](mailto:eric.anderson@noaa.gov).
