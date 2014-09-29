@@ -5,7 +5,7 @@ _site
 cache
 diamonds.csv
 temp.Rmd
-*.html
+/*.html
 *_cache
 *_files
 blog_figs
