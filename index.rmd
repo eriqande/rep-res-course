@@ -56,8 +56,7 @@ For more information about reproducible research you might be interested to read
 * [Reproducible Reseach with R and Rstudio](http://www.amazon.com/Reproducible-Research-RStudio-Chapman-Series/dp/1466572841)  This is a book on the topic.  You 
 can buy it, and you can also build and compile it yourself from the source code at its [GitHub site](https://github.com/christophergandrud/Rep-Res-Book) with the 
 tools you will learn in this course.
-* [A Report from a Stanford roundtable on reproducible research](https://www.google.co.uk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=6&ved=0CEYQFjAF&url=https%3A%2F%2
-Fweb.stanford.edu%2F~vcs%2Fpapers%2FRoundtableDeclaration2010.pdf&ei=6oYmVP6uH4braM_SgagL&usg=AFQjCNHF35X1DJUKjc3M3FzFhLGTA7JlLg&bvm=bv.76247554,d.d2s)
+* [A Yale Law School roundtable on reproducible research](https://web.stanford.edu/~vcs/papers/RoundtableDeclaration2010.pdf)
 
 ## About this website {#welcome-about-site}
 Nearly all of the content for this website was authored using [Rmarkdown](http://rmarkdown.rstudio.com/).  It was then rendered to html using 
