@@ -3,7 +3,7 @@ markdown: redcarpet
 highlighter: pygments
 
 exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs"]
-baseurl: http://eriqande.github.io/test-pages
+baseurl: http://eriqande.github.io/rep-res-web
 permalink: /blog/:month-:day-:year-:title.html
 
 

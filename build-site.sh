@@ -1,6 +1,7 @@
 # put default values here
 SERVE_LOCAL=0
-
+CONFIG=""
+DEPLOY_IT=0
 
 
 function usage {
@@ -13,7 +14,7 @@ function usage {
 }
 
 
-while getopts ":hl" opt; do
+while getopts ":hld" opt; do
     case $opt in
 	h    )
 	    usage
@@ -21,6 +22,8 @@ while getopts ":hl" opt; do
 	    ;;
 	l    )  SERVE_LOCAL=1
 					CONFIG=" --config _config_test.yml "
+	    ;;
+  d    )  DEPLOY_IT=1
 	    ;;
 	\?   )
 	    usage
@@ -39,13 +42,17 @@ if [ $# -ne 0 ]; then
 fi
 
 
-
 # uncomment to process a series of remaining parameters in order
 #while (($#)); do
 #    VAR=$1;
 #    shift;
 #done
 
+
+if [ $SERVE_LOCAL -eq 1 ] && [ $DEPLOY_IT -eq 1 ]; then
+  echo "You can't give both the -l and the -d options.  Exiting..."
+  exit 1
+fi
 
 jekyll build  $CONFIG
 
@@ -76,3 +83,14 @@ fi
 if [ $SERVE_LOCAL -eq 1 ]; then
 	jekyll serve --no-watch -V --skip-initial-build $CONFIG
 fi
+
+
+# and here we push it to rep-res-web
+if [ $DEPLOY_IT -eq 1 ]; then
+  echo "Copying to rep-res-web.  If you are ready, commit and push from both repos"
+  rm -rf ../rep-res-web/*
+  cp -r  _site/* ../rep-res-web/
+fi
+
+
+
