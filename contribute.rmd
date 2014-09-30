@@ -6,9 +6,10 @@ title: How to contribute
 # How to Contribute
 The content of this website is Eric C. Anderson's first attempt at teaching
 a course in which 98% of the content is written using Rmarkdown. Currently
-all the sources are built on my local machine using Jekyll (because GitHub does
-not support custom Jekyll plugins) and then I push the results (in the _site directory) up to the
-gh-pages branch of my rep-res-course repository on GitHub.
+all the sources in the rep-res-course repository are built on my local machine using Jekyll (because GitHub does
+not support custom Jekyll plugins) and then I copy the results (in the _site directory) to the
+gh-pages branch of my rep-res-web repository on GitHub where it gets served up at
+http://eriqande.github.io/rep-res-web/
 
 If you have recommended edits, the best way to get them to me is to:
 
