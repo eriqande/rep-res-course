@@ -11,6 +11,7 @@ function usage {
       echo "Options:"
       echo "     -h :  print out a list of options"
       echo "     -l :  build site and serve it locally using jekyll server"
+      echo "     -d :  build site locally and copy _site contents to rep-res-web to host on GitHub."
 }
 
 
