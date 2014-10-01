@@ -1,9 +1,3 @@
-name: Advanced R
-markdown: redcarpet
-highlighter: pygments
-
-exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs"]
 baseurl: ''
-permalink: /blog/:month-:day-:year-:title.html
 
 

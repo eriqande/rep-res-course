@@ -1,8 +1,8 @@
-name: Advanced R
+name: Reproducible Research
 markdown: redcarpet
 highlighter: pygments
 
-exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs"]
+exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs", "junk"]
 baseurl: http://eriqande.github.io/rep-res-web
 permalink: /blog/:month-:day-:year-:title.html
 

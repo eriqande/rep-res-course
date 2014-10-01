@@ -21,7 +21,7 @@ while getopts ":hld" opt; do
 	    exit 1
 	    ;;
 	l    )  SERVE_LOCAL=1
-					CONFIG=" --config _config_test.yml "
+					CONFIG=" --config _config.yml,_config_test.yml "
 	    ;;
   d    )  DEPLOY_IT=1
 	    ;;
