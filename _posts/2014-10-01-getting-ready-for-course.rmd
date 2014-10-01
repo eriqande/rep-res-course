@@ -149,3 +149,81 @@ Deleted branch eca-home-patch-3 (was a522320).
 OK, so, that was pretty easy.  Now I just need to figure out how to instruct students to make branches
 and checkout homework into those branches and make good pull requests.  Still not there yet, but
 getting my head around this.
+
+
+## Forking and pull requests via the command line
+OK, I now have a fork of rep-res-course at `eca-home`.  Now I want to clone that locally and then 
+update to upstream, and then make a branch and edit it and then push it up to my fork and
+make a pull request on that.
+
+Let's see how that goes
+
+```{r, eval=FALSE}
+# first clone it
+2014-10-01 13:02 /git-eca-home/--% pwd
+/Users/eriq/Documents/git-eca-home
+2014-10-01 13:02 /git-eca-home/--% git clone https://github.com/eca-home/rep-res-course.git
+Cloning into 'rep-res-course'...
+remote: Counting objects: 116, done.
+remote: Compressing objects: 100% (66/66), done.
+remote: Total 116 (delta 51), reused 112 (delta 47)
+Receiving objects: 100% (116/116), 83.36 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (51/51), done.
+Checking connectivity... done.
+
+# then change my user for this repository:
+2014-10-01 13:04 /git-eca-home/--% cd rep-res-course/
+2014-10-01 13:05 /rep-res-course/--% (master) git config user.name "Eric At Home"
+2014-10-01 13:05 /rep-res-course/--% (master) git config user.name 
+Eric At Home
+2014-10-01 13:05 /rep-res-course/--% (master) git config user.email "eric.anderson@stanfordalmni.org"
+
+# See what the remotes are:
+2014-10-01 13:06 /rep-res-course/--% (master) git remote -v
+origin  https://github.com/eca-home/rep-res-course.git (fetch)
+origin	https://github.com/eca-home/rep-res-course.git (push)
+```
+
+There is a good post about upstream remotes here http://felipec.wordpress.com/2013/09/01/advanced-git-concepts-the-upstream-tracking-branch/
+in particular the command `git remote -vv` is handy.
+
+### Hmm...wait a minute.  There might be a better way to do this.
+Rather than clone the fork.  It might be better to clone the main repository into a master branch
+which will track the main (eriqande's) repo as origin/master.  Then things can be branched off
+origin/master.  (This is what the Pro Git book seems to recommend).  Let's try that.
+```{r, eval=FALSE}
+2014-10-01 13:20 /git-eca-home/--% sudo rm -r rep-res-course/
+2014-10-01 13:22 /git-eca-home/--% pwd
+/Users/eriq/Documents/git-eca-home
+2014-10-01 13:22 /git-eca-home/--% git clone https://github.com/eriqande/rep-res-course.git
+2014-10-01 13:22 /rep-res-course/--% (master) git config user.name "Eric At Home"
+2014-10-01 13:22 /rep-res-course/--% (master) git config user.email "eric.anderson@stanfordalmni.org"
+2014-10-01 13:23 /rep-res-course/--% (master) git branch -vv
+* master eb8b9a9 [origin/master] minor fix
+```
+OK, now with that set up that way I should be able to make a new branch and make some change to it.
+For this I am just following the ProGit book.
+```{r, eval=FALSE}
+2014-10-01 13:26 /rep-res-course/--% (master) git checkout -b mock-homework-1
+```
+Then added some stuff to index.rmd.  Now we will see about pushing that to the fork and sending a
+pull request.
+```{r, eval=FALSE}
+# add the remote for mock-homework-1 branch
+2014-10-01 13:39 /rep-res-course/--% (mock-homework-1) git remote add my-rep-res-fork https://github.com/eca-home/rep-res-course.git
+# push that up there:
+2014-10-01 13:40 /rep-res-course/--% (mock-homework-1) git push my-rep-res-fork mock-homework-1 
+```
+
+After that, when I go to my `eca-home` github account.  There is a big green button at the top telling me that 
+I just pushed that branch up, and it asks me if I want to send a pull request.
+
+So, let's press that big green button.  That does just what it is supposed to do. Unfortunately, all of a sudden 
+the colors on my screen got horribly washed out.  I'm going to restart here.
+
+
+
+
+
+```
+```
