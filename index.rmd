@@ -14,6 +14,8 @@ output:
 This is the website for the Autumn 2014 course "Reproducible Research Methods" taught by Eric C. Anderson at NOAA's Southwest Fisheries Science Center.  The
 course meets on Tuesdays and Thursdays from 3:30 to 4:30 PM in Room 188 of the Fisheries Ecology Division.  It runs from Oct 7 to December 18.
 
+__This course will be most valuable if you can bring a laptop to the sessions__
+
 The goal of this course is for scientists, researchers, and students to learn:
 
 1. to write programs in the [R](http://cran.r-project.org) language to manipulate and analyze data,
@@ -21,6 +23,10 @@ The goal of this course is for scientists, researchers, and students to learn:
 1. to work fluently within the [Rstudio](http://www.rstudio.com) integrated development environment for R,
 1. to use [git](http://git-scm.com) version control software and [GitHub](https://github.com) to effectively manage  source code, collaborate efficiently with 
 other researchers, and neatly package their research.
+
+There will be homework assigments.  This course is not for credit and so you don't have to necessarily do the 
+homework, but I'm going to try to set it up so that there will be some peer pressure to make sure you try it
+(or at least have fun with working with someone else on it!)
 
 By the end of the course, the hope is that we will all have mastered strategies allowing us to use the above-listed, freely-available and open-source tools 
 for conducting research in a reproducible fashion.  The ideal we will be striving for is to be able to start from a raw data set and then write a computer 
