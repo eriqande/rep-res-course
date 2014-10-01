@@ -26,7 +26,7 @@ other researchers, and neatly package their research.
 
 There will be homework assigments.  This course is not for credit and so you don't have to necessarily do the 
 homework, but I'm going to try to set it up so that there will be some peer pressure to make sure you try it
-(or at least have fun with working with someone else on it!)
+(or at least have fun working with someone else on it!)
 
 By the end of the course, the hope is that we will all have mastered strategies allowing us to use the above-listed, freely-available and open-source tools 
 for conducting research in a reproducible fashion.  The ideal we will be striving for is to be able to start from a raw data set and then write a computer 
