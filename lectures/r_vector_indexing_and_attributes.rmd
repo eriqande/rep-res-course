@@ -163,7 +163,7 @@ Also, all material here is covered in parts of sections 1 through 3 in [[http:_c
 
 ## A Little Play With Some Temp Data
 You can download max and min temperature data for the last 28 days at Watsonville Airport: {{:sessions:sept_watsonville_temps.rda|sept_watsonville_temps.rda}}  Once you have downloaded this, you can load it into your R session.  You will have to tailor this according to where the file gets downloaded on your computer
-```{r}
+```{r, eval=FALSE}
 load("~/Downloads/sept_watsonville_temps.rda")  # load that data in.
 ls() # look at what objects exist in your workspace, now
  
@@ -352,7 +352,7 @@ x[c("first", "third", "oofdah", "squawk")] <- c(-1,-2,-3,-4)
 ## Why Names?
 
 * Most books on R say that the `names` attribute is useful because it is easier to remember names than indices.  To some extent this is true:
-```{r}
+```{r, eval=FALSE}
 load("~/Downloads/sept_watsonville_temps.rda")
 
 names(wats_max) <- paste("Sept", 2:29, sep="")

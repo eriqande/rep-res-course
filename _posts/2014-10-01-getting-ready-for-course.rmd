@@ -1,0 +1,151 @@
+---
+title: Getting ready for course
+layout: default
+output: bookdown::html_chapter
+---
+
+
+# Getting ready for the course
+
+## Website setup
+I spent the better part of last night wrangling with CSS/bootstrap related things.  I don't really
+do any web-stuff or CSS-schmid, so there was a lot of learning (and a painful amount of ignorance)
+going on last night.  I had a good time putting most of the components into little html snippets
+in the `_includes` directory and then using the Liquid `include` type tags.  That 
+makes things a lot cleaner.  Then I totally frittered away an hour trying to figure out how to put
+some extra padding on top of the body to keep the fixed top navbar from covering up the page title.
+Turns out I had to wrap the `body { top-padding: 70px }` directive in some `<style>` tags (told you
+I was a total CSS noob).  I finally got it to work, but then decided that a static top bar was the
+way to go b/c of the way I will present the "lectures" (see below).
+
+I decided that rather than render the lectures into `slidy` format or `ioslides` it would be 
+better to just set my browser to full screen and crank up the font size.  Bootstrap is so brilliant
+that when I do that, the mini column on the right eventually gets stacked on top of the main content
+in the lecture notes so I can just go through it serially.   This seems way better because there are
+always problems with code getting chopped off in `slidy` on the right of the window, and also with
+losing stuff off the bottom of the slides.  So, not only will it be easier, I think it will be better.
+
+I do want to modify the left hand side-bar, however.  Currently it doesn't flow up the screen when
+scrolling.  I really like the one that the Bootstrap site uses on the right hand side in its documentation
+section. It would be cool to get that going, and use several different levels of headers.  Not sure
+if I will be able to pull that off, though.
+
+## Getting my head around forking and pull requests
+Ultimately I want students to submit their completed homeworks through pull requests.  And, then I would like
+pairs of students to comment on each other's pull requests.  I think that I can do that all on the single
+repository---i.e. there is no need or individuals to submit pull requests to other people's forks of
+the course repo.  But I am not sure how that all works (this is a serious example of learning something
+just days before I want to teach it!)
+
+The big questions to me now have to do with updating branches on one's fork after the upstream repository
+has added a new branch.  For example, if someone has already forked my repo, and then I make a new branch
+called `hw3` (homework 3) and I would like them to fetch that and pull it into their own `hw3` branch
+and then send me a pull request on that, I am not entirely clear of what the best way forward on that is.
+
+So, I am going to make myself a new GitHub account tied to my personal email so that I can test some
+forking stuff.  And then I have a lot of reading to do, starting with
+https://help.github.com/categories/18/articles
+
+For future reference when I have the students do it, these are the steps to setting up a GitHub account:
+
+1. Go to github.com
+1. Fill out the input boxes for `Pick a username`, `Your email`, `Create a password`, using your name
+and email and password.
+1. Click on `Sign Up For GitHub`
+1. On the next screen, be default you are signed up for the free plan.  All you have to do is click the button that says `Finish sign up`
+1. After that, GitHub will send you an email at the address you gave them and ask you to click on the link in that email to verify that the email is correct and valid.
+1. That takes you to GitHub and they ask if you want your email to be private or not.  You can do whatever
+you feel comfortable with there.  I have never gotten any spam from having my email on GitHub.
+
+And that is about it.  I made myself an account called `eca-home` using my stanford address.  I have to
+use that account with FireFox, because on Chrome I am `eriqande` at GitHub.
+
+### Try Editing rep-res-course
+I will try editing the index.rmd using the Edit button.  So, in FireFox I went to http://eriqande.github.io/rep-res-web/ and hit "Edit this page".  Here is what happened:
+
+* Got a page telling me I need to `fork this repository and propose changes`, with a big green button telling me to do so.
+* It then gives a message that says: _You are editing a file in a project you do not have write access to. We are forking this project for you (if one does not yet exist) to write your proposed changes to. Submitting a change to this file will write it to a new branch in your fork so you can send a pull request._  And you can edit stuff directly 
+write on the web.
+* So, I made some edits and hit "Propose File Change".  
+* Note that at this point I have a fork already in `eca-home`.  In fact when I go to it I find that there are two
+different patches in it that I can merge into the _my fork_ of the thing.  (those are there because I proposed
+the changes, then used the back button 'cuz I didn't want to submit a pull request yet, and so ended up proposing
+them a second time.)
+* I then sent the pull request from `eca-home`.
+* Picking that up from `eriqande` was super easy on GitHub.  And I could have merged it directly via the
+web interface.  However, there were super clear instructions on how to test the changes locally, found by
+clicking on `command line` where it said: _You can also merge branches on the command line_. So, I had a
+go at that:
+```{r, eval=FALSE}
+2014-10-01 10:05 /rep-res-course/--% (master) git checkout -b eca-home-patch-3 master
+
+# Note: the above takes the current state of my master branch and creates a 
+# new branch named eca-home-patch-3 and switches to it.
+
+# here is what it said:
+M  lectures/r_vector_indexing_and_attributes.rmd
+Switched to a new branch 'eca-home-patch-3'
+
+# At this point, eca-home-patch-3 is identical to my master branch, so
+# now I need to merge in the patch-3 branch from eca-home.  We do that this way:
+2014-10-01 10:09 /rep-res-course/--% (eca-home-patch-3) git pull https://github.com/eca-home/rep-res-course.git patch-3
+
+# Wow! That is super easy syntax.  It is just pulling from the fork on eca-home
+# and specifically asking for the patch-3 branch.  OK
+
+# Here is what it says:
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 3 (delta 2), reused 3 (delta 2)
+Unpacking objects: 100% (3/3), done.
+From https://github.com/eca-home/rep-res-course
+ * branch            patch-3    -> FETCH_HEAD
+Updating 6647cb4..a522320
+Fast-forward
+ index.rmd | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+```
+*  So, at this point I will test those changes and make sure they work:
+```{r, eval=FALSE}
+2014-10-01 10:11 /rep-res-course/--% (eca-home-patch-3) ./build-site.sh -l
+```
+* Yep! it is working just fine.  So, now we can merge that dude and push it up.
+```{r, eval=FALSE}
+2014-10-01 10:28 /rep-res-course/--% (eca-home-patch-3) git checkout master
+M  _layouts/post.html
+M	lectures/r_vector_indexing_and_attributes.rmd
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+2014-10-01 10:28 /rep-res-course/--% (master) git merge --no-ff eca-home-patch-3
+Merge made by the 'recursive' strategy.
+ index.rmd | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+2014-10-01 10:28 /rep-res-course/--% (master) git push origin master
+Counting objects: 6, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 555 bytes | 0 bytes/s, done.
+Total 4 (delta 2), reused 0 (delta 0)
+To https://github.com/eriqande/rep-res-course.git
+   6647cb4..a2c1af1  master -> master
+```
+* Cool!  That merged it and pushed the change up to `origin/master`. And it automatically closed
+the pull request on GitHub.  That is awesome.  So, I guess when you merge in a change and push it
+up GitHub is smart enough to just close the associated pull request.  
+* For completeness, let's chuck the branches that we can.
+```{r, eval=FALSE}
+2014-10-01 10:35 /rep-res-course/--% (master) git branch
+  eca-home-patch-3
+  gh-pages
+* master
+  put-stuff-into-includes
+
+2014-10-01 10:35 /rep-res-course/--% (master) git branch -d eca-home-patch-3 
+Deleted branch eca-home-patch-3 (was a522320).
+```
+
+OK, so, that was pretty easy.  Now I just need to figure out how to instruct students to make branches
+and checkout homework into those branches and make good pull requests.  Still not there yet, but
+getting my head around this.
