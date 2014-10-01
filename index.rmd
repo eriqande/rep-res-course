@@ -78,7 +78,8 @@ single input format.
 
 
 ## Links {#welcome-links}
-You should be able to navigate quickly anywhere in the site using the navbar at the top of the page (Once that is completed!).  You can also find links here 
+You should be able to navigate quickly anywhere in the site using the navbar at the top of the page (Once that is completed!---It is getting
+closer to being done!).  You can also find links here 
 (eventually).  To the left you will find links to headings on whatever page you are on.
 
  
