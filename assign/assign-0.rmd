@@ -19,3 +19,14 @@ I want everyone to:
 1. Install Git
 
 Below I have explicit instructions for Macs and PC's.
+
+
+### Instructions on a Mac
+#### Install R
+I would like everyone to be running R version 3.1.0 (2014-04-10) or later.  If you have
+that already, great. If not, download the latest version from http://cran.us.r-project.org/   Click on
+the `Download R for (Mac) OS X` link on that page and choose the `R-3.1.1-snowleopard.pkg` link if you
+don't have the Mavericks operating system and `R-3.1.1-mavericks.pkg` if you.  Install it.  
+
+
+#### Install Rstudio

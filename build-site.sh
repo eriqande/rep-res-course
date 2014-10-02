@@ -96,9 +96,18 @@ fi
 
 # and here we push it to rep-res-web
 if [ $DEPLOY_IT -eq 1 ]; then
-  echo "Copying to rep-res-web.  If you are ready, commit and push from both repos"
+  echo "Copying to rep-res-web...."
   rm -rf ../rep-res-web/*
   cp -r  _site/* ../rep-res-web/
+
+  echo "
+
+Cool Beans. Now, go ahead and push those changes to github pages:
+    cd ../rep-res-web
+    git add .
+    git commit
+    git push origin gh-pages
+"
 fi
 
 
