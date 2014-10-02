@@ -1,0 +1,21 @@
+---
+layout: default_with_disqus
+title: Assignment 0
+---
+
+# Assignment 0  {#assignment-0}
+
+## Due October 7, 2014
+These are the things that you should do before the first meeting of the course to prepare your
+laptop (which you must bring to the course) with the necessary software.  Please don't plan
+to download this software in the conference room!  The wireless network there connects to a 
+pretty small pipe, so we can't have everyone downloading things at the same time.
+
+### Overview
+I want everyone to:
+
+1. Install R
+1. Install Rstudio
+1. Install Git
+
+Below I have explicit instructions for Macs and PC's.

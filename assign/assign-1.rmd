@@ -1,0 +1,12 @@
+---
+layout: default_with_disqus
+title: Assignment 1
+---
+
+# Assignment 1  {#assignment-1}
+
+## Due October 9, 2014
+I haven't included it here yet.
+
+
+
