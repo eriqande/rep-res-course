@@ -12,7 +12,8 @@ output: bookdown::html_chapter
 
 
 ## Binary Comparison Operators {#bin-comp-ops}
-Operate _elementwise_ on vectors (or other objects if methods are available) and return logical vectors 
+These are "binary" because they involve _two_ arguments.  
+Operate _elementwise_ on vectors and return //logical vectors// 
 ```{r, eval=FALSE}
 x < y    # less than
 x > y    # greater than
@@ -23,7 +24,7 @@ x != y   # not equal to
 ```
 `==` is the "_comparison equals_" which tests for equality.  (Be careful not to use `=` which, in today's versions of R, is actually interpreted as leftwards assignment.)
 
-## Binary Comparison Examples {#bin-comp-ex}
+### Binary Comparison Examples {#bin-comp-ex}
 ```{r}
 a <- c("izzy", "jazz", "tyler")
 b <- c("devon", "vanessa", "hilary")
@@ -36,18 +37,18 @@ x!=y
 ```
 
 
-## Binary Comparison With A Scalar {#bin-comp-scalar}
+### Binary Comparison With A Scalar {#bin-comp-scalar}
 Check this out:
 ```{r}
 x <- 1:10  # the colon operator returns a sequence
 x
 x <= 3
 # compare this to:
-x < c(3,3,3,3,3,3,3,3,3,3)
+x <= c(3,3,3,3,3,3,3,3,3,3)
 ```
 What is going on here?  
 
-## Comparison With Different-Lengths of Vectors {#bin-comp-diff-lengths}
+### Comparison With Different-Lengths of Vectors {#bin-comp-diff-lengths}
 Try this one:
 ```{r}
 x <- 1:10
@@ -56,9 +57,12 @@ x > c(1,7)
 # compare this to:
 x > c(1,7,  1,7,  1,7,  1,7,  1,7)
 ```
+To understand what is going on here we need to talk about _recycling_
+
+
 
 ## Recycling of Vectors in R {#recycling}
-A _very __super-wickedly__, important_, concept:  R likes to operate on vectors of the same 
+A _very __super-wickedly__, important_, concept:  R likes to operate on vectors of
 the same length, so if it encounters two (or more) vectors of different lengths in a binary in an operation, it merely replicates (_recycles_) the smaller vectors until they are the same length as the longest vector, then it does the operation.
 
 If the recycled smaller vector has to be "chopped off" to make it the length of the longer vector, you will get a warning, but it will still return a result:
@@ -69,12 +73,14 @@ x * y
 ```
 
 
-## Recycling
-This occurs wherever two or more vectors get operated on elementwise, not just with comparison operators.  It also happens (as we saw above) with mathematical operators.  And it also happens with indexing operators when indexing by logical vectors (you'll see that later)!!
+### We will see Recycling In Many contexts{#recyling-contexts}
+Recycling occurs wherever two or more vectors get operated on elementwise, not just with comparison operators.  It also happens (as we saw above) with mathematical operators.  And it also happens with indexing operators when indexing by logical vectors (you'll see that later)!!
+
+You gotta know it!
 
 
 
-## Combinations of Comparisons
+## Combinations of Comparisons {#combo-comps}
 __A Weather Example__  
 
 * Suppose two variables, `temp` (in degrees Celsius) and `precip` (in mm) each a vector of length 365.
@@ -83,7 +89,8 @@ __A Weather Example__
 
     *Days with temp greater than 15 or with no precip (or both)
     *Days with temp greater than 15 or with no precip (but not both)
-## Logical Operators-I
+    
+### Logical Operators-I
 These operate on `logical`s and return `logical`s.  `numeric` and `complex` vectors are coerced to `logical` before applying these.
 
 * Unary operators (those that operate elementwise on a single vector)
@@ -96,7 +103,7 @@ x
 ```
 
 
-## Logical Operators-II
+### Logical Operators-II
 
 * Binary operators (operate elementwise on two vectors)
     * `&` ---  Logical AND
@@ -112,7 +119,7 @@ x & y; x | y; xor(x,y)
 
 
 
-## Mathematical Operators
+## Mathematical Operators {#math-ops}
 Operate on `numeric` or `complex` mode data and return the same
 ```{r, eval=FALSE}
 x + y   # addition
@@ -125,29 +132,55 @@ x %/% y # integer division: 10 %/% 3 = 3
 ```
 
 
-## Grouping Parts of Expressions
+### Grouping Parts of Expressions
 Parentheses are good for ensuring that parts of complex expressions are evaluated in the right order.
 
+But, in case you want to appear like a real code jock and don't want to use parentheses, learn
+the rules of precence.
 
-## Precedence of Operators we Have seen
+### Precedence of Operators we Have seen
 From highest to lowest:
-<file>
-^	 exponentiation (right to left)
-- +	 unary minus and plus
-:	 sequence operator
-* /	 multiply, divide
-+ -	 (binary) add, subtract
-< > <= >= == !=	 ordering and comparison
-!	 negation
-& 	 and
-| 	 or
--> 	 rightwards assignment
-=	 assignment (right to left)
-<-	 assignment (right to left)
-</file>
+```{r, eval=FALSE}
+^	                 # exponentiation (right to left)
+- +	               # unary minus and plus
+:	                 # sequence operator
+* /	               # multiply, divide
++ -	               # (binary) add, subtract
+< > <= >= == !=	   # ordering and comparison
+!	                 # negation
+& 	               # and
+| 	               # or
+-> 	               # rightwards assignment
+=	                 # assignment (right to left)
+<-	               # assignment (right to left)
+```
 
+Higher precedence operators "stick" more tightly to their arguments. So, for example:
+```{r}
+x<-3
+y<-2
 
-## Built In Help On Functions
+-x * y  # this is like (-x) * y
+-x ^ y  # this is like -(x ^ y)
+```
+
+### One very important precedence rule
+Notice that the `:` has higher precedence than the `+`, `-`, `*`, or `/`.
+
+Thus
+```{r}
+1:5*3   # this is (1:5)*3
+
+1:(5*3) # this is 1:15
+```
+Or, if you want the sequence of numbers from 0 to n-1, be careful:
+```{r}
+n <- 5
+0:n-1    # wrong
+0:(n-1)  # right
+```
+
+### Built In Help On Functions and Operators
 `?function_name` returns help (if available) for the function with name `function_name`:
 ```{r, eval=FALSE}
 # examples:
@@ -161,7 +194,7 @@ Also, all material here is covered in parts of sections 1 through 3 in [[http:_c
 
 
 
-## A Little Play With Some Temp Data
+## A Little Play With Some Temp Data {#playing-around-temp-data}
 You can download max and min temperature data for the last 28 days at Watsonville Airport: {{:sessions:sept_watsonville_temps.rda|sept_watsonville_temps.rda}}  Once you have downloaded this, you can load it into your R session.  You will have to tailor this according to where the file gets downloaded on your computer
 ```{r, eval=FALSE}
 load("~/Downloads/sept_watsonville_temps.rda")  # load that data in.
@@ -179,7 +212,7 @@ ls() # look at what objects exist in your workspace, now
 
 
 
-## Woo-hoo! New Topic: "Indexing"
+## Woo-hoo! New Topic: "Indexing" {#indexing}
 There are times when we want to access one or just a few elements from a vector.  We've already seen an example of extracting a single element, for example:
 ```{r}
 x <- c("devon", "alicia", "cassie")
@@ -187,7 +220,7 @@ x[2]  # this extracts the second element of x
 ```
 Vectors in R are _base-1_ subscripted.  i.e. elements are subscripted "1, 2, 3, ..." instead of "0, 1, 2, ..."
 
-## Overview: 4 Ways To Extract from a Vector
+### Overview: 4 Ways To Extract from a Vector
 Single square brackets are the _indexing_ operators.  You can use them in four different ways, by putting four different things inside them:
 
 1. With a vector of _positive_ indices: `x[c(1,6,4)]`
@@ -199,7 +232,7 @@ Number four should not make sense to you yet!
 
 
 
-## Indexing With Positive Integers
+### Indexing With Positive Integers
 
 * A vector of positive integers extracts the corresponding elements, _in the same order_ and _as many times_ as the indices are listed in the vector
 ```{r}
@@ -217,7 +250,7 @@ x[c(4,1,3,5)]  # the 4th element of the returned vector is NA
 and gives _no warning_ of this. 
 
 
-## Indexing With Negative Integers
+### Indexing With Negative Integers
 
 * A vector of positive integers says, "extract everything _except_ these indices."  
     * The order of the remaining elements is preserved.  
@@ -231,7 +264,7 @@ x[-c(2,2,2,2,4,4,4,4)]; x[-c(2,4,5,10,18)]
 ```
 You _cannot_ mix positive and negative indices!
 
-## Indexing with Logical Vectors
+### Indexing with Logical Vectors
 
 * You can supply a logical vector that is "parallel" to the vector you want to extract from.  Any element where a `TRUE` occurs in the index vector gets returned.  Order of elements is preserved and elements can't get replicated.
 ```{r}
@@ -250,7 +283,7 @@ x[c(FALSE, TRUE)]
 
 
 
-## Empty Subscript Indexing
+### Empty Subscript Indexing
 
 * Here is a quirky feature that you should get to know well, as it will help to understand matrix and data.frame subscripting.
 * If you apply an empty indexing operator `[]` to a vector, then it returns everything in the vector. Observe:
@@ -262,7 +295,9 @@ x
 ```
 
 * "When you give R nothing it gives you everything in return!"
-## The Replacement form of Indexing
+
+
+## The Replacement form of Indexing {#replacement-form-indexing}
 * Also called the _assignment_ form.  Allows you to change specified elements of a vector while leaving the others untouched (_except for mode changes due to coercion!_)
 ```{r}
 x <- c(5,4,7,8)
@@ -277,7 +312,7 @@ x[c(3,1,3,2,2,2)] <- c("boing1", "boing2", "boing3") # repeated occurrences igno
 The vector that is being assigned gets _recycled_ as need be to match the length of the vector being indexed and assigned to. 
 
 
-## Assignment Beyond the length of the Vector
+### Assignment Beyond the length of the Vector
 
 * This is allowable when using the replacement form.  Intermediate elements are set to NA
 ```{r}
@@ -296,7 +331,7 @@ x[11:19] <- c(-1,0,1)
 ```  
 
 
-## Object Attributes
+## Object Attributes {#object-attributes}
 
 * Before we can talk about indexing with _names_ we have to talk about the fact that any object in are can possess _attributes_.
 * Every R object has two _intrinsic_ attributes: `mode` and `length`
@@ -310,7 +345,7 @@ mode(x) <- "character"; length(x) <- 25
 
 
 
-## Other non-intrinsic Attributes
+### Other non-intrinsic Attributes
 
 * Any object in R can have a number of different _attributes_ these are _not_ the data contained in the object, but they may affect how the object is treated.  
 * Attributes are __central__ to the operation of R.
@@ -325,7 +360,7 @@ attr(x, "boing") <- value # set x's "boing" attribute to value
 Common attributes accessed via various convenience functions
 
 
-## The names Attribute of a Vector
+## The names Attribute of a Vector {#names-attribute}
 
 * R gives you the option of having a name for every element of a vector:
 ```{r}
@@ -337,7 +372,7 @@ x[c("third", "boing", "oops", "first", "first")] # note NA in result
 ```
 
 
-## Assignment Form names Indexing
+### Assignment Form names Indexing 
 
 *  When you use the assignment form of the indexing operator, and you include a name that doesn't exist, it expands the vector beyond its current length
 ```{r}
@@ -349,7 +384,7 @@ x[c("first", "third", "oofdah", "squawk")] <- c(-1,-2,-3,-4)
 
 
 
-## Why Names?
+### Why Names?
 
 * Most books on R say that the `names` attribute is useful because it is easier to remember names than indices.  To some extent this is true:
 ```{r, eval=FALSE}
@@ -359,12 +394,12 @@ names(wats_max) <- paste("Sept", 2:29, sep="")
 names(wats_min) <- names(wats_max)
 ```
 
-* But I contend that they can also be useful because they give a simple (albeit perhaps not efficient) way to implement an _associative array_ (or _hash_) in R.
+* But I contend that they can also be useful because they give a simple way to implement an _associative array_ (or _hash_) in R.
 
 
 
 
-## If We still have time
+## If We still have time {#if-time}
 
 * _Matrices_ and the `dim` and `dimnames` attributes.
 * Managing your workspace.  `ls()`, `rm()`, `history()`, `save()`, `save.image()`, `load()`
