@@ -30,3 +30,66 @@ don't have the Mavericks operating system and `R-3.1.1-mavericks.pkg` if you.  I
 
 
 #### Install Rstudio
+
+### Instructions on a PC
+I don't have a PC, so I am doing this on a fresh instance of a MS 2012 Server on Amazon's elastic compute
+cluster.  
+
+#### Install R
+
+1. From http://cran.us.r-project.org/ click on `Download R for Windows`.
+1. On the next page click on the `base` link, and on the next page the `Download R 3.1.1 for Windows` link.
+1. Run the installer.  Click `Next` on everthing to accept the defaults.
+
+Once that is done you want to go back one page in your browser and then
+
+1. click on the `Rtools` link.  (We will end up using these to build our own packages, and also to build other people's packages.)
+1. Click on the `Rtools31.exe` link. 
+1. Run the Rtools installer and choose the default settings.  (__Note__ if you already have Cygwin you need to do something different than the default.  If you already have Cygwin, though, you don't need any handholding...)
+
+
+#### Install RStudio
+
+1. Go to http://www.rstudio.com/
+1. Click on the big `Download RStudio` button.
+1. Click on the `Desktop` version.
+1  On the next page click `Download Rstudio Desktop`
+1. Under `Installers for All Platforms` get the appropriate one for yourself (i.e. Windows) and run the installer.
+1. You can choose all the defaults.
+
+You can now use RStudio.  However, we ought to go get git as well
+
+#### Install git
+
+1. Go to http://msysgit.github.io/
+1. Under where it says "we bring the awesome Git SCM to Windows" Hit the `Download` button. 
+1. Run the installer.  The default choices appear to be best. Go ahead and use them unless you know what you are doing.  In particular, I think you should stick with using Git Bash as the shell.
+
+That should install fine.  When you are done.  Re-launch RStudio and see if it has detected git on the system.
+
+1. In the RStudio menu select `Tools` -> `Global Options` and on the bottom select Git/SVN.
+1. If it says (Not Found) under `Git executable` then browse for it.  On my PC it was installed into 
+`Program Files (x86)/Git/bin/git.exe`.  Go ahead and choose that.
+  - after that you might have to hit Apply and then OK rather than just OK.  You might also need to restart RStudio.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
