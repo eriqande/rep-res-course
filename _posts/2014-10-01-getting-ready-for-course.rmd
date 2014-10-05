@@ -223,7 +223,16 @@ the colors on my screen got horribly washed out.  I'm going to restart here.
 
 
 
+### Doing a similar thing with Bookdown
+I wanted to tweak a very minor thing in hadley's bookdown package (needed it to recursively find all the .rmd files in my repository to index them into toc.yaml).  So, I cloned his bookdown repository and then did this:
 
+```{r}
+/bookdown/--% (index-recursively) pwd
+/Users/eriq/Documents/git-others-repos/bookdown
+/bookdown/--% (master) git checkout -b index-recursively
+# then I made the minor changes 
 
-```
+# then, set up remote and send it there:
+/bookdown/--% (index-recursively) git remote add myfork https://github.com/eriqande/bookdown.git
+
 ```
