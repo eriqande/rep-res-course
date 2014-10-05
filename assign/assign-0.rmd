@@ -14,9 +14,9 @@ pretty small pipe, so we can't have everyone downloading things at the same time
 ### Overview
 I want everyone to:
 
-1. Install R
-1. Install Rstudio
-1. Install Git
+1. Install R (please have R >= 3.1.0)
+1. Install Rstudio  (please install the latest version)
+1. Install Git (it is worth getting the most recent version)
 
 Below I have explicit instructions for Macs and PC's.
 
@@ -26,10 +26,39 @@ Below I have explicit instructions for Macs and PC's.
 I would like everyone to be running R version 3.1.0 (2014-04-10) or later.  If you have
 that already, great. If not, download the latest version from http://cran.us.r-project.org/   Click on
 the `Download R for (Mac) OS X` link on that page and choose the `R-3.1.1-snowleopard.pkg` link if you
-don't have the Mavericks operating system and `R-3.1.1-mavericks.pkg` if you.  Install it.  
+don't have the Mavericks operating system and `R-3.1.1-mavericks.pkg` if you do.  Install it. Default
+settings are fine.  Here are some more clues though:
+
+* If you had an earier version of R, and you want to keep that around---which can be a good thing to do if
+some packages you need don't work on earier version of R---you can keep the old version around by typing
+`pkgutil --forget ...` (where the `...` has to be replaced with text appropriate to your situation) in the
+Terminal before installing.  Read the Important Information on the first installer page.)  
+* You may as well install it for all users of your laptop so long as you have admin privileges.
 
 
 #### Install Rstudio
+
+1. Go to http://www.rstudio.com/
+1. Click on the big `Download RStudio` button.
+1. Click on the `Desktop` version.
+1  On the next page click `Download Rstudio Desktop`
+1. Under `Installers for All Platforms` get the appropriate one for yourself (i.e. Mac OS X 10.6+ 64-bit).
+1. Open the downloaded file.  It should open into a Finder window.  Drag the RStudio.app icon into the alias to the `Applications` folder that is in that finder window.  If you have an early version of RStudio it might ask you to confirm that you want to overwrite it with this new one.  That is usually fine.
+
+You can now use RStudio.  However, we ought to go get git as well
+
+
+#### Install git
+
+
+1. Open the Terminal application.  (You can find this inside the `Utilities` folder inside the `Applications` folder.)
+1. In side the command line window that Terminal gives you, type `git` _and hit_ `Return`.
+1. If you have git you will get something that start with something like this:
+`usage: git [--version] [--help] [-C <path>] [-c name=value] ... `
+1. However, if you don't have git, that means you don't have Apple's Developer tools.  If you are using the Mavericks operating system, Apple will detect this and will pop a window saying "The git command requires the command line developer tools.."  At this juncture click on the pop-up window's `Install` button to get the developer tools.  This will download a lot of stuff and then install it.
+1. Once it is done downloading and installing, you should be able to type `git` (+ return) in the Terminal window and git a usage message back from git.
+1. After that, you should restart RStudio so it can look for git and know that it is installed on the system.
+
 
 ### Instructions on a PC
 I don't have a PC, so I am doing this on a fresh instance of a MS 2012 Server on Amazon's elastic compute
@@ -73,6 +102,8 @@ That should install fine.  When you are done.  Re-launch RStudio and see if it h
   - after that you might have to hit Apply and then OK rather than just OK.  You might also need to restart RStudio.
 
 
+### Instructions on Linux
+If you are using Linux I will assume you can figure this all out.  `sudo apt get git`, etc.
 
 
 
