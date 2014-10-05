@@ -1,0 +1,50 @@
+./_posts/2014-09-28-putting-together-a-website.rmd: []
+./_posts/2014-10-01-getting-ready-for-course.rmd: []
+./assign/assign-0.rmd: assignment-0
+./assign/assign-1.rmd: assignment-1
+./assign/index.rmd:
+- course-assign-overview
+- ass-week-0
+./contribute.rmd: []
+./index.rmd:
+- welcome
+- welcome-about-site
+- welcome-links
+./junk/r_vector_indexing_and_attributes.rmd: []
+./lectures/Data-structures.rmd:
+- data-structures
+- vectors
+- attributes
+- vector-names
+- matrices-and-arrays
+- data-frames
+- data-structure-answers
+./lectures/r_vector_indexing_and_attributes.rmd:
+- vectorization-and-indexing
+- bin-comp-ops
+- bin-comp-ex
+- bin-comp-scalar
+- bin-comp-diff-lengths
+- recycling
+- recyling-contexts
+- combo-comps
+- math-ops
+- playing-around-temp-data
+- indexing
+- replacement-form-indexing
+- object-attributes
+- names-attribute
+- if-time
+./lectures/test-slidy-lecture.rmd: []
+./syllabus.rmd:
+- syllabus
+- syl-week-1
+- syl-week-2
+- syl-week-3
+- syl-week-4
+- syl-week-5
+- syl-week-6
+- syl-week-7
+- syl-week-8
+- syl-week-9
+- syl-week-10

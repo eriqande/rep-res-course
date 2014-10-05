@@ -1,0 +1,123 @@
+---
+layout: default_with_disqus
+title: Syllabus
+---
+
+```{r, echo=FALSE}
+# in true geek fashion I am going to use R to calculate the dates
+# by giving the week of the course and the day to some functions
+# in lubridate.  This way I can change the course to a different
+# season and or format, and Voila! All the dates change appropriately.
+library(lubridate)
+StartSun <- ymd("20141005")  # Sunday of the week that the course starts
+WD <- (1:7)
+names(WD) <- c("Su", "Mo", "Tu", "We", "Th", "Fr", "Sa")
+LWD <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+names(LWD) <- names(WD)
+# given day D (like "Tu"), and Week of course W (1, 2, etc.)
+# and the date of the sunday before the first course meeting
+# this formats a string to print for a heading below
+course_day <- function(D, W) {
+  c_date <- StartSun + weeks(W-1) + days(WD[D]-1)
+  paste(LWD[D], ", ", month(c_date, label = TRUE, abbr = FALSE), " ", mday(c_date), ", ", year(c_date), sep="")
+}
+```
+
+
+# Syllabus  {#syllabus}
+
+Here is the outline of the topics, readings, and assignments for our
+course.  Readings should be done _before_ session that they are listed
+for.  For example, if it says Reading X is for Tuesday Oct 14, then 
+you should have done that reading prior to coming to the class at 
+3:30 on Oct 14.  
+
+Most assignments will be "turned in" on GitHub, and will be due at the
+time stated.  Don't let this get your blood pressure up.  This course is
+not for credit and you will not be graded.  But you will learn a lot more
+and you will be far more likely to benefit from using R and git and GitHub if
+you do the assignments.
+
+
+## Week 1 {#syl-week-1}
+
+### `r  course_day("Tu", 1)`
+
+* __Assignment Due:__ [Assignment 0](#assignment-0)  Please have all software installed before showing up to the first class.
+* __Reading:__ find and Rstudio primer
+
+### `r  course_day("Th", 1)`
+
+
+
+## Week 2 {#syl-week-2}
+
+### `r  course_day("Tu", 2)`
+
+### `r  course_day("Th", 2)`
+
+
+
+## Week 3 {#syl-week-3}
+
+### `r  course_day("Tu", 3)`
+
+### `r  course_day("Th", 3)`
+
+
+
+## Week 4 {#syl-week-4}
+
+### `r  course_day("Tu", 4)`
+
+### `r  course_day("Th", 4)`
+
+
+
+## Week 5 {#syl-week-5}
+
+### `r  course_day("Tu", 5)`
+
+### `r  course_day("Th", 5)`
+
+
+
+## Week 6 {#syl-week-6}
+
+### `r  course_day("Tu", 6)`
+
+### `r  course_day("Th", 6)`
+
+
+
+## Week 7 {#syl-week-7}
+
+### `r  course_day("Tu", 7)`
+
+### `r  course_day("Th", 7)`
+
+
+
+## Week 8 {#syl-week-8}
+
+### `r  course_day("Tu", 8)`
+
+### `r  course_day("Th", 8)`
+
+
+
+## Week 9 {#syl-week-9}
+
+### `r  course_day("Tu", 9)`
+
+### `r  course_day("Th", 9)`
+
+
+
+## Week 10 {#syl-week-10}
+
+### `r  course_day("Tu", 10)`
+
+### `r  course_day("Th", 10)`
+
+
