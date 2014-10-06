@@ -1,6 +1,6 @@
 {% for post in site.posts %}
-  <h5><a href="{{ post.url }}">{{ post.title }}</a></h5>
+  <h5><a href="{{ site.baseurl }}/{{ post.url }}">{{ post.title }}</a></h5>
   <p><small><strong>{{ post.date | date: "%B %e, %Y" }}</strong> . {{ post.category }} .
   {{ post.content | strip_html | truncatewords:75}}
-  <a href="{{ post.url }}">(read more...)</a></small></p><br>
+  <a href="{{ site.baseurl }}/{{ post.url }}">(read more...)</a></small></p><br>
 {% endfor %}
