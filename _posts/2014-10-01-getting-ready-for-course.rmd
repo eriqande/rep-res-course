@@ -1,13 +1,14 @@
 ---
 title: Getting ready for course
-layout: default
+layout: default_with_disqus
 output: bookdown::html_chapter
 ---
 
 
 # Getting ready for the course
+2014-10-01
 
-## Website setup
+## Website setup {#blog-website-setup}
 I spent the better part of last night wrangling with CSS/bootstrap related things.  I don't really
 do any web-stuff or CSS-schmid, so there was a lot of learning (and a painful amount of ignorance)
 going on last night.  I had a good time putting most of the components into little html snippets
@@ -20,7 +21,7 @@ way to go b/c of the way I will present the "lectures" (see below).
 
 I decided that rather than render the lectures into `slidy` format or `ioslides` it would be 
 better to just set my browser to full screen and crank up the font size.  Bootstrap is so brilliant
-that when I do that, the mini column on the right eventually gets stacked on top of the main content
+that when I do that, the mini column on the left eventually gets stacked on top of the main content
 in the lecture notes so I can just go through it serially.   This seems way better because there are
 always problems with code getting chopped off in `slidy` on the right of the window, and also with
 losing stuff off the bottom of the slides.  So, not only will it be easier, I think it will be better.
@@ -30,7 +31,7 @@ scrolling.  I really like the one that the Bootstrap site uses on the right hand
 section. It would be cool to get that going, and use several different levels of headers.  Not sure
 if I will be able to pull that off, though.
 
-## Getting my head around forking and pull requests
+## Getting my head around forking and pull requests {#blog-head-around-forking}
 Ultimately I want students to submit their completed homeworks through pull requests.  And, then I would like
 pairs of students to comment on each other's pull requests.  I think that I can do that all on the single
 repository---i.e. there is no need or individuals to submit pull requests to other people's forks of
@@ -60,7 +61,7 @@ you feel comfortable with there.  I have never gotten any spam from having my em
 And that is about it.  I made myself an account called `eca-home` using my stanford address.  I have to
 use that account with FireFox, because on Chrome I am `eriqande` at GitHub.
 
-### Try Editing rep-res-course
+### Try Editing rep-res-course 
 I will try editing the index.rmd using the Edit button.  So, in FireFox I went to http://eriqande.github.io/rep-res-web/ and hit "Edit this page".  Here is what happened:
 
 * Got a page telling me I need to `fork this repository and propose changes`, with a big green button telling me to do so.
@@ -151,7 +152,7 @@ and checkout homework into those branches and make good pull requests.  Still no
 getting my head around this.
 
 
-## Forking and pull requests via the command line
+## Forking and pull requests via the command line {#blog-fork-commline}
 OK, I now have a fork of rep-res-course at `eca-home`.  Now I want to clone that locally and then 
 update to upstream, and then make a branch and edit it and then push it up to my fork and
 make a pull request on that.
@@ -226,7 +227,7 @@ the colors on my screen got horribly washed out.  I'm going to restart here.
 ### Doing a similar thing with Bookdown
 I wanted to tweak a very minor thing in hadley's bookdown package (needed it to recursively find all the .rmd files in my repository to index them into toc.yaml).  So, I cloned his bookdown repository and then did this:
 
-```{r}
+```{r, eval=FALSE}
 /bookdown/--% (index-recursively) pwd
 /Users/eriq/Documents/git-others-repos/bookdown
 /bookdown/--% (master) git checkout -b index-recursively

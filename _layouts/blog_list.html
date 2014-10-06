@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body>
+    {% include top-navbar.html %}
+    <div class="container">
+      {% include masthead.html %}
+      <div class="row">
+        <div class="col-sm-3" id="nav">
+          {% include left-sidebar.html %}
+        </div>
+
+        <div id="content" class="col-sm-8 pull-right">
+          {{ content }}
+          <br>
+          {% include list_the_blog_posts.html %}
+          <hr>
+          {% include disqus_comments.html %}
+        </div>
+      </div>
+
+      {% include footer.html %}
+
+    </div> <!-- /container -->
+
+  <script src="//code.jquery.com/jquery.js"></script>
+  <script src="{{ site.baseurl }}/www/bootstrap.min.js"></script>
+  <script src="{{ site.baseurl }}/www/toc.js"></script>
+  <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  </body>
+</html>
+

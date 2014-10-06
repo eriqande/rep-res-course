@@ -9,6 +9,7 @@ opts_chunk$set(fig.path = 'blog_figs/2014-09-28-')
 ```
 
 # This is just a test at the moment.
+2014-09-28
 
 Yeeha!
 

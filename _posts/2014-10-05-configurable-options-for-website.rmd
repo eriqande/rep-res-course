@@ -1,0 +1,25 @@
+---
+title: Configurable options for website
+layout: default_with_disqus
+output: bookdown::html_chapter
+---
+
+# Configurable options for website, etc
+2014-10-05
+
+## Yaml package
+I'm still banging away at getting the website put together.  I had a nice
+time writing a little R code to generate the dates for different sessions 
+on the syllabus.  Needing to define `StartSun` for the date of the Sunday
+before the first session made me think that it would be nice to take all
+the mutable elements (Dates, Authors, Places, etc.) and just define R variables
+for them that will then be available to the rmarkdown processor.  It looks like 
+a super cool way to define all these things will be to use the yaml R package:
+http://cran.r-project.org/web/packages/yaml/yaml.pdf  Check it out!
+
+## Starting blogs
+I have a little shell function in `extras/start_post.sh` that works well for creating
+the appropriately named rmd files for blogs.
+
+
+

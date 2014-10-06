@@ -1,0 +1,12 @@
+---
+layout: blog_list
+title: Blog Post List
+---
+
+
+# Eric's Rep Res Course Blog
+
+These are few blog posts that I scratched out while I was prepping and teaching this
+course.
+
+
