@@ -55,10 +55,19 @@ You can now use RStudio.  However, we ought to go get git as well
 1. In side the command line window that Terminal gives you, type `git` _and hit_ `Return`.
 1. If you have git you will get something that start with something like this:
 `usage: git [--version] [--help] [-C <path>] [-c name=value] ... `
-1. However, if you don't have git, that means you don't have Apple's Developer tools.  If you are using the Mavericks operating system, Apple will detect this and will pop a window saying "The git command requires the command line developer tools.."  At this juncture click on the pop-up window's `Install` button to get the developer tools.  This will download a lot of stuff and then install it.
-1. Once it is done downloading and installing, you should be able to type `git` (+ return) in the Terminal window and git a usage message back from git.
-1. After that, you should restart RStudio so it can look for git and know that it is installed on the system.
-
+1. However, if you don't have git, that means you don't have Apple's Developer tools.  Things now start to get
+operating system-dependent.
+    + If you are using the __Mavericks__ (10.9) operating system, Apple will detect this and will pop a window saying "The git command requires the command line developer tools.."  At this juncture click on the pop-up window's `Install` button to get the developer tools.  This will download a lot of stuff and then install it.
+        1. Once it is done downloading and installing, you should be able to type `git` (+ return) in the Terminal window and get a usage message back from git.
+        1. After that, you should restart RStudio so it can look for git and know that it is installed on the system.
+    + Something similar to the above might happen if you have __OS X 10.8 (Mountain Lion)__, but I don't know.  If you don't get a little
+    pop-up when you type git at the terminal, then you should follow the directions for OS X 10.7 below.
+    + If you have __OS X 10.7 (Lion)__ or below (down to 10.6.8) you can get a git installer, but it appear that you have to use an older version of git
+    than today's 2.0 git.  That will probably be OK.  Here is what you should do:
+        1. Download the installer from https://code.google.com/p/git-osx-installer/downloads/detail?name=git-1.8.4.2-intel-universal-snow-leopard.dmg
+        1. Follow the instructions and do a standard default install.
+        1. Now, you should be able to type `git` (+ return) in the Terminal window and get a usage message back from git.
+        1. After that, you should restart RStudio so it can look for git and know that it is installed on the system.
 
 ### Instructions on a PC
 I don't have a PC, so I am doing this on a fresh instance of a MS 2012 Server on Amazon's elastic compute
