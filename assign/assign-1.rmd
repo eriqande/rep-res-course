@@ -5,8 +5,28 @@ title: Assignment 1
 
 # Assignment 1  {#assignment-1}
 
-## Due October 9, 2014
-I haven't included it here yet.
+## Due before NOON October 8, 2014
 
+1. First thing you have to do.  Go to github.com and get a free user account if you don't 
+already have one.   It is super easy. The steps are basically like this:
+  2. Go to github.com
+  2. Fill out the input boxes for `Pick a username`, `Your email`, `Create a password`, using your name
+and email and password.
+  2. Click on `Sign Up For GitHub`
+  2. On the next screen, be default you are signed up for the free plan.  All you have to do is click the button that says `Finish sign up`
+  2. After that, GitHub will send you an email at the address you gave them and ask you to click on the link in that email to verify that the email is correct and valid.
+  2. That takes you to GitHub and they ask if you want your email to be private or not.  You can do whatever
+you feel comfortable with there.  I have never gotten any spam from having my email on GitHub.
+1. Then I need you to send me an email message with a very specific format:
+  * It must have a Subject line that is exactly:  `rep-rep-course signup`
+  * The body of the email should contain three pieces of information formatted as follows:
+```{r, eval=FALSE}
+name: your_name
+github: your_github_name
+email: your_email
+```
+where, of course, you replace `your_name` with your name (like Eric C. Anderson) and you replace `your_github_name` with your GitHub username (on the account you just got), etc.
+
+Please be sure to get this back to me before noon on Wednesday the 8th of October.
 
 

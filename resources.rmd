@@ -5,7 +5,7 @@ title: Resources
 
 # Resources {#course-resources}
 
-## Resources for learning R #{res-learn-r}
+## Resources for learning R {#res-learn-r}
 
 ## RStudio resources {#res-rs}
 
