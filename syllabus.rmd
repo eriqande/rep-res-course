@@ -27,7 +27,7 @@ course_day <- function(D, W) {
 # Syllabus  {#syllabus}
 
 Here is the outline of the topics, readings, and assignments for our
-course.  Readings should be done _before_ session that they are listed
+course.  Readings should be done _before_ the session that they are listed
 for.  For example, if it says Reading X is for Tuesday Oct 14, then 
 you should have done that reading prior to coming to the class at 
 3:30 on Oct 14.  

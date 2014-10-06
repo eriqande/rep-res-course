@@ -1,0 +1,14 @@
+---
+layout: default
+title: Resources
+---
+
+# Resources {#course-resources}
+
+## Resources for learning R #{res-learn-r}
+
+## RStudio resources {#res-rs}
+
+## Learning git and GitHub {#res-learn-git-gh}
+
+## Finding answers to questions {#res-find-answers}
