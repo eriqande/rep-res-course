@@ -6,6 +6,7 @@
 ./_posts/2014-10-05-configurable-options-for-website.rmd: []
 ./assign/assign-0.rmd: assignment-0
 ./assign/assign-1.rmd: assignment-1
+./assign/assign-2.rmd: assignment-2
 ./blogs.rmd: []
 ./contribute.rmd: []
 ./index.rmd:
@@ -13,7 +14,12 @@
 - welcome-about-site
 - welcome-links
 ./junk/r_vector_indexing_and_attributes.rmd: []
-./lectures/course-introduction.rmd: intro-lecture
+./lectures/course-introduction.rmd:
+- intro-lecture
+- intro-welcome
+- course-org
+- course-philos
+- hw-and-assign
 ./lectures/r_vector_indexing_and_attributes.rmd:
 - vectorization-and-indexing
 - bin-comp-ops
@@ -31,7 +37,11 @@
 - names-attribute
 - if-time
 ./lectures/r-data-types.rmd: r-data-types
-./lectures/rstudio-orientation.rmd: rstudio-orientation
+./lectures/rstudio-orientation.rmd:
+- rstudio-orientation
+- r-console
+- intro-symbols
+- quick-intro-to-functions
 ./lectures/test-slidy-lecture.rmd: []
 ./resources.rmd:
 - course-resources

@@ -1,10 +1,114 @@
 ---
 title: Course Introduction
-layout: default
+layout: default_with_disqus
 author: Eric C. Anderson
 output: bookdown::html_chapter
 ---
 
 # Course Introduction {#intro-lecture}
-Gotta put this in there.
+
+## Welcome and Introductions {#intro-welcome}
+
+### Who is Eric and Why is he teaching this course?
+
+* Statistician that specializes in genetic data
+* Have used R (or S) since 1998, but didn't understand it until recently
+    + Was more of a C programmer
+* Disliked R for most of the last 20 years
+* Taught and R course two years ago
+    + When I finally learned R, I learned to love it
+* Seeing R incorporated into Reproducible Research excites me
+
+
+### What the heck is reproducible research?
+
+* In computational sciences and data analysis, let's go with __this definition__:
+    + _the data and code used to make a finding are available and they
+    are presented in such a way that it is (relatively) straightforward
+    for an independent researcher to recreate the finding._
+* This actually seldom happens.  Consider two interesting articles by Tim Vines:
+    + [The Availability of Research Data Declines Rapidly with Article Age](http://www.sciencedirect.com/science/article/pii/S0960982213014000)
+    "_of 516 articles published between 2 and 22 years ago...the odds of a data set being extant fell by 17% per year._"
+    + [Recommendations for utilizing and reporting population genetic analyses: the reproducibility of genetic clustering using the program structure](http://onlinelibrary.wiley.com/doi/10.1111/j.1365-294X.2012.05754.x/full)
+    "_we reanalysed data sets gathered from papers using the software package 'structure'... 30% of analyses were unable to reproduce the same number of population clusters._"
+* Scientific articles have fairly detailed methods sections, but those are typically insufficient to actually reproduce an analysis.
+* Scientists owe it to themselves and their community to have an explicit record of all the steps in an analysis done at a computer.
+
+
+### How should we do reproducible research?
+
+* How do you efficiently record what it is you have done at your computer?
+* There would be lots of ways, but we will look at using 4 tools:
+    1. R -- open source, free, industry-standard analysis software
+    1. RStudio -- open source, free, environment for working with R
+    1. git -- open source, free version control software (because research is never really linear when it is happening)
+    1. GitHub -- website with tools making it very easy to collaborate with people using git.
+
+
+## Course Organization {#course-org}
+
+* Weekly format
+    + Tuesdays:  R and RStudio
+    + Thursdays: How to write reports/articles using Rmarkdown.  Using git and GitHub
+* However the course is integrated!
+    + Would be hard to just do Tu or just Th.
+    + We will use git to obtain and submit R homeworks, etc.
+    + This is how it works in real life too...
+
+
+### Course Website
+
+* Main Page: [http://eriqande.github.io/rep-res-web/](http://eriqande.github.io/rep-res-web/)
+* Syllabus:  [http://eriqande.github.io/rep-res-web/syllabus.html](http://eriqande.github.io/rep-res-web/syllabus.html)
+
+Note that you can see the raw rmarkdown source used to write each page.
+
+
+## Course Philosophy {#course-philos}
+
+### Focus on the practical
+
+* Two years ago my course was focused on R as a programming language
+* Having satisfied my curiosity about that, this year I mostly want to teach people how to use R, practically, as a useful tool
+
+### We have a big group!
+
+* Quick show of hands for NMFS Fed, NMFS Contractor, grad student, PCS, MBARI, others?
+* How about the range of experience with R and git?
+* Great that we have that much interest
+* But, it will dictate a few things about the course:
+    1. I won't be able to answer everyone's every question
+        + "It takes a village"
+    1. My vision: we are a dedicated community of researchers that will work together,
+    helping one another become fluent in these tools. So:
+        + If a practical in-class exercise, or a homework assignment seems easy to you because
+        you are already well-versed in R, then take a moment to help someone that is being
+        challenged by it!
+        + If you are new to all this, find someone in the class that can help you!
+    1. Please add comments to the [DISQUS](https://disqus.com/) comment boxes on each page
+        + Sign up with a reasonable identifier
+        + Let's crowd source solutions to issues that come up for people in the course!
+        + Particularly for PC users (which I am not...)
+        
+### Your contributions are invited!
+
+* Every page of this course is editable
+* If you see something that needs changing, you can do it and send me a pull request
+* This will make much more sense after a few more weeks.
+
+
+## Homework/Assignments {#hw-and-assign}
+
+* There will be homework! (As long as I have time to write more...)
+* You can't learn these methods without _doing_ and _using_ them
+* Amounts of HW should not be overwhelming.
+* I won't be grading everything, but:
+    + I will establish "peer-review" of homework
+    + Everyone will do homework and "referee" homework
+    + Doing this will let us get intimately familiar with how to use git and GitHub.
+* Familiar and advanced R users:
+    + Please contribute assignments and homework problems
+    + Once we have gotten the rudiments of GitHub down I will make a place for you to submit new homework problems
+    
+### Any Questions?
 

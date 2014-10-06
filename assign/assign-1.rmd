@@ -18,7 +18,7 @@ and email and password.
   2. That takes you to GitHub and they ask if you want your email to be private or not.  You can do whatever
 you feel comfortable with there.  I have never gotten any spam from having my email on GitHub.
 1. Then I need you to send me an email message with a very specific format:
-  * It must have a Subject line that is exactly:  `rep-rep-course signup`
+  * It must have a Subject line that is exactly:  `rep-res-course signup`
   * The body of the email should contain three pieces of information formatted as follows:
 ```{r, eval=FALSE}
 name: your_name

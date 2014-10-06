@@ -42,62 +42,76 @@ you do the assignments.
 ## Week 1 {#syl-week-1}
 
 ### `r  course_day("Tu", 1)`
+_Introduction and Welcome. R and Rstudio very basics_
 
 * __Assignment Due:__ [Assignment 0](#assignment-0)  Please have all software installed before showing up to the first class.
 * __Assignment Given (Due by noon on Wednesday):__ [Assignment 1](#assignment-1)
 * __Lectures:__
     + [Introduction](#intro-lecture)
     + [Rstudio Orientation](#rstudio-orientation)
-    + [R data types](#r-data-types)
 
 
 ### `r  course_day("Th", 1)`
+_An introduction to R markdown_
 
+* __Assignment Due:__ [Assignment 2](#assignment-2) There is nothing to turn in, but I want everyone to do this.
 
 
 ## Week 2 {#syl-week-2}
 
 ### `r  course_day("Tu", 2)`
+_Atomic data types, Vectorization, Indexing in R_
+
+* __Reading:__ By this class, I would like you to have read the [Introduction](http://adv-r.had.co.nz/Introduction.html) to Hadley Wickham's advanced R book, up to, but not including, "Meta-techniques". Then, please read through [Data structures](http://adv-r.had.co.nz/Data-structures.html) up to "Attributes".  This is very terse and will likely feel foreign to most newcomers to R, but precisely because it is short and compact (and very informative) it is worth coming back to frequently.  We will go over the topics in more detail.
 
 ### `r  course_day("Th", 2)`
+_git Overview.  Configuring git_
 
+* __Reading:__ Read sections 1.1 through 1.3 in the [Pro Git Book](http://git-scm.com/book) which is online and free.
 
 
 ## Week 3 {#syl-week-3}
 
 ### `r  course_day("Tu", 3)`
+_Lists: aka "recursive vectors"_
 
 ### `r  course_day("Th", 3)`
+_git: Branching and Remotes_
 
 
 
 ## Week 4 {#syl-week-4}
 
 ### `r  course_day("Tu", 4)`
+_Data Frames. Reading in data, etc_
 
 ### `r  course_day("Th", 4)`
-
+_An overview of GitHub_
 
 
 ## Week 5 {#syl-week-5}
 
 ### `r  course_day("Tu", 5)`
+_More data frames. Factors.  Tidy Data_
 
 ### `r  course_day("Th", 5)`
-
+_Forking and pull requests_
 
 
 ## Week 6 {#syl-week-6}
 
 ### `r  course_day("Tu", 6)`
+_NO CLASS. VETERANS DAY_
+
 
 ### `r  course_day("Th", 6)`
-
+_Plotting. ggplot and the grammar of graphics_
 
 
 ## Week 7 {#syl-week-7}
 
 ### `r  course_day("Tu", 7)`
+_Plotting with ggplot_
 
 ### `r  course_day("Th", 7)`
 
@@ -106,14 +120,16 @@ you do the assignments.
 ## Week 8 {#syl-week-8}
 
 ### `r  course_day("Tu", 8)`
+_NO CLASS. THANKSGIVING WEEK_
 
 ### `r  course_day("Th", 8)`
-
+_NO CLASS. THANKSGIVING WEEK_
 
 
 ## Week 9 {#syl-week-9}
 
 ### `r  course_day("Tu", 9)`
+_A more formal look at functions. Let's create our own package_
 
 ### `r  course_day("Th", 9)`
 
@@ -122,7 +138,16 @@ you do the assignments.
 ## Week 10 {#syl-week-10}
 
 ### `r  course_day("Tu", 10)`
+_apply-like functions. the plyr package_
 
 ### `r  course_day("Th", 10)`
 
+
+
+
+## Week 11 {#syl-week-10}
+
+### `r  course_day("Tu", 10)`
+
+### `r  course_day("Th", 10)`
 

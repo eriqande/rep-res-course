@@ -1,6 +1,6 @@
 ---
 title: Vectorization and Indexing in R
-layout: default
+layout: default_with_disqus
 author: Eric C. Anderson
 output: bookdown::html_chapter
 ---

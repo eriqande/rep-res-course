@@ -1,0 +1,21 @@
+---
+layout: default_with_disqus
+title: Assignment 2
+---
+
+# Assignment 2 {#assignment-2}
+
+## Do This Before the Thursday class of Week 1
+
+There is nothing to turn in for this assignment.  But I want everyone to do the following:
+
+1. Open up the `project1` project we made in class, or just open up RStudio.
+2. In the RStudio menu, choose, `File -> New File -> R Markdown ...`
+3. Then save that file.  Change its name from `Untitled.rmd` to `first.rmd`
+4. Find and click the `knit` button near the top left of the screen.
+
+That should give you a nice web document with a plot, etc.
+
+Now, in RStudio, go to the Help menu and choose `Markdown Quick Reference` and read it.
+
+

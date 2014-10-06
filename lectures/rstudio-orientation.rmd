@@ -1,10 +1,232 @@
 ---
 title: R and Rstudio Orientation
-layout: default
+layout: default_with_disqus
 author: Eric C. Anderson
 output: bookdown::html_chapter
 ---
 
 # R and Rstudio Orientation {#rstudio-orientation}
-Gotta put this in there. R Console. R studio Panes...
+
+Let's learn about:
+
+1. The idea of RStudio "Projects"
+1. The layout of the RStudio IDE
+1. How the R console works
+
+
+## Rstudio... 
+
+* Is an IDE (integrated development environment) that _sits on top of_ R
+and makes it easier to interact with R.
+* Organizes your work into R in neatly-contained packages of work (typically data
+and code) called "projects"
+* Nothing mysterious about these---just collections of files stored together in
+a single directory on your computer.
+
+### Let's make a new project
+
+Do This in RStudio:
+
+1. Select File -> New Project 
+1. Create project from:  Choose "New Directory"
+    1. Choose "Empty Project"
+    1. Give the directory name as `project1` 
+    1. and put it somewhere in your home directory (browse to where you want to put it in the "create project as subdirectory of:")
+    1. For now, unselect buttons to create a git repository or to use packrat.
+    1. Hit `Create Project`
+
+### Now Explore:
+
+* Notice that RStudio has started R in your console in the project directory:
+```{r, eval=FALSE}
+getwd()  # this tells you the current directory that R is in
+
+# here is what it is on my computer:
+[1] "/Users/eriq/project1"
+```
+
+* Paste the following code into the console window and see what happens.  Do not worry if you
+don't know what any of it means.
+```{r, eval=FALSE}
+# plot some linearly-related simulated data
+set.seed(5) # set the random number seed
+n <- 400
+x_data <- rnorm(n, mean = 100, sd = 15)
+y_data <- x_data + rnorm(n, mean=0, sd = 5)
+plot(x_data, y_data)
+fit <- lm(y_data ~ x_data)
+abline(fit)
+
+# don't know what the abline function does? Check out its help:
+?abline
+```
+
+* Now we will take a tour of some of the windows
+    + Environment
+    + History
+    + Plots
+    + Files
+    + Help
+    + etc
+    
+
+## The R Console {#r-console}
+
+### "Communicating" with R
+
+* R is an _interpreted_ language, so it just reads through source code line by line and executes the instructions it finds.
+* Contrast to _compiled_ language like C in which all the source code is parsed and checked for
+consistency, and then binary computer instructions are made from that and optimized for speed, memory efficiency, etc.
+* Because R goes line by line, we can work _interactively_ with it
+* You can also write programs in a text editor and then send them to R, all at once, to be interpreted.
+    + This is much more reproducible than interactive work
+    + But interactive work is good for testing things, etc.
+
+
+
+### The R Console
+This is R's "command prompt" where you type _expressions_ and, when you hit RETURN, these expressions are _evaluated_
+(so long as they are _complete_ expressions). Here is what it looks like:
+```{r, eval=FALSE}
+>
+```
+That little `>` symbol at the beginning of the line says "R is ready to begin a new expression." Now try entering an expression:
+```{r}
+13+19
+```
+It evaluated "13+19" and, by default, if "nothing is done" with the result of the evaluation, R just prints the result. We'll talk about the significance of the [1] later.
+
+
+### Inserting Comments in Your Code
+
+* Though it doesn't seem all that useful when working in interactive mode, you can write comments in your code.
+* These let you point things out in your code, but not confuse the interpreter.
+* Everything right of a `#` until the end of the line is ignored by the interpreter:
+```{r}
+13+19 # Look at me! I'm adding two primes
+```
+
+
+
+### Command Recall
+Using your up arrow will recall the expressions that have been evaluated recently by the R interpreter.  This can be useful when working interactively.
+
+
+### A Semicolon is as good as a RETURN
+You can break a line into multiple expressions that get evaluated individually by separating them with semicolons:
+```{r, eval=FALSE}
+> 13+19; 12+2
+[1] 32
+[1] 14
+```
+When R gets to each semicolon, it evaluates the expression and then, because we aren't doing anything else with it, it prints the result.
+
+### Incomplete Expressions Make R wait for you
+If you press RETURN and R finds that the expression you typed is _incomplete_ then it taps its foot and waits for you to input the rest of the expression, to make it _complete_.  To show you that it is tapping its foot, R changes the prompt from `>` to `+`
+```{r, eval=FALSE}
+13+   # This expression is incomplete!  
++  19   # when I enter this, R has a complete expression and can evaluate it!
+```
+If you force R to evaluate an incomplete expression by giving it a `;` at the end of it, R will complain by giving an _error message_
+```{r, eval=FALSE}
+13+  # incomplete expression
++ ;    # I don't care R! Evaluate it anyway you lousy bum!
+Error: unexpected ';' in:
+"13+
+;"
+```
+Note that this is useful if you don't know why your expression is incomplete and you want to start all over again anyway.
+
+
+### R is more than a glorified calculator
+Please tell me that R does more than just adding numbers together!! Please, please!
+
+You're in luck.  Though your R expressions can be as simple as adding two numbers together, the power of R starts to be realized when you assign _values_ to _symbols_, because you then can evaluate expressions involving those symbols.  
+
+
+
+
+## Symbols {#intro-symbols}
+
+* A _symbol_ in R is a text string in your R code that refers to an _object_.  An _object_ is the name given to "anything that the R interpreter might know about."  One might say that "everything in R" is an object.
+* In vernacular, some might refer to a symbol as a _variable_
+* For R to recognize a symbol, that symbol must adhere to some standards:
+    + Use only letters or numerals: (a-zA-Z0-9) as well as `.` and `_`
+    + Must start with a letter or `.` 
+
+What (if anything) is wrong with each of these:  `my.variable`, `your%variable`, `foo_bar`, `_bar_foo`, `.boing`, `Fish_lengths`,  `9_treatment_results` 
+
+
+
+### Assigning Values
+The special operators:  
+  `<-`  and  `->`  
+are used to _assign_ values to the objects referred to by symbols.  
+
+* It is like a pointy arrow or a stick, so you can think of it is "stick this in the object"
+```{r}
+x <- 13    # leftwards assignment is typically used
+19 -> y    # rightwards assignment is seldom used
+z <- x + y   # assign result of the evaluated expression
+
+# hey! it didn't print any result!
+z  # just type the symbol to print it
+```
+
+* If you assign a result, there isn't anything left to print.  But if you just type a symbol, the value of the object it refers to is printed.  This is called "Auto Printing".
+
+
+
+### R Assigns Values, not References
+* In some languages, like C, there are facilities to assign a variable to "point at" a specific area in the computer memory where the value for a symbol is stored.
+* That is _emphatically not_ what happens in R.  Observe:
+```{r}
+x <- 19
+y <- x
+y
+x <- 13
+x
+y
+```
+If you assign the value of object1 to object2, the value of object2 will not change if you subsequently change the value of object1.  
+
+### I Need More Than Scalars!!
+Data almost always come as more than one number.  If you caught a lot of fish and recorded their lengths in mm it would _way-totally-super-uncool_ if you had to do this:
+```{r}
+fish1 <- 121; fish2 <- 95; fish3 <- 87
+fish4 <- 142  # and so on and on, so help me God!
+```
+But R has you covered here.  R loves _vectors_! (one dimensional arrays), observe:
+```{r}
+fish <- c(121, 95, 87, 142)
+fish
+```
+
+
+## A quick word on functions {#quick-intro-to-functions}
+
+* In the previous slide we saw the `c` function, which is the first _function_ we have seen that actually looks like a function (technically `x+y` is `"+"(x,y)`, but let us not get into that now).
+* In R, functions typically take the form of:  
+  `function_name( function_arguments )`  
+where `function_name` must follow the requirements for symbols and the `function_arguments` could be lots of different things, as long as they make sense for the function.
+* You pass arguments (which are typically other symbols that have some values assigned to them) to a function and the function returns a result. 
+
+### The c() function
+In
+```{r}
+fish <- c(121, 95, 87, 142)
+```
+The arguments to `c` are `121`, `95`, `87`, and `142`.
+
+* The arguments could be _symbols_, of course:
+```{r}
+fish1 <- 121; fish2 <- 95; fish3 <- 87; fish4 <- 142
+catfish <- c(fish1, fish2, fish3, fish4)
+catfish
+```
+
+* The `c` function simply _catenates_ its arguments together and returns the result as a _vector_. 
+* R treats everything as a vector: that `[1]` in its output tells us that the next thing it prints is the first element of a vector!
+
+
 
