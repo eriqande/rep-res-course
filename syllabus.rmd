@@ -46,9 +46,10 @@ you do the assignments.
 * __Assignment Due:__ [Assignment 0](#assignment-0)  Please have all software installed before showing up to the first class.
 * __Assignment Given (Due by noon on Wednesday):__ [Assignment 1](#assignment-1)
 * __Lectures:__
-  *[Introduction](#intro-lecture)
-  *[Rstudio Orientation](#rstudio-orientation)
-  *[R data types](#r-data-types)
+    + [Introduction](#intro-lecture)
+    + [Rstudio Orientation](#rstudio-orientation)
+    + [R data types](#r-data-types)
+
 
 ### `r  course_day("Th", 1)`
 

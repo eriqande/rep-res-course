@@ -1,0 +1,10 @@
+---
+title: Course Introduction
+layout: default
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# Course Introduction {#intro-lecture}
+Gotta put this in there.
+

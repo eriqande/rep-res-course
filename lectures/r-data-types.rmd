@@ -1,0 +1,10 @@
+---
+title: R Data Types
+layout: default
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# R Data Types {#r-data-types}
+Gotta put this in there.
+

@@ -1,0 +1,10 @@
+---
+title: R and Rstudio Orientation
+layout: default
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# R and Rstudio Orientation {#rstudio-orientation}
+Gotta put this in there. R Console. R studio Panes...
+
