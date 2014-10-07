@@ -163,7 +163,7 @@ The special operators:
   `<-`  and  `->`  
 are used to _assign_ values to the objects referred to by symbols.  
 
-* It is like a pointy arrow or a stick, so you can think of it is "stick this in the object"
+* It is like a pointy arrow or a stick, so you can think of this as "stick this value in the variable as"
 ```{r}
 x <- 13    # leftwards assignment is typically used
 19 -> y    # rightwards assignment is seldom used
@@ -191,7 +191,7 @@ y
 If you assign the value of object1 to object2, the value of object2 will not change if you subsequently change the value of object1.  
 
 ### I Need More Than Scalars!!
-Data almost always come as more than one number.  If you caught a lot of fish and recorded their lengths in mm it would _way-totally-super-uncool_ if you had to do this:
+Data almost always come as more than one number.  If you caught a lot of fish and recorded their lengths in mm it would be _way-totally-super-uncool_ if you had to do this:
 ```{r}
 fish1 <- 121; fish2 <- 95; fish3 <- 87
 fish4 <- 142  # and so on and on, so help me God!
@@ -220,7 +220,7 @@ The arguments to `c` are `121`, `95`, `87`, and `142`.
 
 * The arguments could be _symbols_, of course:
 ```{r}
-fish1 <- 121; fish2 <- 95; fish3 <- 87; fish4 <- 142
+fish1 <- 121; fish2 <- 95; fish3 <- 87; fish4 <- 142;
 catfish <- c(fish1, fish2, fish3, fish4)
 catfish
 ```
