@@ -10,12 +10,21 @@ title: Assignment 2
 There is nothing to turn in for this assignment.  But I want everyone to do the following:
 
 1. Open up the `project1` project we made in class, or just open up RStudio.
-2. In the RStudio menu, choose, `File -> New File -> R Markdown ...`
-3. Then save that file.  Change its name from `Untitled.rmd` to `first.rmd`
-4. Find and click the `knit` button near the top left of the screen.
+1. In the RStudio menu, choose, `File -> New File -> R Markdown ...`
+    + __Note:__ You might be asked by Rstudio to install new packages. If so, reply "Yes" and let
+    RStudio install those new packages.
+1. Then you should be asked to choose the Default Output Format.  Go ahead and select HTML.
+    + __Note:__ If you are not asked to do this it is likely because you have an older version of 
+    rmarkdown and you might have a change to the default CRAN repository set up in an `.Rprofile`
+    file somewhere.  This might be the case if you have used R for some time (and hence will know
+    what I am talking about when I say `.Rprofile`).  I had to trash 
+    a few lines in my `.Rprofile`...
+1. Then save that file.  Change its name from `Untitled.rmd` to `first.rmd`
+1. Find and click the `knit HTML` button near the top left of the screen.
 
 That should give you a nice web document with a plot, etc.
 
-Now, in RStudio, go to the Help menu and choose `Markdown Quick Reference` and __read it__.
+Now, in RStudio, go to the Help menu (the help menu at the Top of the Screen, that is, __not__ the help window 
+in the lower right pane of RStudio) and choose `Markdown Quick Reference` and __read it__.
 
 
