@@ -16,6 +16,6 @@ There is nothing to turn in for this assignment.  But I want everyone to do the 
 
 That should give you a nice web document with a plot, etc.
 
-Now, in RStudio, go to the Help menu and choose `Markdown Quick Reference` and read it.
+Now, in RStudio, go to the Help menu and choose `Markdown Quick Reference` and __read it__.
 
 
