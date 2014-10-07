@@ -141,44 +141,63 @@ Note that this is useful if you don't know why your expression is incomplete and
 ### R is more than a glorified calculator
 Please tell me that R does more than just adding numbers together!! Please, please!
 
-You're in luck.  Though your R expressions can be as simple as adding two numbers together, the power of R starts to be realized when you assign _values_ to _symbols_, because you then can evaluate expressions involving those symbols.  
+You're in luck.  Though your R expressions can be as simple as adding two numbers together, the power of R starts to be realized when you assign _values_ to _objects_, because you then can evaluate expressions involving those objects.  
 
 
+## Objects vs Symbols
+__Warning This Little Section is Sort of Superfluous and Likely Confusing__
 
+__You needn't read this bit...__
 
-## Symbols {#intro-symbols}
+Hard core R people who trip out on the many cool meta-language features of R are likely to want to draw
+a distinction between _objects_ (think of them as places in computer memory where values are stored) and
+_symbols_, which are the names the programmer gives to objects to access them (for example, the name
+`fit` several sections back).  This is useful, but for a first course in R, it will probably suffice to
+just think in terms of _objects_ and use the word "object" to refer to the computer instantiation of
+something that can hold a value _and_ for the name that the programmer gives to it (i.e. `fit`).
 
-* A _symbol_ in R is a text string in your R code that refers to an _object_.  An _object_ is the name given to "anything that the R interpreter might know about."  One might say that "everything in R" is an object.
-* In vernacular, some might refer to a symbol as a _variable_
-* For R to recognize a symbol, that symbol must adhere to some standards:
-    + Use only letters or numerals: (a-zA-Z0-9) as well as `.` and `_`
-    + Must start with a letter or `.` 
+## Objects {#intro-objects}
 
-What (if anything) is wrong with each of these:  `my.variable`, `your%variable`, `foo_bar`, `_bar_foo`, `.boing`, `Fish_lengths`,  `9_treatment_results` 
+* An _object_ is the name given to "anything that the R interpreter might know about."  One might say that "everything in R" is an object. 
+* In vernacular, some might refer to an object as a _variable_
+* Examples:
+```{r, eval=FALSE}
+x <- 1:10  # x is the name of an object that holds a vector 1, 2, 3, ..., 10
+fit <- lm(y_data ~ x_data) # fit is an object holding the output of a linear model
+
+# for that matter, y_data and x_data are objects.
+```
+* If you want to give a name to an object and refer to it in your code, you must adhere
+to a few simple standards.  You must:
+    + use only letters or numerals: (a-zA-Z0-9) as well as `.` and `_`
+    + start the object's name with a letter or with `.` 
+
+QUIZ: What (if anything) is wrong with each of these potential object names:  `my.variable`, `your%variable`, `foo_bar`, `_bar_foo`, `.boing`, `Fish_lengths`,  `9_treatment_results` 
 
 
 
 ### Assigning Values
 The special operators:  
   `<-`  and  `->`  
-are used to _assign_ values to the objects referred to by symbols.  
+are used to _assign_ values to the objects. 
 
-* It is like a pointy arrow or a stick, so you can think of this as "stick this value in the variable as"
+* These are like pointy arrows or sticks, so you can think of them as "stick this value in the object"
 ```{r}
 x <- 13    # leftwards assignment is typically used
 19 -> y    # rightwards assignment is seldom used
 z <- x + y   # assign result of the evaluated expression
 
 # hey! it didn't print any result!
-z  # just type the symbol to print it
+z  # just type the object to print it
 ```
-
-* If you assign a result, there isn't anything left to print.  But if you just type a symbol, the value of the object it refers to is printed.  This is called "Auto Printing".
-
+* If you assign a result, there isn't anything left to print.  But if you just type an object's name, the value of the object is printed.  This is called "Auto Printing".
+* Note that `->` is very seldom used in programs.  It was more useful back in the days
+when people did a lot of interactive work with R.
 
 
 ### R Assigns Values, not References
-* In some languages, like C, there are facilities to assign a variable to "point at" a specific area in the computer memory where the value for a symbol is stored.
+* In some languages, like C, there are facilities to assign a variable to "point at" a specific area in the computer memory where the value of an object is stored.  Then, if the value in that area of memory changes, you
+get that new value when you extract it using the variable that points at that area of memory.
 * That is _emphatically not_ what happens in R.  Observe:
 ```{r}
 x <- 19
@@ -188,7 +207,7 @@ x <- 13
 x
 y
 ```
-If you assign the value of object1 to object2, the value of object2 will not change if you subsequently change the value of object1.  
+If you assign the value of `object1` to `object2`, the value of `object2` will not change if you subsequently change the value of `object1`.  
 
 ### I Need More Than Scalars!!
 Data almost always come as more than one number.  If you caught a lot of fish and recorded their lengths in mm it would be _way-totally-super-uncool_ if you had to do this:
@@ -208,8 +227,8 @@ fish
 * In the previous slide we saw the `c` function, which is the first _function_ we have seen that actually looks like a function (technically `x+y` is `"+"(x,y)`, but let us not get into that now).
 * In R, functions typically take the form of:  
   `function_name( function_arguments )`  
-where `function_name` must follow the requirements for symbols and the `function_arguments` could be lots of different things, as long as they make sense for the function.
-* You pass arguments (which are typically other symbols that have some values assigned to them) to a function and the function returns a result. 
+where `function_name` must follow the requirements for names of objects and the `function_arguments` could be lots of different things (objects or values), as long as they make sense for the function.
+* You pass arguments (which are typically other objects that have some values assigned to them) to a function and the function returns a result. 
 
 ### The c() function
 In
@@ -218,7 +237,7 @@ fish <- c(121, 95, 87, 142)
 ```
 The arguments to `c` are `121`, `95`, `87`, and `142`.
 
-* The arguments could be _symbols_, of course:
+* The arguments could be _objects_, of course:
 ```{r}
 fish1 <- 121; fish2 <- 95; fish3 <- 87; fish4 <- 142;
 catfish <- c(fish1, fish2, fish3, fish4)

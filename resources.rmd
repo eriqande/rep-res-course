@@ -11,4 +11,6 @@ title: Resources
 
 ## Learning git and GitHub {#res-learn-git-gh}
 
+* [Hilarious analogizing between git and "X-men: Days of Future Past"](http://hashrocket.com/blog/posts/x-men-days-of-future-past-explained-in-git).  This is worth a read, even if you don't understand any of it yet.  Thanks to Anthony Clemento for finding this.
+
 ## Finding answers to questions {#res-find-answers}
