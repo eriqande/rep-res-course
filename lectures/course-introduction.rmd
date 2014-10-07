@@ -12,10 +12,10 @@ output: bookdown::html_chapter
 ### Who is Eric and Why is he teaching this course?
 
 * Statistician that specializes in genetic data
-* Have used R (or S) since 1998, but didn't understand it until recently
+* Has used R (or S) since 1998, but didn't really understand it until recently
     + Was more of a C programmer
-* Disliked R for most of the last 20 years
-* Taught and R course two years ago
+* Disliked R for most of the last 16 years
+* Taught an R course two years ago
     + When I finally learned R, I learned to love it
 * Seeing R incorporated into Reproducible Research excites me
 
@@ -103,7 +103,7 @@ Note that you can see the raw rmarkdown source used to write each page.
 * You can't learn these methods without _doing_ and _using_ them
 * Amounts of HW should not be overwhelming.
 * I won't be grading everything, but:
-    + I will establish "peer-review" of homework
+    + I will establish "peer-review" system of homework
     + Everyone will do homework and "referee" homework
     + Doing this will let us get intimately familiar with how to use git and GitHub.
 * Familiar and advanced R users:
