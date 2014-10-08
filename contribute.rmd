@@ -21,11 +21,14 @@ edit the raw Rmarkdown source that produced the page and send me a pull request.
 Understand that any contributions you make that are pulled into the project
 will enter the public domain.
 
+You can also provide comments on most pages through the Disqus comments system.
+
 I welcome any recommendations from simple typo-fixes to suggestions on how my R code 
 can be improved and suggestions
 on how this material could be taught more effectively.   I would particularly appreciate
 it if you were to send me any fun "homework exercises" that would be beneficial for students
 learning this material.
 
-If you have any questions, feel free to raise them in the pull request, or
-send me [an email](mailto:eric.anderson@noaa.gov).
+If you have any questions, feel free to raise them in the pull request,
+send me [an email](mailto:eric.anderson@noaa.gov) or post a comment in the discussion at the 
+bottom of the page you want to comment on.
