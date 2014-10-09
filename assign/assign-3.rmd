@@ -47,7 +47,8 @@ it a whirl.
 Read through it (especially the comments in the R code block) and then edit it to
 add your own content. Feel free to add bibtex stuff to the .bib file and cite other
 articles, etc.  Try to use as many features of R markdown as you can.
-9. Once you are done. Knit it to HTML and sent it to eric at eric.anderson@noaa.gov
+9. Once you are done. Knit it to HTML and sent it to eric at eric.anderson@noaa.gov with the
+subject heading exactly: `rr-assignment-3`
 9. Please send it to me before Wednesday night of Week 2.  Thanks!
 
 
