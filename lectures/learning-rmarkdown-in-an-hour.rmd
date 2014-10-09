@@ -1,0 +1,27 @@
+---
+title:  Learning R Markdown in one Hour
+layout: default_with_disqus
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# Learning R Markdown in one Hour {#rmarkdown-in-an-hour}
+
+In this session our goal is to:
+
+1. Learn and use many of the features of Rmarkdown
+1. See how to intermix R code with text
+1. Collaboratively write a document to illustrate how Rmarkdown works
+
+The crazy thing is that, even though Rmarkdown provides an incredibly powerful tool for
+authoring reproducible research documents, you really can learn most of the fundamentals
+in about an hour.
+
+
+## Rmarkdown Setup {#rmarkdown-setup}
+
+If you completed [Assignment 2](#assignment-2) you will ready to go.
+
+1. Open up your project1 project from Tuesday in Rstudio
+1. Choose `File -> New File -> R markdown...` and then select HTML document and hit OK
+1. Save the file as "auto-recipe.Rmd"
