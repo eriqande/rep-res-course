@@ -1,0 +1,53 @@
+---
+title: Assignment 3
+layout: default_with_disqus
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# Assignment 3 {#assignment-3}
+
+## Please complete this the night before Thursday's class during Week 2
+
+I have set up a small template repository for you to start writing
+a description about yourself, your research, and a project to which 
+you would like to apply the methods you are learning in this course.
+
+For this assignment, you will:
+
+1. Clone that repository
+2. Checkout a new branch
+3. Modify and edit the R markdown file to reflect who you are
+and what you do.
+4. Knit that to HTML.
+5. Email the resulting HTML file to Eric.
+
+
+Explicit directions are:
+
+1. Open RStudio
+2. Choose File->New Project
+3. When asked, choose "Create Project from Version Control"
+4. Then when asked choose "Git"
+5. For repository URL use this:    `https://github.com/eriqande/rr-about-me.git`
+6. Let the project directory be named `rr-about-me`
+7. Put it somewhere.  You might consider having a dedicated directory for all your work 
+in this course.
+8. Hit "Create Project".
+9. Now, __this is important__ immediately go to the "Tools" menu item in RStudio and within it choose "Shell...". 
+This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
+9. In that command window type this
+    ```
+    git checkout -b student-edits
+    ```
+and be sure to hit RETURN after that!  This puts your work into a different "branch" of the 
+repository.  We will talk about branching in a couple weeks.  For now, just give
+it a whirl.
+9. Then go ahead and open up the file `about-me.Rmd`. Have a look at how it is structured.
+Read through it (especially the comments in the R code block) and then edit it to
+add your own content. Feel free to add bibtex stuff to the .bib file and cite other
+articles, etc.  Try to use as many features of R markdown as you can.
+9. Once you are done. Knit it to HTML and sent it to eric at eric.anderson@noaa.gov
+9. Please send it to me before Wednesday night of Week 2.  Thanks!
+
+
