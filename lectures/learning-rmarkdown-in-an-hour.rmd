@@ -20,8 +20,49 @@ in about an hour.
 
 ## Rmarkdown Setup {#rmarkdown-setup}
 
-If you completed [Assignment 2](#assignment-2) you will ready to go.
+* If you completed [Assignment 2](#assignment-2) you will understand what we are about to be doing.
+* I hope everyone got the email I sent with the directions on getting
+the repository _before_ you landed in the internet-impoverished conference room
+at NMFS.  If not, here they are again:
+    1. Open RStudio
+    2. Choose File->New Project
+    3. When asked, choose "Create Project from Version Control"
+    4. Then when asked choose "Git"
+    5. For repository URL use this:    https://github.com/eriqande/grandma-recipe.git
+    6. Let the project directory be named grandma-recipe
+    7. Put it somewhere.  I chose my Desktop.
+    8. Hit "Create Project" and you should be in business.
+    
+    
 
-1. Open up your project1 project from Tuesday in Rstudio
-1. Choose `File -> New File -> R markdown...` and then select HTML document and hit OK
-1. Save the file as "auto-recipe.Rmd"
+## A few words about Markdown
+
+* Designed as a text _markup_ language that would be
+    + Simple
+    + Expressive
+    + Intuitive
+    + Capable of conveying intent even without being
+      compiled into HTML or PDF
+* There are many Markdown interpreters.  The Rstudio folks
+  have been using [pandoc](http://johnmacfarlane.net/pandoc/)
+  to crunch Markdown into other formats. It provides many useful
+  extensions.
+* Customizations of style are mostly separate from the __content__.
+  
+
+## Mardown as "Reproducibility in Report Generation"
+
+* One nice thing about Markdown is that if you want to see 
+how someone did something and you can find their R Markdown source
+then you can just look at it and see what they did.
+* Contrast this to trying to explain to someone how to get a certain
+type of formatting in MS Word.
+
+## Learn this in an hour?!
+
+* Yes, we really can. It's simple and intuitive.
+* I've prepared a document in Rmarkdown using a lot of its features
+and now we will go through it together to discuss them.
+* You assignment for next week is to write document using all the
+same features to describe yourself and your research.
+

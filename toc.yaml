@@ -7,6 +7,7 @@
 ./assign/assign-0.rmd: assignment-0
 ./assign/assign-1.rmd: assignment-1
 ./assign/assign-2.rmd: assignment-2
+./assign/assign-3.rmd: assignment-3
 ./blogs.rmd: []
 ./contribute.rmd: []
 ./index.rmd:
@@ -20,6 +21,9 @@
 - course-org
 - course-philos
 - hw-and-assign
+./lectures/learning-rmarkdown-in-an-hour.rmd:
+- rmarkdown-in-an-hour
+- rmarkdown-setup
 ./lectures/r_vector_indexing_and_attributes.rmd:
 - vectorization-and-indexing
 - bin-comp-ops
@@ -40,7 +44,7 @@
 ./lectures/rstudio-orientation.rmd:
 - rstudio-orientation
 - r-console
-- intro-symbols
+- intro-objects
 - quick-intro-to-functions
 ./lectures/test-slidy-lecture.rmd: []
 ./resources.rmd:
@@ -60,4 +64,5 @@
 - syl-week-7
 - syl-week-8
 - syl-week-9
+- syl-week-10
 - syl-week-10

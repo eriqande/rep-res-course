@@ -57,6 +57,8 @@ _An introduction to R markdown_
 * __Assignment Due:__ [Assignment 2](#assignment-2). There is nothing to turn in, but I want everyone to do this.
 * __Assignment Given (Please finish by Wednesday night next week!):__ [Assignment 3](#assignment-3).
   You will write about yourself and your research using R markdown.
+* __Lectures:__
+    + [R Markdown in an Hour](#rmarkdown-in-an-hour)
  
 ## Week 2 {#syl-week-2}
 
