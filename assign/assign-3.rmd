@@ -36,8 +36,8 @@ in this course.
 8. Hit "Create Project".
 9. Now, __this is important__ immediately go to the "Tools" menu item in RStudio and within it choose "Shell...". 
 This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
-9. In that command window type this
-    ```
+9. In that command window type this:
+    ```{r, eval=FALSE}
     git checkout -b student-edits
     ```
 and be sure to hit RETURN after that!  This puts your work into a different "branch" of the 
@@ -47,7 +47,7 @@ it a whirl.
 Read through it (especially the comments in the R code block) and then edit it to
 add your own content. Feel free to add bibtex stuff to the .bib file and cite other
 articles, etc.  Try to use as many features of R markdown as you can.
-9. Once you are done. Knit it to HTML and sent it to eric at eric.anderson@noaa.gov with the
+9. Once you are done. Knit it to HTML and send it to eric at eric.anderson@noaa.gov with the
 subject heading exactly: `rr-assignment-3`
 9. Please send it to me before Wednesday night of Week 2.  Thanks!
 
