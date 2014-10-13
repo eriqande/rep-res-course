@@ -1,0 +1,95 @@
+---
+title: "Homework 3"
+author: "Eric C. Anderson"
+output: bookdown::html_chapter
+layout: default_with_disqus
+---
+
+```{r pre-stuff, echo=FALSE}
+library(knitr)
+submit_answer <- function(x) {
+  ret <- list()
+  ret$expr <- substitute(x)
+  ret$estr <- deparse(substitute(x))
+  ret$val <- eval.parent(substitute(x))
+  print(ret$val)
+  assign("boogiewho", ret, envir = .GlobalEnv  )
+}
+
+# here are variables that need to get set
+rr_homework_name <- "Homework_3"
+rr_question_number <- 0
+
+
+# here is a hook to run on any chunk that has the rr.question set
+knit_hooks$set(rr.question = function(before, options, envir) {
+  if (before) {
+    ## code to be run before a chunk
+    if(grepl("^unnamed-chunk", options$label)[1]) stop("You have to name the chunk if it is an rr.question chunk")
+    assign("rr_question_chunk_name", options$label, envir = .GlobalEnv)
+    assign("rr_question_number", rr_question_number + 1, envir = .GlobalEnv)
+    return(
+      paste(
+        "\n\n### ", 
+        rr_homework_name[1], ", #", 
+        rr_question_number, ": \"" , rr_question_chunk_name, "\"   ", 
+        "{#", rr_question_chunk_name, "}", sep="" ))
+    } else {
+      ## code to be run after a chunk
+      }
+  })
+
+
+```
+
+
+## Preamble {#squawk}
+In my opinion, one of the most useful binary operators
+is `%in%`. However it is seldom discussed in detail in books about R
+from the previous decade.  It's nice to see that Hadley has it front and 
+center in the vocabulary section of his Advanced R book. 
+
+It can be used to test if the elements of a vector A also occur (or do not occur)
+in a vector B.  For example
+```{r in-for-example, gather_answers = TRUE}
+A <- c("a", "g", "Z", "y", "c")
+B <- letters[1:5]
+A %in% B
+```
+
+
+Here is a simple question.  Here is the setup:
+```{r in-ex-1-set-up}
+# imagine x look like this:
+x <- c(1, 4, 18, 9)
+# and y like this:
+set.seed(10)
+y <- sample(1:100, size = 30)
+```
+
+Now, here is the first question:
+```{r in-ex-1-first, rr.question=TRUE}
+x
+y
+
+my_answer <- submit_answer({
+  # put your answer on the line between here
+  x %in% y
+  y %in% x
+  y * x
+  `+`(x,y)
+  # and here
+})
+#print(chunker)
+```
+
+
+## Another part {#another-part}
+```{r super-easy, rr.question=TRUE}
+x <- 1:10
+```
+
+
+```{r}
+save(boogiewho, file ="/tmp/boing.rda")
+```

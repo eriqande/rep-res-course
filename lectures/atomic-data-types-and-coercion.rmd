@@ -1,0 +1,162 @@
+---
+title: R's Atomic Data Types and Vectorization
+layout: default_with_disqus
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# R Data Types {#r-data-types}
+Gotta put this in there.
+
+
+
+
+
+
+
+## Basic Data "Modes" of R
+There are four main "modes" of scalar data, in order from least to most general:
+
+1. `logical` can take two values: `TRUE` and `FALSE`, which can be abbreviated, when you type them as `T` and `F`.
+1. The `numeric` mode comes in two flavors: "integer" and "numeric" (real numbers).  Examples: 1, 3.14, 8.2, 10, etc.
+1. `complex`: these are complex numbers of the form $a + bi$ where $a$ and $b$ are real numbers and $i=\sqrt{-1}$. Examples: `3.2+7.3i`,  `4+0i`
+1. `character`: these take values that are often called "strings" in other languages.  Examples: "fred", "foo", "bar", "boing".
+There is also a `raw` mode which refers to raw bytes of data, but we won't concern ourselves with that for now.
+
+## Atomic Vectors
+A fundamental data structure in R: a vector in which every element is of the same mode. Like
+```{r}
+x <- c(1,2,3,5,7)
+x
+```
+Pretty basic stuff, until you start accidentally, or intentionally mixing modes.
+```{r}
+x <- c(1,2,3,5,7,"11")
+x
+```
+The mode of everything is _coerced_ to the mode of the element with the most general mode, and this can really bite you in the rear if you don't watch out!
+
+## Coercion Up One Step
+
+* logical to numeric:
+    * `TRUE` ==> `1`
+
+    * `FALSE` ==> `0`
+
+*  numeric to complex:
+    * `6.4` ==> `6.4+0i`
+
+    * `5` ==> `5+0i`
+
+*  complex to character:
+    * `6.4+0i` ==> `"6.4+0i"`
+
+
+## Coercion Up Two Or More Steps
+Note that the coercion "jumps over the intermediate steps"
+
+* logical to complex
+    * TRUE -> 1+0i
+
+    * FALSE -> 0+0i
+
+*  logical to character
+    * TRUE -> "TRUE"
+
+    * FALSE -> "FALSE"
+
+*  numeric to character
+    * 7 -> "7"
+
+    * 3.1415 -> "3.1415"
+
+
+## Coercion down one step
+If the coercion doesn't make sense you end up with `NA` which is how R denotes missing data
+
+* numeric to logical (0 -> FALSE, anything else -> TRUE)
+    * 0 -> FALSE
+
+    * 1 -> TRUE
+    * 78.2 -> TRUE
+    * 0.0001 -> TRUE
+    * -563.3 -> TRUE
+
+*  complex to numeric (discards complex part and warns about it!)
+      * 3.4+0i -> 3.4
+
+      * 5.6+7.6i -> 5.6 (+ a warning)
+
+*  character to complex
+      * "3.4+4i" -> 3.4+4i
+
+      * "a" -> NA
+
+## Coercion down more than one step
+Important point: it doesn't _necessarily_ go through intermediate steps:
+
+* complex to logical (0->FALSE, anything else -> TRUE)
+    * 0+0i -> FALSE
+
+    * 0+2i -> TRUE
+    * 5+0i -> TRUE
+    * 5+9i -> TRUE
+
+* character to logical
+    * "TRUE" -> TRUE
+
+    * "FALSE" -> FALSE
+    * "1" -> NA  # yikes! if it went through numeric you'd get something different!
+    * "0" -> NA
+
+*  character to numeric
+    * "56.764" -> 56.764
+
+    * "4+8i" -> 4 (with a warning that the complex part was dropped)
+    * "fred" -> NA
+
+
+## Functions For Explicit Coercion
+There is a whole family for coercing objects between different modes (or different types) that take the form `as.something`:
+
+* `as.logical(x)`
+* `as.numeric(x)`
+* `as.integer(x)` # note a mode, but we will come back to this eventually
+* `as.complex(x)`
+* `as.character(x)`
+
+
+As expected, these are vectorized---they coerce every element of the vector to the desired mode.
+
+
+
+## Missing Data and Special Values in R
+We saw `NA` up above.  That means "Not Available" and it denotes missing data.    
+
+There are also two more interesting values:
+
+1. `Inf` (-Inf) means \(\infty\) (or \(-\infty\)) and arises from things like: 1/0 or log(0).
+1. `NaN` means "not a number" and it arises from situations where you can't evaluate something and it doesn't have an obvious limit.  Like 0/0 or Inf/-Inf  or 0*Inf.
+If you wish to test whether something is NaN, or NA you have: `is.na(x)` and `is.nan(x)` which return logical vectors.
+
+
+
+## Modes of Missing Data
+Here is something to be aware of: missing values, like non-missing values, carry around their mode. Try this:
+```{r}
+x <- c(1, 2, NA, 4, "5")
+x
+x[3]  # this extracts the third element of x
+c(10,20,30,x[3])
+c(10, 20, 30, NA)  # this is a "fresh" NA, no coercion
+```
+
+
+## Most Operators are Vectorized
+This is _incredibly important_!  All the mathematical operators, like `+`, `-`, `*`, and the logical operators, like  `&` (AND), `|` (OR), and the comparison operators, like `<` and `>` are hungry to operate _element-wise_ on every _element_ of a vector.  Example:
+```{r}
+fish.lengths <- c(121, 95, 87, 142)
+fish.weights <- c(1011, 505, 702, 900)
+fish.fatness <- fish.weights / fish.lengths
+fish.fatness
+```
