@@ -15,6 +15,12 @@
 - welcome-about-site
 - welcome-links
 ./junk/r_vector_indexing_and_attributes.rmd: []
+./lectures/atomic-data-types-and-coercion.rmd:
+- r-data-types-and-coercion
+- basic-modes
+- coercion
+- missing-data
+- vectorization
 ./lectures/course-introduction.rmd:
 - intro-lecture
 - intro-welcome
@@ -24,29 +30,22 @@
 ./lectures/learning-rmarkdown-in-an-hour.rmd:
 - rmarkdown-in-an-hour
 - rmarkdown-setup
-./lectures/r_vector_indexing_and_attributes.rmd:
-- vectorization-and-indexing
-- bin-comp-ops
-- bin-comp-ex
-- bin-comp-scalar
-- bin-comp-diff-lengths
-- recycling
-- recyling-contexts
-- combo-comps
-- math-ops
-- playing-around-temp-data
-- indexing
-- replacement-form-indexing
-- object-attributes
-- names-attribute
-- if-time
-./lectures/r-data-types.rmd: r-data-types
 ./lectures/rstudio-orientation.rmd:
 - rstudio-orientation
 - r-console
 - intro-objects
 - quick-intro-to-functions
 ./lectures/test-slidy-lecture.rmd: []
+./lectures/vectorization_recycling_and_indexing.rmd:
+- vectorization-and-indexing
+- bin-comp-ops
+- recycling
+- combo-comps
+- math-ops
+- indexing
+- replacement-form-indexing
+- object-attributes
+- names-attribute
 ./resources.rmd:
 - course-resources
 - res-learn-r

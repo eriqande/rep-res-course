@@ -5,11 +5,25 @@ author: Eric C. Anderson
 output: bookdown::html_chapter
 ---
 
-# Vectorization and Indexing in R {#vectorization-and-indexing}
+# Vectorization, Recycling, and Indexing in R {#vectorization-and-indexing}
+Many functions and almost all the _operators_ (like `+` and `*`, etc.)
+are vectorized.  
 
+They operate very quickly on each element of an atomic vector.
 
+Goals: we want to learn about:
 
+* Vectorization
+* Recycling
+* Indexing
 
+These three ideas of fundamental to R.
+
+We will also discuss:
+
+* Comparison operators
+* Logical operators
+* Mathematical operators
 
 ## Binary Comparison Operators {#bin-comp-ops}
 These are "binary" because they involve _two_ arguments.  
@@ -24,36 +38,50 @@ x != y   # not equal to
 ```
 `==` is the "_comparison equals_" which tests for equality.  (Be careful not to use `=` which, in today's versions of R, is actually interpreted as leftwards assignment.)
 
-### Binary Comparison Examples {#bin-comp-ex}
-```{r}
-a <- c("izzy", "jazz", "tyler")
-b <- c("devon", "vanessa", "hilary")
-x <- c(1,2,5)
-y <- c(4,4,3)
-a<b   # alphabetical sort order
-x==y
-x!=y
-(a<b) <= (x==y)  # trickier...notice the parentheses to force precedence
-```
+### Binary Comparison Examples
+* With numeric vectors
+    ```{r}
+    x <- c(1,2,5)
+    y <- c(4,4,3)
+    x == y
+    x != y
+    x < y
+    ```
+* With strings
+    ```{r}
+    a <- c("izzy", "jazz", "tyler")
+    b <- c("devon", "vanessa", "hilary")
+    a < b   # alphabetical order
+    ```
+* Here is a tricky combination of both. Can you parse it?
+    ```{r}
+    (a < b) <= (x == y)  # trickier...notice the parentheses to force precedence
+    ```
 
 
-### Binary Comparison With A Scalar {#bin-comp-scalar}
+### Binary Comparison Between a Vector and a Scalar
 Check this out:
 ```{r}
 x <- 1:10  # the colon operator returns a sequence
+
 x
+
 x <= 3
+
 # compare this to:
 x <= c(3,3,3,3,3,3,3,3,3,3)
 ```
 What is going on here?  
 
-### Comparison With Different-Lengths of Vectors {#bin-comp-diff-lengths}
+### Comparison With Different-Lengths of Vectors
 Try this one:
 ```{r}
 x <- 1:10
+
 x
+
 x > c(1,7)
+
 # compare this to:
 x > c(1,7,  1,7,  1,7,  1,7,  1,7)
 ```
@@ -63,59 +91,74 @@ To understand what is going on here we need to talk about _recycling_
 
 ## Recycling of Vectors in R {#recycling}
 A _very __super-wickedly__, important_, concept:  R likes to operate on vectors of
-the same length, so if it encounters two (or more) vectors of different lengths in a binary in an operation, it merely replicates (_recycles_) the smaller vectors until they are the same length as the longest vector, then it does the operation.
+the same length, so if it encounters two vectors of different lengths in a binary operation, it merely replicates (_recycles_) the smaller vector until it is the same length as the longest vector, then it does the operation.
 
 If the recycled smaller vector has to be "chopped off" to make it the length of the longer vector, you will get a warning, but it will still return a result:
 ```{r}
 x <- c(1,2,3)
 y <- c(1,10)
+
 x * y
 ```
 
 
-### We will see Recycling In Many contexts{#recyling-contexts}
+### We will see Recycling In Many contexts
 Recycling occurs wherever two or more vectors get operated on elementwise, not just with comparison operators.  It also happens (as we saw above) with mathematical operators.  And it also happens with indexing operators when indexing by logical vectors (you'll see that later)!!
 
-You gotta know it!
+You gotta know it! Here are some more examples:
+```{r}
+x <- 1:20
 
+x * c(1,0)  # turns the even numbers to 0
 
+x * c(0, 0, 1) # turns non-multiples of 3 to 0
 
-## Combinations of Comparisons {#combo-comps}
+x < ((1:4)^2) # recycling c(1, 4, 9, 16)
+```
+
+## Combinations of Comparisons; Logical Ops {#combo-comps}
 __A Weather Example__  
 
 * Suppose two variables, `temp` (in degrees Celsius) and `precip` (in mm) each a vector of length 365.
 * Tell me how you test for:
-    *All days with temp less than 10 and precip greater than 5
-
-    *Days with temp greater than 15 or with no precip (or both)
-    *Days with temp greater than 15 or with no precip (but not both)
+    * All days with temp less than 10 and precip greater than 5
+    * Days with temp greater than 15 or with no precip (or both)
+    * Days with temp greater than 15 or with no precip (but not both)
     
 ### Logical Operators-I
 These operate on `logical`s and return `logical`s.  `numeric` and `complex` vectors are coerced to `logical` before applying these.
 
 * Unary operators (those that operate elementwise on a single vector)
-    * `!` Turns TRUE to FALSE and FALSE to TRUE
-```{r}
-
-x <- c(T, T, F, F)
-x
-!x
-```
+    * `!` Turns `TRUE` to `FALSE` and `FALSE` to `TRUE`
+        ```{r}
+        x <- c(T, T, F, F)  # you can use abbreviations for TRUE and FALSE...
+        
+        x
+        
+        !x
+        ```
 
 
 ### Logical Operators-II
 
 * Binary operators (operate elementwise on two vectors)
     * `&` ---  Logical AND
-
     * `|` --- Logical OR
     * `xor(x,y)` --- Logical EXCLUSIVE OR
-```{r}
-x <- c(NA, T, F, T, F)
-y <- c(T, T, F, F, NA)
-x; y
-x & y; x | y; xor(x,y)
-```
+        ```{r}
+        x <- c(NA, T, F, T, F)
+        y <- c(T, T, F, F, NA)
+        
+        x
+        
+        y
+        
+        x & y 
+        
+        x | y
+        
+        xor(x,y)
+        ```
 
 
 
@@ -161,6 +204,7 @@ x<-3
 y<-2
 
 -x * y  # this is like (-x) * y
+
 -x ^ y  # this is like -(x ^ y)
 ```
 
@@ -176,12 +220,14 @@ Thus
 Or, if you want the sequence of numbers from 0 to n-1, be careful:
 ```{r}
 n <- 5
+
 0:n-1    # wrong
+
 0:(n-1)  # right
 ```
 
 ### Built In Help On Functions and Operators
-`?function_name` returns help (if available) for the function with name `function_name`:
+Recall that `?function_name` returns help (if available) for the function with name `function_name`:
 ```{r, eval=FALSE}
 # examples:
 ?c
@@ -190,43 +236,30 @@ n <- 5
 ```
 Builtin help on topics we have discussed today can be found at `?Syntax`, `?Logic`, `?Comparison`, `?Arithmetic`.   
 
-Also, all material here is covered in parts of sections 1 through 3 in [[http:_cran.r-project.org/doc/manuals/R-intro.pdf|R-intro.pdf]] available on CRAN. 
+Also, all material here is covered in parts of sections 1 through 3 in [intro.pdf](http:_cran.r-project.org/doc/manuals/R-intro.pdf|R-intro.pdf) available on CRAN. 
 
 
 
-## A Little Play With Some Temp Data {#playing-around-temp-data}
-You can download max and min temperature data for the last 28 days at Watsonville Airport: {{:sessions:sept_watsonville_temps.rda|sept_watsonville_temps.rda}}  Once you have downloaded this, you can load it into your R session.  You will have to tailor this according to where the file gets downloaded on your computer
-```{r, eval=FALSE}
-load("~/Downloads/sept_watsonville_temps.rda")  # load that data in.
-ls() # look at what objects exist in your workspace, now
- 
-# now, fill out the code to do the following:
-# 1. Just look at the two variables wats_max and wats_min
-# 2. Make a new vector called range that is the temp difference between max and min
-# 3. Create a logical vector called abv70 which has TRUE's for every day the max is above 70
-# 4. Create a logical vector called blw50 which denotes which days had a min below 50
-# 5. Create a logical vector max10 which denotes on which days the max was a multiple of 10 (recall the modulo division operator, %%)
-# 6. Create a logical vector min10 which denotes the days on which the min was a multiple of 10
-# 7. Just using the original wats_max and wats_min vectors in the expression, count the number of days when at least one of the max or min temperatures is a multiple of 10.
-```
 
 
-
-## Woo-hoo! New Topic: "Indexing" {#indexing}
+## Indexing {#indexing}
 There are times when we want to access one or just a few elements from a vector.  We've already seen an example of extracting a single element, for example:
 ```{r}
 x <- c("devon", "alicia", "cassie")
+
 x[2]  # this extracts the second element of x
 ```
 Vectors in R are _base-1_ subscripted.  i.e. elements are subscripted "1, 2, 3, ..." instead of "0, 1, 2, ..."
 
 ### Overview: 4 Ways To Extract from a Vector
-Single square brackets are the _indexing_ operators.  You can use them in four different ways, by putting four different things inside them:
+Single square brackets are the _indexing_ operators.  There are four (common) ways of using the
+indexing operators.  They differ by putting different things inside of the square brackets:
 
-1. With a vector of _positive_ indices: `x[c(1,6,4)]`
-1. With a vector of _negative_ indices: `x[-c(1,6,4)`
-1. With a _logical vector_ of the appropriate length: `x[c(T,F,F,T,T)]`
-1. With a _character vector_ of _names_:  `x[c("Sept10","Sept24")]` 
+1. A vector of _positive_ indices: `x[c(1,6,4)]`
+1. A vector of _negative_ indices: `x[-c(1,6,4)`
+1. A _logical vector_ of the appropriate length: `x[c(T,F,F,T,T)]`
+1. A _character vector_ of _names_:  `x[c("Sept10","Sept24")]` _if the vector has a_ `names` _attribute_.
+
 Number four should not make sense to you yet!
 
 
@@ -235,32 +268,37 @@ Number four should not make sense to you yet!
 ### Indexing With Positive Integers
 
 * A vector of positive integers extracts the corresponding elements, _in the same order_ and _as many times_ as the indices are listed in the vector
-```{r}
-x <- c(5,4,7,8)
+    ```{r}
+    x <- c(5,4,7,8)
 
-x[c(4,4,4,2,2,1,3,2)]  # returns a vector of length 8!
-```
+    x[c(4,4,4,2,2,1,3,2)]  # returns a vector of length 8!
+    ```
 
 * If an index exceeds the _length_ of the vector, it returns an `NA` for that element
-```{r}
-x <- c(5,4,7,8)
+    ```{r}
+    x <- c(5,4,7,8)
 
-x[c(4,1,3,5)]  # the 4th element of the returned vector is NA
-``` 
-and gives _no warning_ of this. 
+    x[c(4,1,3,5)]  # the 4th element of the returned vector is NA
+    ``` 
+    and gives _no warning_ of this. 
 
 
 ### Indexing With Negative Integers
 
-* A vector of positive integers says, "extract everything _except_ these indices."  
+* A vector of negative integers says, "extract everything _except_ these indices."  
     * The order of the remaining elements is preserved.  
-
     * Multiple instances of the same negative integer have the same effect as a single one
     * Negative integers exceeding the length of the vector are just ignored
 ```{r}
-x <- c(5,4,7,8)
-x[-2]; x[-c(2,4)]
-x[-c(2,2,2,2,4,4,4,4)]; x[-c(2,4,5,10,18)]
+x <- c(5,4,7,8) # here is our vector...
+
+x[-2]
+
+x[-c(2,4)]
+
+x[-c(2,2,2,2,4,4,4,4)]
+
+x[-c(2,4,5,10,18)]
 ```
 You _cannot_ mix positive and negative indices!
 
@@ -291,115 +329,130 @@ x[c(FALSE, TRUE)]
 x <- c(5,4,7,8)
 
 x[]
+
 x
 ```
-
 * "When you give R nothing it gives you everything in return!"
 
 
 ## The Replacement form of Indexing {#replacement-form-indexing}
 * Also called the _assignment_ form.  Allows you to change specified elements of a vector while leaving the others untouched (_except for mode changes due to coercion!_)
-```{r}
-x <- c(5,4,7,8)
+* This usually takes some getting used to, but you will use it all over in R.  So get comfortable with it!
+    ```{r}
+    x <- c(5,4,7,8)
+    y <- x
 
-x[c(1,3)] <- 0  
-x[c(T,F,T,F)] <- 1
-x[-c(1,3)] <- NA
-x[c(1,3)] <- c("a","c") # coercion of remaining elements
-x[c(3,1,2)] <- c("boing1", "boing2", "boing3") # note ordering
-x[c(3,1,3,2,2,2)] <- c("boing1", "boing2", "boing3") # repeated occurrences ignored 
-```
-The vector that is being assigned gets _recycled_ as need be to match the length of the vector being indexed and assigned to. 
+    x[c(1,3)] <- 0  
+    x
+    
+    x <- y
+    x[c(T,F,T,F)] <- 1
+    x
+    
+    x <- y
+    x[-c(1,3)] <- NA
+    x
+    
+    x <- y
+    x[c(1,3)] <- c("a","c") # coercion of remaining elements
+    x
+    
+    x <- y
+    x[c(3,1,2)] <- c("boing1", "boing2", "boing3") # note ordering
+    x
+
+    x <- y
+    x[c(3,1,3,2,2,2)] <- c("boing1", "boing2", "boing3") # repeated occurrences ignored 
+    x
+    ```
+The vector that is being assigned gets _recycled_ as need be to match the length of the (extracted part of the) vector being indexed and assigned to. 
 
 
 ### Assignment Beyond the length of the Vector
 
 * This is allowable when using the replacement form.  Intermediate elements are set to NA
-```{r}
-x <- c(5,4,7,8)
+    ```{r}
+    x <- c(5,4,7,8)
 
-length(x)
-x[10] <- 12
-x; length(x)
-```
-
+    length(x)
+    
+    x[10] <- 12
+    
+    x
+    
+    length(x)
+    ```
 * Those NA's don't get overwritten by recycling. Recycling only occurs to match the length of the vector returned by the indexing operation:
-```{r}
-x <- c(5,4,7,8)
-
-x[11:19] <- c(-1,0,1)
-```  
+    ```{r}
+    x <- c(5,4,7,8)
+    
+    x[11:19] <- c(-1,0,1)
+    ```  
 
 
 ## Object Attributes {#object-attributes}
 
-* Before we can talk about indexing with _names_ we have to talk about the fact that any object in are can possess _attributes_.
+* Before we can talk about indexing with _names_ we have to talk about the fact that any object can possess _attributes_.
 * Every R object has two _intrinsic_ attributes: `mode` and `length`
 * For atomic vectors, possible modes are: (fill in the blanks)
 * The functions `mode(x)` and `length(x)` return these attributes for `x`
 * You can also set them like this (for example):
-```{r}
-mode(x) <- "character"; length(x) <- 25
+    ```{r}
+    x <- 1:15
+    
+    mode(x) <- "character"
+    
+    x
 
-``` 
+    length(x) <- 25
+    
+    x
+    ``` 
 
 
 
-### Other non-intrinsic Attributes
+### Other non-intrinsic Attributes (can be skipped for now...)
 
 * Any object in R can have a number of different _attributes_ these are _not_ the data contained in the object, but they may affect how the object is treated.  
 * Attributes are __central__ to the operation of R.
 * Relevant functions:
-```{r, eval=FALSE}
-attributes(x)  # list all non-intrinsic attributes of x
-
-attributes(x) <- value # set all attributes of x  (seldom used)
-attr(x, "boing") # return value of x's "boing" attribute
-attr(x, "boing") <- value # set x's "boing" attribute to value
-```
+    ```{r, eval=FALSE}
+    attributes(x)  # list all non-intrinsic attributes of x
+    
+    attributes(x) <- value # set all attributes of x  (seldom used)
+    attr(x, "boing") # return value of x's "boing" attribute
+    attr(x, "boing") <- value # set x's "boing" attribute to value
+    ```
 Common attributes accessed via various convenience functions
 
 
 ## The names Attribute of a Vector {#names-attribute}
 
-* R gives you the option of having a name for every element of a vector:
-```{r}
-x <- c(5,4,7,8)
+* R gives you the option of having a name for every element of a vector
+* And you can 
+    ```{r}
+    x <- c(5,4,7,8)
 
-names(x) <- c("first", "second", "third", "boing")
-x[c("boing", "second")] # note names are retained in result 
-x[c("third", "boing", "oops", "first", "first")] # note NA in result
-```
+    names(x) <- c("first", "second", "third", "boing")
+    
+    x[c("boing", "second")] # note names are retained in result 
+    
+    x[c("third", "boing", "oops", "first", "first")] # note NA in result
+    ```
 
 
 ### Assignment Form names Indexing 
 
 *  When you use the assignment form of the indexing operator, and you include a name that doesn't exist, it expands the vector beyond its current length
-```{r}
-x <- c(5,4,7,8)
-
-names(x) <- c("first", "second", "third", "boing")
-x[c("first", "third", "oofdah", "squawk")] <- c(-1,-2,-3,-4)
-```
-
-
-
-### Why Names?
-
-* Most books on R say that the `names` attribute is useful because it is easier to remember names than indices.  To some extent this is true:
-```{r, eval=FALSE}
-load("~/Downloads/sept_watsonville_temps.rda")
-
-names(wats_max) <- paste("Sept", 2:29, sep="")
-names(wats_min) <- names(wats_max)
-```
-
-* But I contend that they can also be useful because they give a simple way to implement an _associative array_ (or _hash_) in R.
+    ```{r}
+    x <- c(5,4,7,8)
+    
+    names(x) <- c("first", "second", "third", "boing")
+    x
+    
+    x[c("first", "third", "oofdah", "squawk")] <- c(-1,-2,-3,-4)
+    x
+    ```
 
 
 
-
-## If We still have time {#if-time}
-
-* _Matrices_ and the `dim` and `dimnames` attributes.
-* Managing your workspace.  `ls()`, `rm()`, `history()`, `save()`, `save.image()`, `load()`

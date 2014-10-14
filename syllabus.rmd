@@ -66,6 +66,10 @@ _An introduction to R markdown_
 _Atomic data types, Vectorization, Indexing in R_
 
 * __Reading:__ By this class, I would like you to have read the [Introduction](http://adv-r.had.co.nz/Introduction.html) to Hadley Wickham's advanced R book, up to, but not including, "Meta-techniques". Then, please read through [Data structures](http://adv-r.had.co.nz/Data-structures.html) up to "Attributes".  This is very terse and will likely feel foreign to most newcomers to R, but precisely because it is short and compact (and very informative) it is worth coming back to frequently.  We will go over the topics in more detail.
+* __Lectures:__
+    + [Atomic Data Modes and Coercion](#r-data-types-and-coercion)
+    + [Vectorization, Recycling, and Indexing](#vectorization-and-indexing)
+
 
 ### `r  course_day("Th", 2)`
 _git Overview.  Configuring git_

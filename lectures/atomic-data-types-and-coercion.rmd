@@ -5,25 +5,20 @@ author: Eric C. Anderson
 output: bookdown::html_chapter
 ---
 
-# R Data Types {#r-data-types}
-Gotta put this in there.
+# Atomic Data Types and Coercion {#r-data-types-and-coercion}
 
 
-
-
-
-
-
-## Basic Data "Modes" of R
+## Basic Data "Modes" of R  {#basic-modes}
 There are four main "modes" of scalar data, in order from least to most general:
 
 1. `logical` can take two values: `TRUE` and `FALSE`, which can be abbreviated, when you type them as `T` and `F`.
-1. The `numeric` mode comes in two flavors: "integer" and "numeric" (real numbers).  Examples: 1, 3.14, 8.2, 10, etc.
-1. `complex`: these are complex numbers of the form $a + bi$ where $a$ and $b$ are real numbers and $i=\sqrt{-1}$. Examples: `3.2+7.3i`,  `4+0i`
-1. `character`: these take values that are often called "strings" in other languages.  Examples: "fred", "foo", "bar", "boing".
+1. The `numeric` mode comes in two flavors: "integer" and "numeric" (real numbers).  Examples: `1`, `3.14`, `8.2`, `10`, etc.
+1. `complex`: these are complex numbers of the form $a + bi$ where $a$ and $b$ are real numbers
+and $i=\sqrt{-1}.$ Examples: `3.2+7.3i`,  `4+0i`
+1. `character`: these take values that are often called "strings" in other languages.  Examples: `"fred"`, `"foo"`, `"bar"`, `"boing"`.
 There is also a `raw` mode which refers to raw bytes of data, but we won't concern ourselves with that for now.
 
-## Atomic Vectors
+### Atomic Vectors
 A fundamental data structure in R: a vector in which every element is of the same mode. Like
 ```{r}
 x <- c(1,2,3,5,7)
@@ -36,92 +31,99 @@ x
 ```
 The mode of everything is _coerced_ to the mode of the element with the most general mode, and this can really bite you in the rear if you don't watch out!
 
-## Coercion Up One Step
+
+## Coercion {#coercion}
+
+* All the data in an atomic vector _must be of the same mode_
+* If data are added so that modes are mixed, then _the whole vector
+gets changed so that everything is of the most general mode_
+* Example:
+    ```{r}
+    # simple atomic vector of mode numeric
+    x <- 1:6
+    x
+
+    # now change one to mode character and see what happens
+    x[1] <- "tweezer"
+    x
+    
+    ```
+
+### Coercion Up One Step
 
 * logical to numeric:
     * `TRUE` ==> `1`
-
     * `FALSE` ==> `0`
-
 *  numeric to complex:
     * `6.4` ==> `6.4+0i`
-
     * `5` ==> `5+0i`
-
 *  complex to character:
     * `6.4+0i` ==> `"6.4+0i"`
 
 
-## Coercion Up Two Or More Steps
-Note that the coercion "jumps over the intermediate steps"
+### Coercion Up Two Or More Steps
+Note that the coercion sometimes "jumps over the intermediate steps"
 
 * logical to complex
-    * TRUE -> 1+0i
-
-    * FALSE -> 0+0i
-
-*  logical to character
-    * TRUE -> "TRUE"
-
-    * FALSE -> "FALSE"
-
+    * `TRUE` ==> `1+0i`
+    * `FALSE` ==> `0+0i`
+*  logical to character (it _does not_ go FALSE ==> 0 ==> "0")
+    * `TRUE` ==> `"TRUE"`
+    * `FALSE` ==> `"FALSE"`
 *  numeric to character
-    * 7 -> "7"
+    * `7` ==> `"7"`
+    * `3.1415` ==> `"3.1415"`
 
-    * 3.1415 -> "3.1415"
 
+### Coercion down one step
 
-## Coercion down one step
+Sometimes things get coerced "downards" (i.e., toward less general
+data types).
+
 If the coercion doesn't make sense you end up with `NA` which is how R denotes missing data
 
-* numeric to logical (0 -> FALSE, anything else -> TRUE)
-    * 0 -> FALSE
-
-    * 1 -> TRUE
-    * 78.2 -> TRUE
-    * 0.0001 -> TRUE
-    * -563.3 -> TRUE
-
+* numeric to logical (0 ==> FALSE, anything else ==> TRUE); _Always "makes sense"_
+    * `0` ==> `FALSE`
+    * `1` ==> `TRUE`
+    * `78.2` ==> `TRUE`
+    * `0.0001` ==> `TRUE`
+    * `-563.3` ==> `TRUE`
 *  complex to numeric (discards complex part and warns about it!)
-      * 3.4+0i -> 3.4
-
-      * 5.6+7.6i -> 5.6 (+ a warning)
-
+      * `3.4+0i` ==> `3.4`
+      * `5.6+7.6i` ==> `5.6` (+ a warning)
+        ```{r}
+        # witness a warning:
+        as.numeric(7.4+5i)
+        ```
 *  character to complex
-      * "3.4+4i" -> 3.4+4i
+      * `"3.4+4i"` ==> `3.4+4i`
+      * `"a"` -> `NA` (you can't coerce `"a"` to any number, reasonably)
 
-      * "a" -> NA
-
-## Coercion down more than one step
+### Coercion down more than one step
 Important point: it doesn't _necessarily_ go through intermediate steps:
 
-* complex to logical (0->FALSE, anything else -> TRUE)
-    * 0+0i -> FALSE
-
-    * 0+2i -> TRUE
-    * 5+0i -> TRUE
-    * 5+9i -> TRUE
-
+* complex to logical (0 ==>FALSE, anything else ==> TRUE)
+    * `0+0i` ==> `FALSE`
+    * `0+2i` ==> `TRUE`
+    * `5+0i` ==> `TRUE`
+    * `5+9i` ==> `TRUE`
 * character to logical
-    * "TRUE" -> TRUE
-
-    * "FALSE" -> FALSE
-    * "1" -> NA  # yikes! if it went through numeric you'd get something different!
-    * "0" -> NA
-
+    * `"TRUE"` ==> `TRUE`
+    * `"FALSE"` ==> `FALSE`
+    * `"1"` ==> `NA`  (_yikes! if it went through numeric you'd get something different!_)
+    * `"0"` ==> `NA`
 *  character to numeric
-    * "56.764" -> 56.764
+    * `"56.764"` ==> `56.764`
+    * `"4+8i"` ==> `4` (with a warning that the complex part was dropped)
+    * `"fred"` -> `NA`
 
-    * "4+8i" -> 4 (with a warning that the complex part was dropped)
-    * "fred" -> NA
 
-
-## Functions For Explicit Coercion
+### Functions For Explicit Coercion
 There is a whole family for coercing objects between different modes (or different types) that take the form `as.something`:
 
 * `as.logical(x)`
 * `as.numeric(x)`
-* `as.integer(x)` # note a mode, but we will come back to this eventually
+* `as.integer(x)` # not a mode, (this is a subclass of the `numeric` mode)
 * `as.complex(x)`
 * `as.character(x)`
 
@@ -130,29 +132,51 @@ As expected, these are vectorized---they coerce every element of the vector to t
 
 
 
-## Missing Data and Special Values in R
+## Missing Data and Special Values in R {#missing-data}
 We saw `NA` up above.  That means "Not Available" and it denotes missing data.    
 
 There are also two more interesting values:
 
-1. `Inf` (-Inf) means \(\infty\) (or \(-\infty\)) and arises from things like: 1/0 or log(0).
-1. `NaN` means "not a number" and it arises from situations where you can't evaluate something and it doesn't have an obvious limit.  Like 0/0 or Inf/-Inf  or 0*Inf.
-If you wish to test whether something is NaN, or NA you have: `is.na(x)` and `is.nan(x)` which return logical vectors.
+1. `Inf` (-Inf) means $\infty$ (or $-\infty$) and arises from things like: 1/0 or log(0).
+1. `NaN` means "Not a Number" and it arises from situations where you can't evaluate something and it doesn't have an obvious limit.  Like 0/0 or Inf/-Inf  or 0*Inf.
+
+* If you wish to test whether something is NaN, or NA you have: `is.na(x)` and `is.nan(x)` which return logical vectors.
+* The same goes for testing if things are finite or infinite:
+    ```{r}
+    x <- c(NA, 2, Inf, 4, NaN, 6)
+    
+    is.nan(x) # only the NaN
+    
+    is.na(x) # both NA and NaN
+    
+    is.infinite(x) # only Inf or -Inf
+    ```
 
 
-
-## Modes of Missing Data
+### Modes of Missing Data
 Here is something to be aware of: missing values, like non-missing values, carry around their mode. Try this:
 ```{r}
 x <- c(1, 2, NA, 4, "5")
 x
+
 x[3]  # this extracts the third element of x
+
 c(10,20,30,x[3])
+
 c(10, 20, 30, NA)  # this is a "fresh" NA, no coercion
 ```
 
 
-## Most Operators are Vectorized
+## Vectorization {#vectorization}
+
+* In R, the term _vectorization_ refers to the fact that, in many
+cases, when you apply a function to a vector, it applies the function
+to every element of the vector. 
+* This is apparent in many of the _operators_ and we will see it in plenty
+of other functions, too.
+
+
+### Most Operators are Vectorized
 This is _incredibly important_!  All the mathematical operators, like `+`, `-`, `*`, and the logical operators, like  `&` (AND), `|` (OR), and the comparison operators, like `<` and `>` are hungry to operate _element-wise_ on every _element_ of a vector.  Example:
 ```{r}
 fish.lengths <- c(121, 95, 87, 142)
@@ -160,3 +184,6 @@ fish.weights <- c(1011, 505, 702, 900)
 fish.fatness <- fish.weights / fish.lengths
 fish.fatness
 ```
+
+### Vectorization is so important...
+That we are going to go to open up a whole new lecture that starts with it.
