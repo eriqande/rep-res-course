@@ -1,6 +1,6 @@
 # Reproducible Research Course
 
-This is code and text behind the [Reproducible Research Course](http://eriqande.github.io/rep-res-course/)
+This is code and text behind the [Reproducible Research Course](http://eriqande.github.io/rep-res-web/)
 taught by Eric C. Anderson of the National Marine Fisheries Service. 
 
 The site is built using jekyll, with a custom plugin (written by Hadley Wickham for his [Advanced R programming](http://adv-r.had.co.nz) book) to render `.rmd` files with
