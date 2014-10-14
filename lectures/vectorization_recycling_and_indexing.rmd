@@ -236,7 +236,7 @@ Recall that `?function_name` returns help (if available) for the function with n
 ```
 Builtin help on topics we have discussed today can be found at `?Syntax`, `?Logic`, `?Comparison`, `?Arithmetic`.   
 
-Also, all material here is covered in parts of sections 1 through 3 in [intro.pdf](http:_cran.r-project.org/doc/manuals/R-intro.pdf|R-intro.pdf) available on CRAN. 
+Also, all material here is covered in parts of sections 1 through 3 in [intro.pdf](http://cran.r-project.org/doc/manuals/R-intro.pdf) available on CRAN. 
 
 
 
