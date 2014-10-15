@@ -35,12 +35,19 @@ the rep-res-course repository to get this assignment:
         1. Open up the RStudio project `rep-res-course.Rproj`
         1. If you are not on branch `master` in that project (check the upper
         right corner of the "Git" pane---if it does not say "master" in small letters you are not 
-        on the master branch), then __commit any changes on whatever branch you are on__, and then checkout
+        on the master branch), then __commit any changes on whatever branch you are on__ (If you don't commit
+        changes on the branch you are on, then they will get carried back
+        to the master branch and could cause problems pulling.), and then checkout
         the master branch (this can be done by clicking on the branch name in the upper right of the Git pane
-        and choosing).  If you don't commit changes on the branch you are on, then they will get carried back
-        to the master branch and could cause problems pulling.  
-        1. Now, __this is important__, immediately go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
-1. checkout a new branch named `r rr_branch_name` to do your work in
+        and choosing `master` (__not__ `origin/master`)).    
+        1. Once on the `master` branch click the "pull button at the top of the Git pane.
+1. Immediately checkout a new branch named `r rr_branch_name`:
+    1. go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
+    1. In the command window, type this command:
+        ```{r, echo=FALSE, comment=NA}
+        cat(paste("git checkout -b", rr_branch_name))
+        ```
+        and hit RETURN.
 1. open the file `r rr_hw_file_name` and add your answers (see below)
 1. Commit that file, and push your branch up to your fork of the rep-res-course
 repository.
