@@ -1,0 +1,131 @@
+---
+title: "Homework 3"
+author: "Eric C. Anderson"
+output: bookdown::html_chapter
+layout: default_with_disqus
+---
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+init_homework("Fun Homework 25")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "hw3-branch"
+rr_hw_file_name <- "exercises/hw3.Rmd"
+##CODEREPLSPOT##
+```
+
+
+## How To Do This Homework
+To do this homework, you have to 
+
+1. pull down the master branch of
+the rep-res-course repository to get this assignment:
+    * _If you don't already have a clone of the rep-res-course repository_, clone the rep-res-course repository:
+        1. Choose File->New Project
+        1. When asked, choose “Create Project from Version Control”
+        1. Then when asked choose "Git"
+        1. For repository URL use this: https://github.com/eriqande/rep-res-course.git
+        1. Let the project directory be named `rep-res-course`. Put it somewhere. You might consider having a dedicated directory for all your work in this course.
+        1. Hit “Create Project”.
+    * _If you already have a clone of the rep-res-course repository_
+        1. Open up the RStudio project `rep-res-course.Rproj`
+        1. If you are not on branch `master` in that project (check the upper
+        right corner of the "Git" pane---if it does not say "master" in small letters you are not 
+        on the master branch), then __commit any changes on whatever branch you are on__, and then checkout
+        the master branch (this can be done by clicking on the branch name in the upper right of the Git pane
+        and choosing).  If you don't commit changes on the branch you are on, then they will get carried back
+        to the master branch and could cause problems pulling.  
+        1. Now, __this is important__, immediately go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
+1. checkout a new branch named `r rr_branch_name` to do your work in
+1. open the file `r rr_hw_file_name` and add your answers (see below)
+1. Commit that file, and push your branch up to your fork of the rep-res-course
+repository.
+
+
+In my opinion, one of the most useful binary operators
+is `%in%`. However it is seldom discussed in detail in books about R
+from the previous decade.  It's nice to see that Hadley has it front and 
+center in the vocabulary section of his Advanced R book. 
+
+It can be used to test if the elements of a vector A also occur (or do not occur)
+in a vector B.  For example
+```{r in-for-example, gather_answers = TRUE}
+A <- c("a", "g", "Z", "y", "c")
+B <- letters[1:5]
+A %in% B
+
+## and here I want to see if anything is happening:
+rr_homework_name
+rr_question_number
+```
+
+
+Here is a simple question.  Here is the setup:
+```{r in-ex-1-set-up}
+# imagine x look like this:
+x <- c(1, 4, 18, 9)
+# and y like this:
+set.seed(10)
+y <- sample(1:100, size = 30)
+```
+
+Now, here is the first question:
+```{r in-ex-1-first, rr.question=TRUE}
+x
+y
+
+# this should have gotten incremented:
+rr_question_number
+
+submit_answer({
+  # put your answer on the line between here
+  x %in% y
+  y %in% x
+  y * x
+  `+`(x,y)
+  # and here
+})
+#print(chunker)
+```
+
+
+## Another part {#another-part}
+```{r super-easy, rr.question=TRUE}
+x <- 1:10
+```
+
+
+```{r Boingus, rr.question=TRUE}
+submit_answer({
+  y<-1:10; z<- y^2; z;
+  list(What = y, Never = "squawk", Again = z)
+})
+```
+
+
+```{r Bogulated, rr.question=TRUE}
+submit_answer({
+  y<-1:10; z<- y^2; z;
+  list(What = y, Never = "squawk", Again = z)
+  xx <- 1:10; yy <- xx + rnorm(10, 0, .04)
+  unclass(lm(yy~xx))
+})
+```
+
+
+
+
+```{r}
+ls(envir = rrhw_env)
+
+# now make a list of it:
+reslist <- as.list(rrhw_env)
+
+library(plyr)
+zz <- ldply(.data = reslist, .fun = answer_list_to_data_frame)
+save(zz, file="/tmp/zz.rda")
+```
