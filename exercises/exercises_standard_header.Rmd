@@ -1,11 +1,3 @@
----
-title: "Homework 3"
-author: "Eric C. Anderson"
-output: bookdown::html_chapter
-layout: default_with_disqus
----
-
-
 ## How To Do This Homework
 To do this homework, you have to: 
 
@@ -27,7 +19,7 @@ the rep-res-course repository to get this assignment__:
         changes on the branch you are on, then they will get carried back
         to the master branch and could cause problems pulling.), and then checkout
         the master branch (this can be done by clicking on the branch name in the upper right of the Git pane
-        and choosing `master` (__not__ `origin/master`)).    
+        and choosing `master`. (But be sure you __do not__ choose `origin/master`)).    
         1. Once on the `master` branch click the "pull button at the top of the Git pane.
 1. __Immediately checkout a new branch named ``r rr_branch_name``__:
     1. go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac, GitBash Window or a Command Prompt Window on PC).
@@ -37,10 +29,10 @@ the rep-res-course repository to get this assignment__:
         ```
         and hit RETURN.
 1. __Within RStudio, open the file ``r rr_hw_file_name`` and add your answers__ 
-    1. (see [How to write answers](#writing-answers) below)
+    1. (see "__How to Write Answers__" below)
     1. Note that you can knit the whole document to see your answers given.  You can also 
     evaluate all the R code in a chunk to get the objects in it loaded into your R global
-    environment.  See the options uner the menu item `Code --> Run Region` and get familiar
+    environment.  See the options under the menu item `Code --> Run Region` and get familiar
     with the keyboard shortcuts.
 1. __Commit your completed homework file, and push your__ ``r rr_branch_name`` __branch up
 to your fork of Eric's__ `rep-res-course` __repository__.
@@ -67,9 +59,10 @@ to your fork of Eric's__ `rep-res-course` __repository__.
     You might have to provide your GitHub username and password.
     4. Go back to your GitHub site and press the large green button asking you if you want
     to make a pull request.
-    5. Sit back and enjoy a moment.  You're done!
+    5. Sit back and enjoy a moment.  You're done!  I'm sure this seems like a crazy sequence
+    of things to do.  Do it enough, however, and it starts to feel very natural.  Stick with it!
 
-### How to write answers {#writing-answers}
+### How to write answers
 
 1. I have written an R package that facilitates answer submission and collation
 (and subsquent analysis) of homework responses.  You will need that package.  To get
@@ -83,10 +76,11 @@ only if you don't already have it. So,
         ```{r, eval=FALSE}
         devtools::install_github("eriqande/rrhw")
         ```
-2. Find the R code blocks within ``r rr_hw_file_name`` that follow the sections that look like:
-__`r rr_homework_name`: #3, "problem-name"__.  You won't actually see that text written in
-the Rmd document because it is generated automatically.  However, you can find the R code
-chunk that is named, in this case, `problem-name` by searching for that string in the Rmd
+2. Find the R code blocks within ``r rr_hw_file_name`` that follow the sections that look like:  
+__`r rr_homework_name`: #3, "problem-name"__.  
+You won't actually see that text written in
+``r rr_hw_file_name`` because it is generated automatically.  However, you can find the R code
+chunk that is named, in this case, `problem-name` by searching for that string in ``r rr_hw_file_name``
 file.
 3. Read the problem, evaluate the lines in the R code chunk and maybe look at some
 objects, and read the questions in the comments and then put your answer inside the
@@ -112,7 +106,7 @@ should be answered by adding `x[x < 4]` to the code block so that it looks like 
     })
     ```
 4. Note that you can put multi-line expressions into the `submit_answer` function.  This is crucial 
-when the question asks you to modify and object _and also_ return the modified object.  For example
+when the question asks you to modify an object _and also_ return the modified object.  For example
 if given this question:
     ```{r, eval=FALSE}
     # x is a vector constructed like this:

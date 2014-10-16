@@ -2,7 +2,7 @@ name: Reproducible Research
 markdown: redcarpet
 highlighter: pygments
 
-exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs", "junk", "exercises", "data"]
+exclude: ["README.md", "rep-res-course.Rproj", "temp.Rmd", "temp.html", "build-site.sh", "extras", "lecture_figs", "blog_figs", "junk", "exercises/exercises_standard_header.Rmd", "data"]
 baseurl: http://eriqande.github.io/rep-res-web
 permalink: /blog/:month-:day-:year-:title.html
 

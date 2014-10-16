@@ -10,6 +10,7 @@
 ./assign/assign-3.rmd: assignment-3
 ./blogs.rmd: []
 ./contribute.rmd: []
+./exercises/trial_homework.rmd: ex-test-start
 ./index.rmd:
 - welcome
 - welcome-about-site
