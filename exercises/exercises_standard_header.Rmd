@@ -5,25 +5,12 @@ output: bookdown::html_chapter
 layout: default_with_disqus
 ---
 
-```{r setup, echo=FALSE, include=FALSE}
-# PLEASE DO NOT EDIT THIS CODE BLOCK
-library(knitr)
-library(rrhw)
-init_homework("Fun Homework 25")
-rr_github_name <- NA
-rr_pull_request_time <- NA
-rr_question_chunk_name <- "NotSet"
-rr_branch_name <- "hw3-branch"
-rr_hw_file_name <- "exercises/hw3.Rmd"
-##CODEREPLSPOT##
-```
-
 
 ## How To Do This Homework
-To do this homework, you have to 
+To do this homework, you have to: 
 
-1. pull down the master branch of
-the rep-res-course repository to get this assignment:
+1. __Pull down the master branch of
+the rep-res-course repository to get this assignment__:
     * _If you don't already have a clone of the rep-res-course repository_, clone the rep-res-course repository:
         1. Choose File->New Project
         1. When asked, choose “Create Project from Version Control”
@@ -41,98 +28,111 @@ the rep-res-course repository to get this assignment:
         the master branch (this can be done by clicking on the branch name in the upper right of the Git pane
         and choosing `master` (__not__ `origin/master`)).    
         1. Once on the `master` branch click the "pull button at the top of the Git pane.
-1. Immediately checkout a new branch named `r rr_branch_name`:
-    1. go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac. GitBash Window or a Command Prompt Window on PC).
+1. __Immediately checkout a new branch named ``r rr_branch_name``__:
+    1. go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac, GitBash Window or a Command Prompt Window on PC).
     1. In the command window, type this command:
         ```{r, echo=FALSE, comment=NA}
         cat(paste("git checkout -b", rr_branch_name))
         ```
         and hit RETURN.
-1. open the file `r rr_hw_file_name` and add your answers (see below)
-1. Commit that file, and push your branch up to your fork of the rep-res-course
-repository.
+1. __Within RStudio, open the file ``r rr_hw_file_name`` and add your answers__ 
+    1. (see [How to write answers](#writing-answers) below)
+    1. Note that you can knit the whole document to see your answers given.  You can also 
+    evaluate all the R code in a chunk to get the objects in it loaded into your R global
+    environment.  See the options uner the menu item `Code --> Run Region` and get familiar
+    with the keyboard shortcuts.
+1. __Commit your completed homework file, and push your__ ``r rr_branch_name`` __branch up
+to your fork of Eric's__ `rep-res-course` __repository__.
+    1. _If you have not already done so, create a fork of the_ `rep-res-course` _repository on
+    your own GitHub account_:
+        + Go to https://github.com/ and make sure you are signed in with
+        your username. (If you aren't signed in it
+        will ask you to do so.)
+        + Go to the `rep-res-course` on GitHub: https://github.com/eriqande/rep-res-course
+        and hit the __Fork__ button in the upper right.
+    2. _If you have not already done so, tell git on your computer to link your_ ``r rr_branch_name``
+    _branch with your forked version
+    of the `rep-res-course` repository_.  Use Tools --> Shell... to get a command prompt, then 
+    replace GITHUBNAME with your GitHub username in the following:
+        ```{r, echo=FALSE, comment=NA}
+        cat(paste("git remote add my_rr_fork https://github.com/GITHUBNAME/rep-res-course.git"))
+        ```
+    You shouldn't have to do this more than once this quarter.
+    3. Push your answers up to your fork of the repository. Give this command in
+    the "Tools --> Shell" command shell:
+        ```{r, echo=FALSE, comment=NA}
+        cat(paste("git push my_rr_fork", rr_branch_name))
+        ```
+    You might have to provide your GitHub username and password.
+    4. Go back to your GitHub site and press the large green button asking you if you want
+    to make a pull request.
+    5. Sit back and enjoy a moment.  You're done!
+
+### How to write answers {#writing-answers}
+
+1. I have written an R package that facilitates answer submission and collation
+(and subsquent analysis) of homework responses.  You will need that package.  To get
+it, use the `devtools` package.  You will have to install the `devtools` package
+only if you don't already have it. So, 
+    + issue the following expression in the R console _at least once this quarter_:
+        ```{r, eval=FALSE}
+        install.packages("devtools")
+        ```
+    + and do this in the R console (only one time) when you start working on the homework:
+        ```{r, eval=FALSE}
+        devtools::install_github("eriqande/rrhw")
+        ```
+2. Find the R code blocks within ``r rr_hw_file_name`` that follow the sections that look like:
+__`r rr_homework_name`: #3, "problem-name"__.  You won't actually see that text written in
+the Rmd document because it is generated automatically.  However, you can find the R code
+chunk that is named, in this case, `problem-name` by searching for that string in the Rmd
+file.
+3. Read the problem, evaluate the lines in the R code chunk and maybe look at some
+objects, and read the questions in the comments and then put your answer inside the
+curly braces within the `submit_answer` function.  For example, a question that 
+looks like this:
+    ```{r, eval=FALSE}
+    # x is a vector constructed like this:
+    x <- 1:10
+    
+    # return the values of x less than 4
+    submit_answer({
+    
+    })
+    ```
+should be answered like this:
+    ```{r, eval=FALSE}
+    # x is a vector constructed like this:
+    x <- 1:10
+    
+    # return the values of x less than 4
+    submit_answer({
+    x[x<4]
+    })
+    ```
+4. Note that you can put multi-line expressions into the `submit_answer` function.  This is crucial 
+when the question asks you to modify and object _and also_ return the modified object.  For example
+if given this question:
+    ```{r, eval=FALSE}
+    # x is a vector constructed like this:
+    x <- 1:10
+    
+    # change all the even values in x to -99 AND return x
+    submit_answer({
+      
+    })
+    ```
+should be answered like this:
+    ```{r, eval=FALSE}
+    # x is a vector constructed like this:
+    x <- 1:10
+    
+    # change all the even values in x to -99 AND return x
+    submit_answer({
+      x[c(F,T)] <- -99
+      x
+    })
+    ```
+    Notice how the last line is `x`, which returns its value to the `submit_answer` function.
 
 
-In my opinion, one of the most useful binary operators
-is `%in%`. However it is seldom discussed in detail in books about R
-from the previous decade.  It's nice to see that Hadley has it front and 
-center in the vocabulary section of his Advanced R book. 
-
-It can be used to test if the elements of a vector A also occur (or do not occur)
-in a vector B.  For example
-```{r in-for-example, gather_answers = TRUE}
-A <- c("a", "g", "Z", "y", "c")
-B <- letters[1:5]
-A %in% B
-
-## and here I want to see if anything is happening:
-rr_homework_name
-rr_question_number
-```
-
-
-Here is a simple question.  Here is the setup:
-```{r in-ex-1-set-up}
-# imagine x look like this:
-x <- c(1, 4, 18, 9)
-# and y like this:
-set.seed(10)
-y <- sample(1:100, size = 30)
-```
-
-Now, here is the first question:
-```{r in-ex-1-first, rr.question=TRUE}
-x
-y
-
-# this should have gotten incremented:
-rr_question_number
-
-submit_answer({
-  # put your answer on the line between here
-  x %in% y
-  y %in% x
-  y * x
-  `+`(x,y)
-  # and here
-})
-#print(chunker)
-```
-
-
-## Another part {#another-part}
-```{r super-easy, rr.question=TRUE}
-x <- 1:10
-```
-
-
-```{r Boingus, rr.question=TRUE}
-submit_answer({
-  y<-1:10; z<- y^2; z;
-  list(What = y, Never = "squawk", Again = z)
-})
-```
-
-
-```{r Bogulated, rr.question=TRUE}
-submit_answer({
-  y<-1:10; z<- y^2; z;
-  list(What = y, Never = "squawk", Again = z)
-  xx <- 1:10; yy <- xx + rnorm(10, 0, .04)
-  unclass(lm(yy~xx))
-})
-```
-
-
-
-
-```{r}
-ls(envir = rrhw_env)
-
-# now make a list of it:
-reslist <- as.list(rrhw_env)
-
-library(plyr)
-zz <- ldply(.data = reslist, .fun = answer_list_to_data_frame)
-save(zz, file="/tmp/zz.rda")
-```
