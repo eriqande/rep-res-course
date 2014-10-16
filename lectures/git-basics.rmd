@@ -1,0 +1,102 @@
+---
+title: Git Basics
+layout: default_with_disqus
+author: Eric C. Anderson
+output: bookdown::html_chapter
+---
+
+# Git Basics {#git-basics}
+
+Goals for Today:
+
+* Explain what git is (and how it is different than GitHub)
+* Introduce the sha-1 hash (for fun!)
+* Get familiar with RStudio's very convenient interface to git
+    + staging files
+    + unstaging file
+    + viewing differences between staged and unstaged files
+    + committing files
+    + viewing the commit history
+
+## An overview of Version Control Systems (VCS) {#vcs}
+
+* Git is a type of VCS
+* At its crudest, a VCS is a system that provides a way of saving
+and restoring earlier versions of a file.
+
+### A typical VCS for a non-computer programmer
+
+* Start writing `my_manuscript.doc`.
+* At some point worry that MS Word is going to eat your file, so,
+    + Make a "backup" called `my_manuscript_A.doc`
+* Then, before overhauling the discussion, save the current file as
+`my_manuscript_B.doc`. 
+* Email it to your coauthors and then have a series of files with other
+extensions such as the initials of their names when they edit them and send
+them back.
+* Etc.
+* Disadvantages:
+    + Hard to find a good record of what is in each version.  (Wait! I liked the introduction
+    I wrote three weeks ago...where is that now?)
+    + A terrible system if you have multiple files that are dependent on one another
+    (for example, figures in your document, or scripts and data sets if you have a 
+    programming project.)
+    + If you decide that you want to merge the changes you made to the discussion in version `_C`
+    with the edits on the introduction in version `_K`, it is hard.
+
+### Other popular VCS systems
+
+* rcs, cvs, subversion, etc.
+* These all had a "Centralized" model:
+    + You set up a repository on a server that has the full version history, 
+    + then each person working on it gets a copy of the current version, and nothing more.
+    + They can submit changes back to the central repository which tries to deal with conflicting
+    submissions.
+    + You need to be online to do most operations.
+* I used a few of these, and missed them for a few weeks when I switched to Git, but 
+then never looked back and couldn't imagine using them again.
+
+
+### The Git model --- Distributed Version Control
+
+* Git stores "snapshots" of your collection of files in a repository
+* For our work, the "collection of files" will be "the stuff in your RStudio project"
+    + Another reason it is nice to keep everything you need for a project together in a "project directory"
+* When you clone or repository, __you__ get the whole version history 
+* When someone else clones that repository, __they also__ get the whole version history.
+* Git has well-developed features for merging changes made in different repositories
+    + But, for today, we will talk mostly of a single user interacting with git.
+
+## Git versus GitHub
+
+* They are not the same thing!
+* Git is software that you can run on your own machine for doing version on a repository.
+    + It can be _entirely_ local.  i.e. only on your hard drive and nowhere else.
+    + This is super-useful for any project, because solid version control is great to have.
+* GitHub is a website, with tools powered by Git (and many that they brewed up themselves) that
+makes it very, very easy to share git repositories with people all over the place.
+
+### Is everything on GitHub public?
+
+* No!  Many companies use GitHub to host their proprietary code
+    + They just have to pay for that...
+* By default, you can put anything on GitHub for free as long as it is
+under a fairly free-use (open source type) license and it is available to anyone
+* If you want a private repository, as an academic affiliate you just have to ask
+and GitHub will give you up to 5 private repos for free.
+* Also, they have a sweet ["student pack"](https://github.com/blog/1900-the-best-developer-tools-now-free-for-students)
+
+
+### What should I keep under version control?
+
+* General rule: don't keep derived products.
+    + i.e. If you have and Rmd file that creates an html file, there isn't much need to put the html 
+    file under version control with git, because you can just regenerate it by Knitting the Rmd file.
+    
+### How can I make git ignore certain files?
+
+* The `.gitignore` file!
+* File names (and patterns) in the `.gitignore` file are ignored _recursively_ (down into subdirectories), 
+by default.
+* Files won't be ignored if they are already in the repository.
+* Example:

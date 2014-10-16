@@ -76,6 +76,8 @@ _git Overview.  Configuring git_
 
 * __Reading:__ Read sections 1.1 through 1.3 in the [Pro Git Book](http://git-scm.com/book) which is online and free.
 * __Assignment Due:__ [Assignment 3](#assignment-3). You should have completed this the day before this course session.
+* __Lectures:__
+    + [Git Basics](#git-basics)
 
 
 ## Week 3 {#syl-week-3}
