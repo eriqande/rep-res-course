@@ -87,6 +87,124 @@ and GitHub will give you up to 5 private repos for free.
 * Also, they have a sweet ["student pack"](https://github.com/blog/1900-the-best-developer-tools-now-free-for-students)
 
 
+## Using git through RStudio {#git-thru-rstudio}
+
+* Now we can do a few things together to see how this works.
+* Most of the action is in the Git Pane...
+* Today we will talk about:
+    + Staging files (preparing them to be __committed__)
+    + Committing files (putting them into the repository)
+    
+### One final configuration before starting:
+
+* Open the shell (Tools->Shell...) and issue these two commands,
+replacing the name "John Doe" with yours, and his email with yours.
+    + Use the email address that you gave to GitHub.
+```
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+```
+You only need to do this once.
+
+### The status/staging panel
+
+* Studio keeps git constantly scanning the project directory to find any files
+that have changed or which are new.
+* By clicking a file's little "check-box" you can stage it.  
+* Some symbols:
+    + __Blue-M__: a file that is already under version control that has been modified.
+    + __Orange-?__: a file that is not under version control (yet...)
+    + __Green-A__: a file that was not under version control, but which has been staged to be 
+    committed.
+    + __Red-D__: a file under version control has been deleted.  To make it really disappear, you have 
+    to stage its disappearance and commit.
+    + __Purple-R__ a file that was renamed.  (Note that git in Rstudio seems to be
+    figuring this out on its own.)
+    
+### The Diff window
+
+* Shows what has changed between the last committed version of a file and its
+current state.
+* Holy smokes this is convenient
+* (Note: all this output is available from the command line, but
+the Rstudio interface is very nice, IMHO)
+
+### Making a Commit
+
+* Super easy:
+    + After staging the files you want to commit...
+    + Write a brief message (first line short, then as much after that as you want)
+    and hit the commit button.
+    
+### The History window
+
+* Easy inspection past commits.
+* See what changes were made at each commit.
+
+## Go for it everyone! {#git-play}
+* Make some changes and commit them yourselves.  
+* Add some new files to the project, and commit those.
+* Get familiar with the diff window.
+* Check the history after a few commits.
+
+
+## How does git store and keep track of things {#git-how}
+
+* Everything is stored in the .git folder inside the RStudio project.
+* The "working copy" gets checkout out of there
+* Committed changes are recorded to the directory
+
+### What is inside of the .git directory?
+We can use R to list the files.  My `rep-res-course` repository
+that hold all the materials for this course looks like this:
+```{r list-git, eval=FALSE}
+# check out this file-system command in R
+dir(path = ".git", all.files = TRUE, recursive = TRUE)
+```
+The output from that command looks something like this:
+```
+  [1] "#MERGE_MSG#"                                       "COMMIT_EDITMSG"                                   
+  [3] "COMMIT_EDITMSG~"                                   "config"                                           
+  [5] "description"                                       "FETCH_HEAD"                                       
+  [7] "HEAD"                                              "hooks/applypatch-msg.sample"                      
+  [9] "hooks/commit-msg.sample"                           "hooks/post-update.sample"                         
+ [11] "hooks/pre-applypatch.sample"                       "hooks/pre-commit.sample"                          
+ [13] "hooks/pre-push.sample"                             "hooks/pre-rebase.sample"                          
+ [15] "hooks/prepare-commit-msg.sample"                   "hooks/update.sample"                              
+ [17] "index"                                             "info/exclude"                                     
+ [19] "logs/HEAD"                                         "logs/refs/heads/gh-pages"                         
+ [21] "logs/refs/heads/master"                            "logs/refs/remotes/origin/gh-pages"                
+ [23] "logs/refs/remotes/origin/master"                   "objects/00/906f99e192ff64b4e9e9a0e5745b0a4f841cbd"
+ [25] "objects/01/ab18d4ce04fb06532bb06ed579218fef89d478" "objects/02/74554e0b574b9beb2144f26ad3925830056870"
+ [27] "objects/03/2d224bf78798e8b9765af6d8768ade14694a9d" "objects/04/03d552ab37b0bcaeebed0ac3068d669261c456"
+ [29] "objects/04/4a12f8ccc12a4a5ba84ab2bf5a1ae751feea6f" "objects/04/9ec3065bb0434ded671fa83af5ade803bc11a1"
+ [31] "objects/04/ea8efb1367727b081dea87e63818be0a4d02f0" "objects/05/b22ecc373d5058e36d7ca773a4475c46daef77"
+ [33] "objects/07/8831b46c9b63e8c2d50b79304ed05de9274c28" "objects/07/b57af2a0cbd0545a6cd3e93f10cc5d768e42ba"
+ [35] "objects/08/674e6e4d534b3424e2629510d20bb6d1b0be94" "objects/08/8b282d5b978dc1ff6eef3871d3fb3a9256246a"
+ [37] "objects/09/565dcd10d7adc0551783b443e8fd71486b3997" "objects/09/6828a0cfb96f30d6e99cfc04a5c1686b9e318c"
+ [39] "objects/0a/30fe678abc342c58daab0ad42163b371babda0" "objects/0a/b71109dae6e5711755feddfb06b81b13766496"
+ [41] "objects/0b/442fdfc183783537985c17151ae3483fa00cf6" "objects/0b/c0451fd0e7081a7db05fdd38b12870bdcabd13"
+ [43] "objects/0c/0f7cf8c73d901795dad4bd5f504c53c3bf2093" "objects/0d/14a7a2a19ffc3b9820f011e3270c965a5fefce"
+ [45] "objects/0e/35cfb4d55e52d27083b8d2eccab9296b920d76" "objects/0e/7bba5882077a8b00a76d3eabe6b23cadc658e6"
+ [47] "objects/0e/8abf4cc0885a727ee2459fdbb272828e267cc4" "objects/0f/1f3f7be7787d5d44dc1155f3b7a44eddc9f0be"
+ [49] "objects/10/54d2e7a9baf61618521c522b15db40855b3431" "objects/11/7d874e1616500b5fba51b9f0ee1e8d0fbe1dc2"
+ [51] "objects/11/c33cc1d5c8de7c7cbf7257b7d32f7ca3d458ef" "objects/14/1ccea514e106e20eef47b791a23e036d1fa1d2"
+ [53] "objects/15/cc3a6f15dadb3446ad0af34a3ecde8d81d65f9" "objects/15/ddaf45bf00c3ef2d8f499ebd6dc3a86bf9c3ab"
+ [55] "objects/16/0c9386dfa9707d81fbbbcc52f0c7638703f9a9" "objects/16/8ee93b6a4612dbd76bc06a49460df9f9f6c41b"
+```
+__Yikes!__
+
+### How does git know a file has changed?
+
+* Does it just look at the modification date?
+* NO! It "fingerprints" every file, so it knows when it has changed from the most recent
+committed version.
+    + Demonstration.  Change a file. Save, then undo the change and save again...Git knows
+    the file has been changed back to its "former self"
+* SHA-1 hashes.  We will learn more about those later.  
+* You will see things like `ed00c10ae6cf7bcc35d335d2edad7e71bc0f6770` all over in Git-land.
+* You can treat them as very specific names for different commits.
+
 ### What should I keep under version control?
 
 * General rule: don't keep derived products.
@@ -99,4 +217,4 @@ and GitHub will give you up to 5 private repos for free.
 * File names (and patterns) in the `.gitignore` file are ignored _recursively_ (down into subdirectories), 
 by default.
 * Files won't be ignored if they are already in the repository.
-* Example:
+* Example: `*.html`

@@ -27,6 +27,12 @@
 - course-org
 - course-philos
 - hw-and-assign
+./lectures/git-basics.rmd:
+- git-basics
+- vcs
+- git-thru-rstudio
+- git-play
+- git-how
 ./lectures/learning-rmarkdown-in-an-hour.rmd:
 - rmarkdown-in-an-hour
 - rmarkdown-setup
