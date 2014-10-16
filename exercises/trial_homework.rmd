@@ -1,0 +1,100 @@
+---
+title: "Trial Homework"
+author: "Eric C. Anderson"
+output: bookdown::html_chapter
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+init_homework("Trial Homework")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+##CODEREPLSPOT##
+```
+
+
+```{r insert-header, child="exercises_standard_header.Rmd"}
+```
+
+
+## Here are the homework problems {#ex-test-start}
+These are just a few easy ones because I want to get this to Anthony quickly
+
+```{r word-comps, rr.question=TRUE}
+# here are some github names
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+
+# return a logical vector that gives TRUE for each name that comes after
+# the word "github" alphabetically
+submit_answer({
+  
+})
+
+```
+
+
+```{r word-comp-extract, rr.question=TRUE}
+# here are some github names
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+
+# return all the values of gname that come after
+# the word "github" alphabetically
+submit_answer({
+  
+})
+
+```
+
+
+```{r word-comp-alter, rr.question=TRUE}
+# here are some github names
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+
+# change all the values of gname that come after the word
+# "github" alphabetically to "zzzz" and return the resulting vector
+submit_answer({
+
+})
+```
+
+
+```{r two-vec-operations, rr.question=TRUE}
+set.seed(5) # set random number generator
+# here are some github names
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+# here is the simulated order in which they signed up for GitHub
+ords <- sample(length(gnames))
+
+# return the first 4 github names that were signed up
+submit_answer({
+
+})
+```
+
+
+```{r a-namey-thing, rr.question=TRUE}
+# similar set up as before
+set.seed(5) # set random number generator
+# here are some github names
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+# here is the simulated order in which they signed up for GitHub
+ords <- sample(length(gnames))
+
+# but this time we put names on the ord vector:
+names(ords) <- gnames
+
+# now, not using the gnames vector directly, but rather
+# the vector names(ord), give me all the github names
+# that signed up after the first 4
+submit_answer({
+  
+})
+
+```
