@@ -16,7 +16,8 @@ the rep-res-course repository to get this assignment__:
         1. When asked, choose “Create Project from Version Control”
         1. Then when asked choose "Git"
         1. For repository URL use this: https://github.com/eriqande/rep-res-course.git
-        1. Let the project directory be named `rep-res-course`. Put it somewhere. You might consider having a dedicated directory for all your work in this course.
+        1. Don't put anything in for the name of the project directory.  It will
+        automatically name it `rep-res-course`.
         1. Hit “Create Project”.
     * _If you already have a clone of the rep-res-course repository_
         1. Open up the RStudio project `rep-res-course.Rproj`
@@ -100,14 +101,14 @@ looks like this:
     
     })
     ```
-should be answered like this:
+should be answered by adding `x[x < 4]` to the code block so that it looks like this:
     ```{r, eval=FALSE}
     # x is a vector constructed like this:
     x <- 1:10
     
     # return the values of x less than 4
     submit_answer({
-    x[x<4]
+    x[x < 4]
     })
     ```
 4. Note that you can put multi-line expressions into the `submit_answer` function.  This is crucial 
@@ -122,7 +123,7 @@ if given this question:
       
     })
     ```
-should be answered like this:
+You should answer like this:
     ```{r, eval=FALSE}
     # x is a vector constructed like this:
     x <- 1:10
@@ -133,6 +134,6 @@ should be answered like this:
       x
     })
     ```
-    Notice how the last line is `x`, which returns its value to the `submit_answer` function.
+    Notice how the last line in the entry to `submit_answer` is `x`, which returns its value to the `submit_answer` function.
 
 

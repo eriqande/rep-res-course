@@ -10,6 +10,11 @@ layout: default_with_disqus
 # PLEASE DO NOT EDIT THIS CODE BLOCK
 library(knitr)
 library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+if(length(dir(pattern = "rep-res-course.Rproj"))>0) {
+  opts_knit$set(child.path = "exercises/")
+}
 init_homework("Trial Homework")
 rr_github_name <- NA
 rr_pull_request_time <- NA
@@ -34,7 +39,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
 submit_answer({
-  
+  gnames > "github"
 })
 
 ```
@@ -47,7 +52,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return all the values of gname that come after
 # the word "github" alphabetically
 submit_answer({
-  
+  gnames[gnames > "github"]
 })
 
 ```
