@@ -12,9 +12,7 @@ library(knitr)
 library(rrhw)
 # tell knitr where to find the inserted file in case
 # jekyll is building this in the top directory of the repo
-if(length(dir(pattern = "rep-res-course.Rproj"))>0) {
-  opts_knit$set(child.path = "exercises/")
-}
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "exercises/", sep=""))
 init_homework("Trial Homework")
 rr_github_name <- NA
 rr_pull_request_time <- NA
