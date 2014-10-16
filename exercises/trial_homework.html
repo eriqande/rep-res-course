@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<title>Trial Homework</title>
+
+<script src="www/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="www/bootstrap-2.3.2/css/bootstrap.min.css" rel="stylesheet" />
+<link href="www/bootstrap-2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<script src="www/bootstrap-2.3.2/js/bootstrap.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+
+<h2>How To Do This Homework</h2>
+<p>To do this homework, you have to:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Pull down the master branch of the rep-res-course repository to get this assignment</strong>:
+<ul>
+<li><em>If you don’t already have a clone of the rep-res-course repository</em>, clone the rep-res-course repository:
+<ol style="list-style-type: decimal">
+<li>Choose File-&gt;New Project</li>
+<li>When asked, choose “Create Project from Version Control”</li>
+<li>Then when asked choose “Git”</li>
+<li>For repository URL use this: <a href="https://github.com/eriqande/rep-res-course.git">https://github.com/eriqande/rep-res-course.git</a></li>
+<li>Don’t put anything in for the name of the project directory. It will automatically name it <code>rep-res-course</code>.</li>
+<li>Hit “Create Project”.</li>
+</ol></li>
+<li><em>If you already have a clone of the rep-res-course repository</em>
+<ol style="list-style-type: decimal">
+<li>Open up the RStudio project <code>rep-res-course.Rproj</code></li>
+<li>If you are not on branch <code>master</code> in that project (check the upper right corner of the “Git” pane—if it does not say “master” in small letters you are not on the master branch), then <strong>commit any changes on whatever branch you are on</strong> (If you don’t commit changes on the branch you are on, then they will get carried back to the master branch and could cause problems pulling.), and then checkout the master branch (this can be done by clicking on the branch name in the upper right of the Git pane and choosing <code>master</code>. (But be sure you <strong>do not</strong> choose <code>origin/master</code>)).<br /></li>
+<li>Once on the <code>master</code> branch click the “pull button at the top of the Git pane.</li>
+</ol></li>
+</ul></li>
+<li><strong>Immediately checkout a new branch named <code>ex-test</code></strong>:
+<ol style="list-style-type: decimal">
+<li>go to the “Tools” menu item in RStudio and within it choose “Shell…”. This will pop up a command prompt window (Terminal window on a mac, GitBash Window or a Command Prompt Window on PC).</li>
+<li><p>In the command window, type this command:</p>
+<pre><code>git checkout -b ex-test</code></pre>
+and hit RETURN.</li>
+</ol></li>
+<li><strong>Within RStudio, open the file <code>exercises/trial_homework.rmd</code> and add your answers</strong>
+<ol style="list-style-type: decimal">
+<li>(see “<strong>How to Write Answers</strong>” below)</li>
+<li>Note that you can knit the whole document to see your answers given. You can also evaluate all the R code in a chunk to get the objects in it loaded into your R global environment. See the options under the menu item <code>Code --&gt; Run Region</code> and get familiar with the keyboard shortcuts.</li>
+</ol></li>
+<li><strong>Commit your completed homework file, and push your</strong> <code>ex-test</code> <strong>branch up to your fork of Eric’s</strong> <code>rep-res-course</code> <strong>repository</strong>.
+<ol style="list-style-type: decimal">
+<li><em>If you have not already done so, create a fork of the</em> <code>rep-res-course</code> <em>repository on your own GitHub account</em>:
+<ul>
+<li>Go to <a href="https://github.com/">https://github.com/</a> and make sure you are signed in with your username. (If you aren’t signed in it will ask you to do so.)</li>
+<li>Go to the <code>rep-res-course</code> on GitHub: <a href="https://github.com/eriqande/rep-res-course">https://github.com/eriqande/rep-res-course</a> and hit the <strong>Fork</strong> button in the upper right.</li>
+</ul></li>
+<li><p><em>If you have not already done so, tell git on your computer to link your</em> <code>ex-test</code> <em>branch with your forked version of the <code>rep-res-course</code> repository</em>. Use Tools –&gt; Shell… to get a command prompt, then replace GITHUBNAME with your GitHub username in the following:</p>
+<pre><code>git remote add my_rr_fork https://github.com/GITHUBNAME/rep-res-course.git</code></pre>
+You shouldn’t have to do this more than once this quarter.</li>
+<li><p>Push your answers up to your fork of the repository. Give this command in the “Tools –&gt; Shell” command shell:</p>
+<pre><code>git push my_rr_fork ex-test</code></pre>
+You might have to provide your GitHub username and password.</li>
+<li>Go back to your GitHub site and press the large green button asking you if you want to make a pull request.</li>
+<li><p>Sit back and enjoy a moment. You’re done! I’m sure this seems like a crazy sequence of things to do. Do it enough, however, and it starts to feel very natural. Stick with it!</p></li>
+</ol></li>
+</ol>
+<h3>How to write answers</h3>
+<ol style="list-style-type: decimal">
+<li>I have written an R package that facilitates answer submission and collation (and subsquent analysis) of homework responses. You will need that package. To get it, use the <code>devtools</code> package. You will have to install the <code>devtools</code> package only if you don’t already have it. So,
+<ul>
+<li><p>issue the following expression in the R console <em>at least once this quarter</em>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</code></pre></li>
+<li><p>and do this in the R console (only one time) when you start working on the homework:</p>
+<pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">&quot;eriqande/rrhw&quot;</span>)</code></pre></li>
+</ul></li>
+<li>Find the R code blocks within <code>exercises/trial_homework.rmd</code> that follow the sections that look like:<br /><strong>Trial Homework: #3, “problem-name”</strong>.<br />You won’t actually see that text written in <code>exercises/trial_homework.rmd</code> because it is generated automatically. However, you can find the R code chunk that is named, in this case, <code>problem-name</code> by searching for that string in <code>exercises/trial_homework.rmd</code> file.</li>
+<li><p>Read the problem, evaluate the lines in the R code chunk and maybe look at some objects, and read the questions in the comments and then put your answer inside the curly braces within the <code>submit_answer</code> function. For example, a question that looks like this:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x is a vector constructed like this:</span>
+x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+
+<span class="co"># return the values of x less than 4</span>
+<span class="kw">submit_answer</span>({
+
+})</code></pre>
+<p>should be answered by adding <code>x[x &lt; 4]</code> to the code block so that it looks like this:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x is a vector constructed like this:</span>
+x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+
+<span class="co"># return the values of x less than 4</span>
+<span class="kw">submit_answer</span>({
+x[x &lt;<span class="st"> </span><span class="dv">4</span>]
+})</code></pre></li>
+<li><p>Note that you can put multi-line expressions into the <code>submit_answer</code> function. This is crucial when the question asks you to modify an object <em>and also</em> return the modified object. For example if given this question:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x is a vector constructed like this:</span>
+x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+
+<span class="co"># change all the even values in x to -99 AND return x</span>
+<span class="kw">submit_answer</span>({
+
+})</code></pre>
+<p>You should answer like this:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># x is a vector constructed like this:</span>
+x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+
+<span class="co"># change all the even values in x to -99 AND return x</span>
+<span class="kw">submit_answer</span>({
+  x[<span class="kw">c</span>(F,T)] &lt;-<span class="st"> </span>-<span class="dv">99</span>
+  x
+})</code></pre>
+<p>Notice how the last line in the entry to <code>submit_answer</code> is <code>x</code>, which returns its value to the <code>submit_answer</code> function.</p></li>
+</ol>
+<h2 id="ex-test-start">Here are the homework problems</h2>
+<p>These are just a few easy ones because I want to get this to Anthony quickly</p>
+<h3 id="word-comps">Trial Homework, #1: “word-comps”</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here are some github names</span>
+gnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cpetrik&quot;</span>, <span class="st">&quot;wildflowermt&quot;</span>, <span class="st">&quot;mad4mocha&quot;</span>, <span class="st">&quot;sjohnson216&quot;</span>, <span class="st">&quot;okisutch99&quot;</span>, <span class="st">&quot;sczTWilliams&quot;</span>, <span class="st">&quot;rbeas&quot;</span>, <span class="st">&quot;mtarjan&quot;</span>, <span class="st">&quot;aaronmams&quot;</span>, <span class="st">&quot;lslefebvre&quot;</span>)
+
+<span class="co"># return a logical vector that gives TRUE for each name that comes after</span>
+<span class="co"># the word &quot;github&quot; alphabetically</span>
+<span class="kw">submit_answer</span>({
+gnames&gt;<span class="st">&quot;github&quot;</span>  
+})
+<span class="co">#&gt;  [1] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE</span></code></pre>
+<h3 id="word-comp-extract">Trial Homework, #2: “word-comp-extract”</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here are some github names</span>
+gnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cpetrik&quot;</span>, <span class="st">&quot;wildflowermt&quot;</span>, <span class="st">&quot;mad4mocha&quot;</span>, <span class="st">&quot;sjohnson216&quot;</span>, <span class="st">&quot;okisutch99&quot;</span>, <span class="st">&quot;sczTWilliams&quot;</span>, <span class="st">&quot;rbeas&quot;</span>, <span class="st">&quot;mtarjan&quot;</span>, <span class="st">&quot;aaronmams&quot;</span>, <span class="st">&quot;lslefebvre&quot;</span>)
+
+<span class="co"># return all the values of gname that come after</span>
+<span class="co"># the word &quot;github&quot; alphabetically</span>
+<span class="kw">submit_answer</span>({
+gnames[gnames&gt;<span class="st">&quot;github&quot;</span>]  
+})
+<span class="co">#&gt; [1] &quot;wildflowermt&quot; &quot;mad4mocha&quot;    &quot;sjohnson216&quot;  &quot;okisutch99&quot;  </span>
+<span class="co">#&gt; [5] &quot;sczTWilliams&quot; &quot;rbeas&quot;        &quot;mtarjan&quot;      &quot;lslefebvre&quot;</span></code></pre>
+<h3 id="word-comp-alter">Trial Homework, #3: “word-comp-alter”</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here are some github names</span>
+gnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cpetrik&quot;</span>, <span class="st">&quot;wildflowermt&quot;</span>, <span class="st">&quot;mad4mocha&quot;</span>, <span class="st">&quot;sjohnson216&quot;</span>, <span class="st">&quot;okisutch99&quot;</span>, <span class="st">&quot;sczTWilliams&quot;</span>, <span class="st">&quot;rbeas&quot;</span>, <span class="st">&quot;mtarjan&quot;</span>, <span class="st">&quot;aaronmams&quot;</span>, <span class="st">&quot;lslefebvre&quot;</span>)
+
+<span class="co"># change all the values of gname that come after the word</span>
+<span class="co"># &quot;github&quot; alphabetically to &quot;zzzz&quot; and return the resulting</span>
+<span class="co"># gname vector</span>
+<span class="kw">submit_answer</span>({
+<span class="kw">ifelse</span>(gnames&gt;<span class="st">&quot;github&quot;</span>, <span class="st">&quot;zzzz&quot;</span>, gnames)
+})
+<span class="co">#&gt;  [1] &quot;cpetrik&quot;   &quot;zzzz&quot;      &quot;zzzz&quot;      &quot;zzzz&quot;      &quot;zzzz&quot;     </span>
+<span class="co">#&gt;  [6] &quot;zzzz&quot;      &quot;zzzz&quot;      &quot;zzzz&quot;      &quot;aaronmams&quot; &quot;zzzz&quot;</span></code></pre>
+<h3 id="two-vec-operations">Trial Homework, #4: “two-vec-operations”</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>) <span class="co"># set random number generator</span>
+<span class="co"># here are some github names</span>
+gnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cpetrik&quot;</span>, <span class="st">&quot;wildflowermt&quot;</span>, <span class="st">&quot;mad4mocha&quot;</span>, <span class="st">&quot;sjohnson216&quot;</span>, <span class="st">&quot;okisutch99&quot;</span>, <span class="st">&quot;sczTWilliams&quot;</span>, <span class="st">&quot;rbeas&quot;</span>, <span class="st">&quot;mtarjan&quot;</span>, <span class="st">&quot;aaronmams&quot;</span>, <span class="st">&quot;lslefebvre&quot;</span>)
+<span class="co"># here is the simulated order in which they signed up for GitHub</span>
+ords &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">length</span>(gnames))
+
+<span class="co"># return the first 4 github names that were signed up</span>
+<span class="kw">submit_answer</span>({
+gnames[<span class="kw">match</span>(<span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">4</span>),ords)]
+})
+<span class="co">#&gt; [1] &quot;okisutch99&quot;   &quot;sjohnson216&quot;  &quot;cpetrik&quot;      &quot;sczTWilliams&quot;</span></code></pre>
+<h3 id="a-namey-thing">Trial Homework, #5: “a-namey-thing”</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># similar set up as before</span>
+<span class="kw">set.seed</span>(<span class="dv">5</span>) <span class="co"># set random number generator</span>
+<span class="co"># here are some github names</span>
+gnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cpetrik&quot;</span>, <span class="st">&quot;wildflowermt&quot;</span>, <span class="st">&quot;mad4mocha&quot;</span>, <span class="st">&quot;sjohnson216&quot;</span>, <span class="st">&quot;okisutch99&quot;</span>, <span class="st">&quot;sczTWilliams&quot;</span>, <span class="st">&quot;rbeas&quot;</span>, <span class="st">&quot;mtarjan&quot;</span>, <span class="st">&quot;aaronmams&quot;</span>, <span class="st">&quot;lslefebvre&quot;</span>)
+<span class="co"># here is the simulated order in which they signed up for GitHub</span>
+ords &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">length</span>(gnames))
+
+<span class="co"># but this time we put names on the ord vector:</span>
+<span class="kw">names</span>(ords) &lt;-<span class="st"> </span>gnames
+
+<span class="co"># now, not using the gnames vector directly, but rather</span>
+<span class="co"># the vector names(ord), give me all the github names</span>
+<span class="co"># that signed up after the first 4</span>
+<span class="kw">submit_answer</span>({
+<span class="kw">names</span>(ords)[ords&gt;<span class="dv">4</span>] 
+})
+<span class="co">#&gt; [1] &quot;wildflowermt&quot; &quot;mad4mocha&quot;    &quot;rbeas&quot;        &quot;mtarjan&quot;     </span>
+<span class="co">#&gt; [5] &quot;aaronmams&quot;    &quot;lslefebvre&quot;</span></code></pre>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+
+</body>
+</html>

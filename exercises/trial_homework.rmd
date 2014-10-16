@@ -39,7 +39,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
 submit_answer({
-  
+gnames>"github"  
 })
 
 ```
