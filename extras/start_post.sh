@@ -15,7 +15,11 @@ fi
 echo "---
 title: $TITLE
 layout: default_with_disqus
-output: bookdown::html_chapter
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
 ---
 
 # $TITLE ($thedate)
