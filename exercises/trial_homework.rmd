@@ -30,7 +30,7 @@ rr_hw_file_name <- "exercises/trial_homework.rmd"
 
 
 ## Here are the homework problems {#ex-test-start}
-These are just a few easy ones because I want to get this to Anthony quickly
+These are just a few basic ones because I want to get this to Anthony quickly
 
 ```{r word-comps, rr.question=TRUE}
 # here are some github names
