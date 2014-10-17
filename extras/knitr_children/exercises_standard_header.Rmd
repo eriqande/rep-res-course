@@ -28,14 +28,21 @@ the rep-res-course repository to get this assignment__:
         cat(paste("git checkout -b", rr_branch_name))
         ```
         and hit RETURN.
-1. __Within RStudio, open the file ``r rr_hw_file_name`` and add your answers__ 
+1. __Within RStudio, open the file ``r rr_hw_file_name``.  And knit it on your computer__
+    + Doing this will give you a nice file with a quick table of contents to get to any of the
+    specific exercises/problems.
+1. Write you answers into the `submit_answer` functions in the file ``r rr_hw_file_name``.
     1. (see "__How to Write Answers__" below)
     1. Note that you can knit the whole document to see your answers given.  You can also 
     evaluate all the R code in a chunk to get the objects in it loaded into your R global
     environment.  See the options under the menu item `Code --> Run Region` and get familiar
     with the keyboard shortcuts.
-1. __Commit your completed homework file, and push your__ ``r rr_branch_name`` __branch up
-to your fork of Eric's__ `rep-res-course` __repository__.
+1. __Commit your completed homework file__
+    1. When you are finished entering your answers to your satisfaction, commit the file
+    ``r rr_hw_file_name``.  Don't commit changes in any other files, and don't add the html file
+    or any other intermediates to the repository.  Remember, you should be on the branch named 
+    ``r rr_branch_name``.
+1. __Push your ``r rr_branch_name`` branch up to to your fork of Eric's `rep-res-course` repository__.
     1. _If you have not already done so, create a fork of the_ `rep-res-course` _repository on
     your own GitHub account_:
         + Go to https://github.com/ and make sure you are signed in with
@@ -43,9 +50,9 @@ to your fork of Eric's__ `rep-res-course` __repository__.
         will ask you to do so.)
         + Go to the `rep-res-course` on GitHub: https://github.com/eriqande/rep-res-course
         and hit the __Fork__ button in the upper right.
-    2. _If you have not already done so, tell git on your computer to link your_ ``r rr_branch_name``
-    _branch with your forked version
-    of the `rep-res-course` repository_.  Use Tools --> Shell... to get a command prompt, then 
+    2. _If you have not already done so, tell git on your computer to establish your forked version
+    of the `rep-res-course` repository (on GitHub) as a remote repository that git on your computer
+    can link to through the name `my_rr_fork`_.  Use Tools --> Shell... to get a command prompt, then 
     replace GITHUBNAME with your GitHub username in the following:
         ```{r, echo=FALSE, comment=NA}
         cat(paste("git remote add my_rr_fork https://github.com/GITHUBNAME/rep-res-course.git"))

@@ -1,7 +1,11 @@
 ---
 title: "Trial Homework"
-author: "Eric C. Anderson"
-output: bookdown::html_chapter
+author: "Rep-Res-Course"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
 layout: default_with_disqus
 ---
 
@@ -12,7 +16,7 @@ library(knitr)
 library(rrhw)
 # tell knitr where to find the inserted file in case
 # jekyll is building this in the top directory of the repo
-opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "exercises/", sep=""))
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
 init_homework("Trial Homework")
 rr_github_name <- NA
 rr_pull_request_time <- NA

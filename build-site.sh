@@ -55,6 +55,11 @@ if [ $SERVE_LOCAL -eq 1 ] && [ $DEPLOY_IT -eq 1 ]; then
   exit 1
 fi
 
+
+# clean up any html files that we might find floating around in lectures, assign, or exercises
+rm -f  {lectures,assign,exercises}/*.html
+
+
 jekyll build  $CONFIG
 
 
