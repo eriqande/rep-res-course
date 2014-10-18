@@ -4,6 +4,7 @@
 - blog-head-around-forking
 - blog-fork-commline
 ./_posts/2014-10-05-configurable-options-for-website.rmd: []
+./_posts/2014-10-17-managing-100s-of-pull-requests-for-homeworks.rmd: trying-git-pulls
 ./assign/assign-0.rmd: assignment-0
 ./assign/assign-1.rmd: assignment-1
 ./assign/assign-2.rmd: assignment-2
@@ -15,6 +16,7 @@
 - welcome
 - welcome-about-site
 - welcome-links
+./instructions_for_exercises/trial_homework.rmd: []
 ./junk/r_vector_indexing_and_attributes.rmd: []
 ./lectures/atomic-data-types-and-coercion.rmd:
 - r-data-types-and-coercion

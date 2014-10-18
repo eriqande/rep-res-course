@@ -1,19 +1,25 @@
-## How To Do This Homework
-To do this homework, you have to: 
 
+
+There are three main steps to doing this homework: I) getting the homework and
+preparing your R environment, II) writing in the answers, III) turning the homework in.
+
+Since this is a course on R _and_ git and GitHub, we will be using git and GitHub to
+do I and III.  Detailed instructions follow.  The workflow will become familiar eventually.
+
+## I. Getting the Homework and Prepping {#get-and-prep}
 1. __Pull down the master branch of
 the rep-res-course repository to get this assignment__:
     * _If you don't already have a clone of the rep-res-course repository_, clone the rep-res-course repository:
-        1. Choose File->New Project
-        1. When asked, choose “Create Project from Version Control”
-        1. Then when asked choose "Git"
-        1. For repository URL use this: https://github.com/eriqande/rep-res-course.git
-        1. Don't put anything in for the name of the project directory.  It will
+        1. In RStudio, Choose File->New Project
+        2. When asked, choose “Create Project from Version Control”
+        3. Then when asked choose "Git"
+        4. For repository URL use this: https://github.com/eriqande/rep-res-course.git
+        5. Don't put anything in for the name of the project directory.  It will
         automatically name it `rep-res-course`.
-        1. Hit “Create Project”.
+        6. Hit “Create Project”.
     * _If you already have a clone of the rep-res-course repository_
-        1. Open up the RStudio project `rep-res-course.Rproj`
-        1. If you are not on branch `master` in that project (check the upper
+        7. Open up the RStudio project `rep-res-course.Rproj`
+        8. If you are not on branch `master` in that project (check the upper
         right corner of the "Git" pane---if it does not say "master" in small letters you are not 
         on the master branch), then __commit any changes on whatever branch you are on__ (If you don't commit
         changes on the branch you are on, then they will get carried back
@@ -21,77 +27,47 @@ the rep-res-course repository to get this assignment__:
         the master branch (this can be done by clicking on the branch name in the upper right of the Git pane
         and choosing `master`. (But be sure you __do not__ choose `origin/master`)).    
         1. Once on the `master` branch click the "pull button at the top of the Git pane.
-1. __Immediately checkout a new branch named ``r rr_branch_name``__:
+2. __Immediately checkout a new branch named ``r rr_branch_name``__:
     1. go to the “Tools” menu item in RStudio and within it choose "Shell...". This will pop up a command prompt window (Terminal window on a mac, GitBash Window or a Command Prompt Window on PC).
     1. In the command window, type this command:
         ```{r, echo=FALSE, comment=NA}
         cat(paste("git checkout -b", rr_branch_name))
         ```
         and hit RETURN.
-1. __Within RStudio, open the file ``r rr_hw_file_name``.  And knit it on your computer__
-    + Doing this will give you a nice file with a quick table of contents to get to any of the
-    specific exercises/problems.
-1. __Write your answers into the `submit_answer` functions in the file ``r rr_hw_file_name``.__
-    1. (see "__How to Write Answers__" below)
-    1. Note that you can knit the whole document to see your answers given.  You can also 
-    evaluate all the R code in a chunk to get the objects in it loaded into your R global
-    environment.  See the options under the menu item `Code --> Run Region` and get familiar
-    with the keyboard shortcuts.
-1. __Commit your completed homework file__
-    1. When you are finished entering your answers to your satisfaction, commit the file
-    ``r rr_hw_file_name``.  Don't commit changes in any other files, and don't add the html file
-    or any other intermediates to the repository.  Remember, you should be on the branch named 
-    ``r rr_branch_name``.
-1. __Push your ``r rr_branch_name`` branch up to to your fork of Eric's `rep-res-course` repository__.
-    1. _If you have not already done so, create a fork of the_ `rep-res-course` _repository on
-    your own GitHub account_:
-        + Go to https://github.com/ and make sure you are signed in with
-        your username. (If you aren't signed in it
-        will ask you to do so.)
-        + Go to the `rep-res-course` on GitHub: https://github.com/eriqande/rep-res-course
-        and hit the __Fork__ button in the upper right.
-    2. _If you have not already done so, tell git on your computer to establish your forked version
-    of the `rep-res-course` repository (on GitHub) as a remote repository that git on your computer
-    can link to through the name `my_rr_fork`_.  Use Tools --> Shell... to get a command prompt, then 
-    replace GITHUBNAME with your GitHub username in the following:
-        ```{r, echo=FALSE, comment=NA}
-        cat(paste("git remote add my_rr_fork https://github.com/GITHUBNAME/rep-res-course.git"))
-        ```
-    You shouldn't have to do this more than once this quarter.
-    3. Push your answers up to your fork of the repository. Give this command in
-    the "Tools --> Shell" command shell:
-        ```{r, echo=FALSE, comment=NA}
-        cat(paste("git push my_rr_fork", rr_branch_name))
-        ```
-    You might have to provide your GitHub username and password.
-    4. Go back to your GitHub site and press the large green button asking you if you want
-    to make a pull request.
-    5. Sit back and enjoy a moment.  You're done!  I'm sure this seems like a crazy sequence
-    of things to do.  Do it enough, however, and it starts to feel very natural.  Stick with it!
-
-### How to write answers
-
-1. I have written an R package that facilitates answer submission and collation
+3. __Make sure you have the necessary packages installed.__
+I have written an R package, `rrhw`, that facilitates answer submission and collation
 (and subsquent analysis) of homework responses.  You will need that package.  To get
-it, use the `devtools` package.  You will have to install the `devtools` package
-only if you don't already have it. So, 
+it, you will use the `devtools` package: 
     + issue the following expression in the R console _at least once this quarter_:
         ```{r, eval=FALSE}
         install.packages("devtools")
         ```
-    + and do this in the R console (only one time) when you start working on the homework:
+    + and do this in the R console (only one time) when you start working on a new homework set:
         ```{r, eval=FALSE}
         devtools::install_github("eriqande/rrhw")
         ```
-2. Find the R code blocks within ``r rr_hw_file_name`` that follow the sections that look like:  
-__`r rr_homework_name`: #3, "problem-name"__.  
-You won't actually see that text written in
-``r rr_hw_file_name`` because it is generated automatically.  However, you can find the R code
-chunk that is named, in this case, `problem-name` by searching for that string in ``r rr_hw_file_name``
-file.
-3. Read the problem, evaluate the lines in the R code chunk and maybe look at some
-objects, and read the questions in the comments and then put your answer inside the
-curly braces within the `submit_answer` function.  For example, a question that 
+    This ensures that you will have the latest version of `rrhw`.
+
+4. __Check that everything is working.__ Within RStudio, open the file ``r rr_hw_file_name``.  And knit it on your computer
+    + Doing this will give you a nice file with a quick table of contents to get to any of the
+    specific exercises/problems.
+    + Notice that the homework problems in the knitted html file are inside R code blocks under headings
+    that look like: __`r rr_homework_name`: #3, "problem-name"__
+    
+
+## II. Figure out the answers to the problems and write them in
+
+1. You will be inserting your answers into the appropriate places in the Rmarkdown file
+``r rr_hw_file_name``.  As stated above, each problem "lives" in an R code block 
+which, _in the knitted HTML output_ is below a heading that might look like
+__`r rr_homework_name`: #3, "problem-name"__.  The exact heading string does not
+appear in the file ``r rr_hw_file_name`` because it is generated by some R code.  However,
+you can find the appropriate code chunk by searching for the name of the problem
+(`problem-name` in the above example) in the file ``r rr_hw_file_name``.
+
+2. Read the problem in each R-code chunk. Evaluate the lines in the R code chunk and maybe look at some
+objects, and read the questions in the comments and then __put your answer inside the
+curly braces within the `submit_answer` function__.  For example, a question that 
 looks like this:
     ```{r, eval=FALSE}
     # x is a vector constructed like this:
@@ -136,5 +112,61 @@ You should answer like this:
     })
     ```
     Notice how the last line in the entry to `submit_answer` is `x`, which returns its value to the `submit_answer` function.
+5. Some notes:  
+    + Please don't accidentally erase the curly braces in the `submit_answer` function.
+    + You can also evaluate all the R code in a chunk to get the objects in it loaded into your R global
+    environment.  And you can evaluate all the R code in ``r rr_hw_file_name`` into your R global
+    environment too.  See the options under the menu item `Code --> Run Region` and get familiar
+    with the keyboard shortcuts. This is useful for testing things.
+    + If you knit the file you can see the value that your answers return in the knitted output.
+    
+## III. When Done, Submit the Homework via a GitHub Pull Request
+
+1. __After writing in all your answers, make sure that ``r rr_hw_file_name`` still knits
+correctly.__ Try not to submit homework that you can't knit without an error.
+2. __Commit your completed homework file__
+    1. When you are finished entering your answers to your satisfaction, commit the file
+    ``r rr_hw_file_name``. (i.e. go to the Git pane and stage the file and then hit the commit 
+    button, write a message, etc.) __Don't commit changes in any files other than ``r rr_hw_file_name``__,
+    and don't add the html file
+    or any other intermediates to the repository.  Remember, you should be on the branch named 
+    ``r rr_branch_name``.
+3. __Push your ``r rr_branch_name`` branch up to your fork of Eric's `rep-res-course` repository__.
+    1. _If you have not already done so, create a fork of the_ `rep-res-course` _repository on
+    your own GitHub account_:
+        + Go to https://github.com/ and make sure you are signed in with
+        your username. (If you aren't signed in it
+        will ask you to do so.)
+        + Go to the `rep-res-course` on GitHub: https://github.com/eriqande/rep-res-course
+        and hit the __Fork__ button in the upper right.
+    2. _If you have not already done so, tell git on your computer to establish your forked version
+    of the `rep-res-course` repository (on GitHub) as a remote repository that git on your computer
+    can link to through the name `my_rr_fork`_.  Use `Tools --> Shell...` in RStudio
+    to get a command prompt, then 
+    replace GITHUBNAME with your GitHub username in the following:
+        ```{r, echo=FALSE, comment=NA}
+        cat(paste("git remote add my_rr_fork https://github.com/GITHUBNAME/rep-res-course.git"))
+        ```
+    You shouldn't have to do this more than once this quarter.
+    3. Push your answers up to your fork of the repository. Give this command in
+    RStudio's "Tools --> Shell" command shell:
+        ```{r, echo=FALSE, comment=NA}
+        cat(paste("git push my_rr_fork", rr_branch_name))
+        ```
+    You might have to provide your GitHub username and password.
+    4. Go back to _your_ GitHub page and:
+        1. find the little green button at the upper left of
+        the page. 
+        2. To the right of that green button is a "branch" button.  Click it and make sure that
+        you choose the ``r rr_branch_name`` branch.  
+        3. Now, click the little green button.  
+        4. Review the changes you have made (shown in the next screen) and click the large 
+        "Create Pull Request" button.
+        5. This takes you to a new page where you can write some comments on your pull request, if you
+        want.  Then click the large green button (to create the pull request), and Voila! You should
+        be done.
+
+I'm sure this seems like a crazy sequence
+of things to do.  Do it enough, however, and it starts to feel very natural.  Stick with it!
 
 

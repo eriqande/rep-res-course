@@ -1,0 +1,14 @@
+
+
+```{r link-to-instructions, results='asis', echo=FALSE}
+# this is a horrible hack. Basically the following will be true
+# if I am building it with bookdown and hadley's jekyll plugin.
+# But it will be false if knitting it in the exercises directory
+if(basename(opts_knit$get()$output.dir) == "rep-res-course") {
+cat(paste("\n\n__Instructions For completing this homework can be found__ [HERE](", 
+      "http://eriqande.github.io/rep-res-web/instructions_for_exercises/inst-",
+      gsub(pattern = "rmd$", replacement = "html", basename(rr_hw_file_name)),
+      ")\n\n", sep=""))
+}
+```
+

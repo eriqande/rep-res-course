@@ -57,7 +57,7 @@ fi
 
 
 # clean up any html files that we might find floating around in lectures, assign, or exercises
-rm -f  {lectures,assign,exercises,_posts}/*.html
+rm -f  {lectures,assign,exercises,_posts,instructions_for_exercises}/*.html
 
 
 jekyll build  $CONFIG

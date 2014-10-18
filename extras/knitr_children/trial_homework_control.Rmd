@@ -1,0 +1,9 @@
+```{r identifiers, echo=FALSE, include=FALSE}
+init_homework("Trial Homework")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+```
+

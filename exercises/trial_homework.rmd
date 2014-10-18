@@ -1,6 +1,5 @@
 ---
-title: "Trial Homework"
-author: "Rep-Res-Course"
+title: "Table of Contents"
 output:
   html_document:
     toc: yes
@@ -17,25 +16,27 @@ library(rrhw)
 # tell knitr where to find the inserted file in case
 # jekyll is building this in the top directory of the repo
 opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
-init_homework("Trial Homework")
-rr_github_name <- NA
-rr_pull_request_time <- NA
-rr_question_chunk_name <- "NotSet"
-rr_branch_name <- "ex-test"
-rr_hw_file_name <- "exercises/trial_homework.rmd"
-##CODEREPLSPOT##
+```
+```{r insert-ids, child="trial_homework_control.Rmd"}
+```
+```{r instruct-link, child="link-to-homework-instructions.Rmd"}
+```
+```{r include=FALSE, eval=FALSE}
+################## DON'T MODIFY ANYTHING ABOVE THIS LINE ##########################
 ```
 
 
-```{r insert-header, child="exercises_standard_header.Rmd"}
-```
 
 
-## Here are the homework problems {#ex-test-start}
-These are just a few easy ones because I want to get this to Anthony quickly
+## Problems to be done for "`r rr_homework_name`" {#ex-test-start}
+These are just four fairly basic homework problems to do with indexing. The main
+focus of this homework is getting all the GitHub logistics worked out.  
+
+Good luck with this.  I recommend working in groups and helping each other out.
+
 
 ```{r word-comps, rr.question=TRUE}
-# here are some github names
+# here are some github names of people taking the course
 gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
 
 # return a logical vector that gives TRUE for each name that comes after
@@ -86,23 +87,3 @@ submit_answer({
 })
 ```
 
-
-```{r a-namey-thing, rr.question=TRUE}
-# similar set up as before
-set.seed(5) # set random number generator
-# here are some github names
-gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
-# here is the simulated order in which they signed up for GitHub
-ords <- sample(length(gnames))
-
-# but this time we put names on the ord vector:
-names(ords) <- gnames
-
-# now, not using the gnames vector directly, but rather
-# the vector names(ord), give me all the github names
-# that signed up after the first 4
-submit_answer({
-  
-})
-
-```
