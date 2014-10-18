@@ -31,7 +31,7 @@ the rep-res-course repository to get this assignment__:
 1. __Within RStudio, open the file ``r rr_hw_file_name``.  And knit it on your computer__
     + Doing this will give you a nice file with a quick table of contents to get to any of the
     specific exercises/problems.
-1. Write you answers into the `submit_answer` functions in the file ``r rr_hw_file_name``.
+1. __Write your answers into the `submit_answer` functions in the file ``r rr_hw_file_name``.__
     1. (see "__How to Write Answers__" below)
     1. Note that you can knit the whole document to see your answers given.  You can also 
     evaluate all the R code in a chunk to get the objects in it loaded into your R global
