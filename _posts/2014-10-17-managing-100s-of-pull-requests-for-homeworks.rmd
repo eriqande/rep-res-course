@@ -1,0 +1,168 @@
+---
+title: Managing 100s of pull requests for homeworks
+layout: default_with_disqus
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+---
+
+# Managing 100s of pull requests for homeworks (2014-10-17)
+
+OK,  I have been working on a little R-package called [rrhw](https://github.com/eriqande/rrhw)
+that will facilitate writing homework sets within .Rmd files that the students will insert
+their answers into, inside a `submit_answer` function that will capture their expression and
+evaluate it.  With this framework I will be able to record everyone's answers into a data frame
+and use the same `submit_answer()` functions to print out the results in a nice web page
+so that students can quickly see the range of answers that were given, as well as which ones
+give the right value and which the wrong, etc.
+
+Students will be submitting these things as pull requests on branches that are named for each
+different homework assignment.  So, with 50 pull requests coming in per assignment, I don't want
+to handle that on github.  It's gotta be scriptable.  I am hoping to be able to query github
+to quickly assess
+
+1. which of the students have filed pull requests for the homework set.
+2. what time they issued those pull requests (make sure they are on time, and
+also to allow them to update their answers and have a corrected version that might be from a
+different time...that might be a nightmare.  It would probably be better to look at the time
+of the latest commit.)
+3. Check to make sure that they haven't committed more than the one file that I want them to
+submit.
+  + And, if possible, send them an automatic message telling them to clean up their pull request.
+4. Grab all the branches of a certain name and process them.
+
+So, one possibility is [git-pulls](https://github.com/schacon/git-pulls).  It certainly
+will let me pull stuff down, but probably won't let me automatically issue a comment
+on a student commit if it needs to be revised before I am willing to pull it.
+
+## Trying out git-pulls {#trying-git-pulls}
+
+Let's get it and start playing with it:
+```
+sudo gem install git-pulls
+```
+Then:
+```
+2014-10-17 11:24 /rep-res-course/--% (master) git pulls update
+Updating eriqande/rep-res-course
+Checking for forks in need of fetching
+  fetching aclemento/rep-res-course
+remote: Counting objects: 72, done.
+remote: Compressing objects: 100% (64/64), done.
+remote: Total 72 (delta 15), reused 64 (delta 7)
+Unpacking objects: 100% (72/72), done.
+From https://github.com/aclemento/rep-res-course
+ * [new branch]      ex-test    -> refs/pr/aclemento/rep-res-course/ex-test
+ * [new branch]      master     -> refs/pr/aclemento/rep-res-course/master
+  fetching eca-home/rep-res-course
+remote: Counting objects: 6, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 2), reused 5 (delta 2)
+Unpacking objects: 100% (6/6), done.
+From https://github.com/eca-home/rep-res-course
+ * [new branch]      master     -> refs/pr/eca-home/rep-res-course/master
+ * [new branch]      mock-homework-1 -> refs/pr/eca-home/rep-res-course/mock-homework-1
+ * [new branch]      patch-3    -> refs/pr/eca-home/rep-res-course/patch-3
+Open Pull Requests for eriqande/rep-res-course
+5    10/16 Testing the trial homework.         aclemento:ex-test                          
+```
+OK, that seems to grab everything down and put it somewhere local.  That is not so good
+if a student has committed a huge blob or something silly.
+
+But, it does somehow get the stuff local, becuase when you run update again it doesn't
+show anything new.
+```
+2014-10-17 11:25 /rep-res-course/--% (master) git pulls update
+Updating eriqande/rep-res-course
+Checking for forks in need of fetching
+Open Pull Requests for eriqande/rep-res-course
+5    10/16 Testing the trial homework.         aclemento:ex-test                                 
+```
+Apparently, it puts all the information into `.git/pulls_cache.yml`, which doesn't get committed into your
+repository.  But is there nonetheless.  that is cool.
+```
+2014-10-17 11:31 /.git/--% (GIT_DIR!) du -h pulls_cache.yml
+400K  pulls_cache.yml
+```
+
+### Info about the commit in the pull request
+I can do this:
+```
+2014-10-17 12:13 /rep-res-course/--% (master) git-pulls show 5
+Number   : 5
+Label    : aclemento:ex-test
+Creator  : aclemento
+Created  : 2014-10-16 19:54:31 UTC
+
+Title    : Testing the trial homework.
+
+
+
+------------
+
+cmd: git diff HEAD...e4370bd874543a888adfa99160921d9852c9d1de
+ exercises/trial_homework.rmd | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+```
+
+So, I could probably do this:
+```
+git-pulls show 5 | tail -n 2 | awk '{printf("%s\t", $1);} END {printf("\n")}' 
+```
+Note that if the diff has nothing in it then that will screw things up
+```
+2014-10-17 12:41 /rep-res-course/--% (master) git-pulls show 2
+Number   : 2
+Label    : eca-home:patch-3
+Creator  : eca-home
+Created  : 2014-10-01 16:49:14 UTC
+
+Title    : Silly change
+
+Just making a pull request.
+
+------------
+
+cmd: git diff HEAD...a522320f97f9c5b7e2ed37147389537d5c93a1f3
+
+```
+So, I will have to make it tolerant of that. Although I think that might only occur if I have merged the
+pull request in and then not changed that part of the file since then.
+
+### Checkout out the pull requests
+I tried this:
+```
+2014-10-17 12:48 /rep-res-course/--% (master) git-pulls checkout
+Checking out all open pull requests for eriqande/rep-res-course
+> ex-test into pull-ex-test
+error: the requested upstream branch 'origin/ex-test' does not exist
+hint: 
+hint: If you are planning on basing your work on an upstream
+hint: branch that already exists at the remote, you may need to
+hint: run "git fetch" to retrieve it.
+hint: 
+hint: If you are planning to push out a new local branch that
+hint: will track its remote counterpart, you may want to use
+hint: "git push -u" to set the upstream config as you push.
+```
+That is not so great.
+
+
+
+
+
+## Notifying students
+
+Check this out.  I can email stuff to my noaa gmail account like this:
+```
+echo "gotta check this out " | mail -s "testing mail" eric.anderson@noaa.gov
+```
+So, I ought to be able to email things to students, like requests to delete extraneous files from
+homework branches.  It would be better if I could submit a comment to the pull request from the command
+line directly to github, but I am not sure how that would work.  If I could figure out how GitHub created the
+reply-to email for its notifications I would be able to do that, but I can't figure that out.  Oh well.  It will
+probably be OK to just sent email directly to the student.
+
+
