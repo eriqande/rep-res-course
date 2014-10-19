@@ -85,6 +85,13 @@ _git Overview.  Configuring git_
 ### `r  course_day("Tu", 3)`
 _Lists: aka "recursive vectors"_
 
+* __Assignment Due:__ _Exercise Set 1_, named [Trial Homework](#ex-test-start).  I emailed this out to people Saturday night.  I would like everyone
+to try to complete it by Tuesday.  At least give it a whirl.  It is called
+Trial Homework because it is not very long.  Mostly the goal is to figure out how
+to commit your changes and make a GitHub pull request. It would be good to be
+able to discuss it in class after everyone has at least tried to complete it.
+
+
 ### `r  course_day("Th", 3)`
 _git: Branching and Remotes_
 

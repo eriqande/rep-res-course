@@ -19,20 +19,19 @@ opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "ex
 ```
 ```{r insert-ids, child="trial_homework_control.Rmd"}
 ```
-```{r instruct-link, child="link-to-homework-instructions.Rmd"}
-```
-```{r include=FALSE, eval=FALSE}
-################## DON'T MODIFY ANYTHING ABOVE THIS LINE ##########################
-```
-
-
-
 
 ## Problems to be done for "`r rr_homework_name`" {#ex-test-start}
 These are just four fairly basic homework problems to do with indexing. The main
 focus of this homework is getting all the GitHub logistics worked out.  
 
 Good luck with this.  I recommend working in groups and helping each other out.
+
+```{r instruct-link, child="link-to-homework-instructions.Rmd"}
+```
+```{r include=FALSE, eval=FALSE}
+################## DON'T MODIFY ANYTHING ABOVE THIS LINE ##########################
+```
+
 
 
 ```{r word-comps, rr.question=TRUE}
