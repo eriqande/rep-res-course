@@ -105,3 +105,10 @@ submit_answer({
 })
 ```
 
+
+```{r spit-out-data}
+# now make a list of it:
+reslist <- as.list(rrhw_env)
+zz <- plyr::ldply(.data = reslist, .fun = answer_list_to_data_frame)
+save(zz, file="/tmp/zz.rda")
+```

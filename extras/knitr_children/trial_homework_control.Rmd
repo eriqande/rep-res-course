@@ -5,5 +5,8 @@ rr_pull_request_time <- NA
 rr_question_chunk_name <- "NotSet"
 rr_branch_name <- "ex-test"
 rr_hw_file_name <- "exercises/trial_homework.rmd"
+# with this next line we can set values like rr_github_name
+# and also set the variable rr_grade_mode to be TRUE
+if(file.exists(".grade-mode.Rda")) load(".grade-mode.Rda") 
 ```
 
