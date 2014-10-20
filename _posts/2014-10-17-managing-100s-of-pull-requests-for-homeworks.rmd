@@ -150,9 +150,36 @@ hint: "git push -u" to set the upstream config as you push.
 That is not so great.
 
 
+### A Function
+It is a few days later, but this seemed a good place to put this.  Here is some
+R code showing a function I wrote that will grab data on open pull requests and
+put them in a data frame:
+```{r, eval=FALSE}
+> open.ex.test <- rrhw::grab_open_pull_requests("^ex-test$")
 
+Updating eriqande/rep-res-course
+Checking for forks in need of fetching
+Open Pull Requests for eriqande/rep-res-course
+10   10/19 My homework from 19 Oct 2014        abfleishman:ex-test                               
+9    10/19 All the answers                     dtsavage:ex-test                                  
+Read 1 item
+Read 1 item
 
+> open.ex.test
+  state pr_num pr_date        user  branch                                   commit num_files        files
+6  open     10   10/19 abfleishman ex-test 9c986fc668765102a2210d17bb99b57ebaa63123         1 lectures....
+7  open      9   10/19    dtsavage ex-test 42ceffd2340f9ee19cfd4e2f87ce0f47e378bb25         1 lectures....
+```
 
+### Retake on checking stuff out
+So, as long as I am using git-pulls I don't have to define any extra
+remotes to the student forks.  It turns out that they all go into
+a file like `.git/refs/pr/abfleishman/rep-res-course/ex-test` where
+`abfleishman` is the github name of the student.  I can just check these out
+simply like this:
+```
+git checkout -b abfleishman-ex-test refs/pr/abfleishman/rep-res-course/ex-test 
+```
 ## Notifying students
 
 Check this out.  I can email stuff to my noaa gmail account like this:
