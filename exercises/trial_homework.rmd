@@ -41,7 +41,8 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
 submit_answer({
-  
+  # I just learned that you can compare the alphabetical order of strings as if they were numbers. Cool!
+  isAfterGithub <- (gnames > "github")
 })
 
 ```
@@ -54,7 +55,8 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return all the values of gname that come after
 # the word "github" alphabetically
 submit_answer({
-  
+  # Here I use the logical vector as an indexing vector
+  gnamesAfterGithub <- gnames[isAfterGithub]
 })
 
 ```
@@ -68,7 +70,11 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # "github" alphabetically to "zzzz" and return the resulting
 # gname vector
 submit_answer({
-
+  # Replicate the gnames vector, then replace values using logical indexing
+  gnamesReplace <- gnames
+  gnamesReplace[isAfterGithub] <- ("zzzz")  
+  # For some reason the preceding line did not return the vector correctly, so let's do it explicitly
+  gnamesReplace  
 })
 ```
 
@@ -82,7 +88,10 @@ ords <- sample(length(gnames))
 
 # return the first 4 github names that were signed up
 submit_answer({
-
+  # Reorder gnames by signup order
+  gnamesOrdered <- gnames[ords]
+  # Take the first four
+  gnamesFirstFour <- gnamesOrdered[1:4]
 })
 ```
 
