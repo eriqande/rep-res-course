@@ -98,8 +98,8 @@ ords <- sample(length(gnames))
 # return the first 4 github names that were signed up
 submit_answer({
   ans<-vector()
-    for(i in 1:5){
-      ans<-c(ans, gnames[ords[i]])
+    for(i in 1:4){
+      ans<-c(ans, gnames[which(ords==i)])
       }
   ans
 })
