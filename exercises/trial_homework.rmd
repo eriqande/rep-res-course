@@ -82,7 +82,8 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 ords <- sample(length(gnames))
 
 # return the first 4 github names that were signed up
-submit_answer({gnames[ords<5]
+submit_answer({
+  gnames[ords<5]
 
 })
 ```
