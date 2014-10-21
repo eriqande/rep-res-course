@@ -15,3 +15,4 @@ extras/index_shasum.txt
 junk
 student-info.txt
 .DS_Store
+.rr_tmp
