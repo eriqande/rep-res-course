@@ -84,7 +84,6 @@ ords <- sample(length(gnames))
 # return the first 4 github names that were signed up
 submit_answer({
  gnames [gnames = ords<5]
- gnames
 })
 ```
 
