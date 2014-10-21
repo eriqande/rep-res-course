@@ -75,7 +75,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # gname vector
 submit_answer({
   a[x==FALSE]="zzzz"
-  a
+  a 
 
 })
 ```
