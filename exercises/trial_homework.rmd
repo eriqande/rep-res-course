@@ -41,8 +41,8 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
 submit_answer({
-  answer1<-as.logical(gnames>"github")
-  answer1
+  (gnames>"github")
+  
 })
 
 ```
@@ -55,8 +55,8 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return all the values of gname that come after
 # the word "github" alphabetically
 submit_answer({
-  answer2<-gnames[gnames>"github"]
-  answer2
+ gnames[gnames>"github"]
+
   
 })
 
@@ -72,7 +72,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # gname vector
 submit_answer({
 
-gnames[c(answer1)]<-"zzzz"
+gnames[gnames>"github"]<-"zzzz"
 gnames
 })
 ```
