@@ -1,0 +1,209 @@
+---
+title: "Thoughts on Trial Homework"
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+
+init_homework("Trial Homework Redux")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+```
+
+
+
+# Comments and thoughts on Homework #1 (Trial Homework) {#trial-homework-thoughts}
+
+## Preliminaries
+
+### First off!
+1. Woo-hoo!  Way to go everyone who got those in!
+1. Woo-hoo!  Way to go everyone who is still working on it!
+
+I'm pumped by how many people made their first pull request.
+
+
+### What does a pull request look like to me?
+
+* Check it out!
+    * I get an email and gmail is github-aware
+    * I can see the chnanges that you have made
+    * I can comment, etc.
+* You can all do this too! Just go to https://github.com/eriqande/rep-res-course and find the pull requests button.
+    * In fact, if you aren't sure how to do the homework or what the 
+    best answer is, feel free to browse what other people have done and get ideas.
+        + I don't consider this cheating---especially if you view everyone's responses with a 
+        scientific attitude.  You'll be learning about GitHub and reviewing lots of R code.
+        + Keep in mind that some suggested answers you see from other people might not be optimal.
+        + If you see that someone has made a mistake and want to let them know,
+        just comment on their commit.
+* Note, please keep your pull requests __Open__.  That way my scripts
+can fetch your work easily.
+* I will __Close__ them when we are done with them. You can always Re-open them.
+
+### What if I want to change an answer?
+
+*  By all means, feel free.  This is where GitHub really excels.
+*  Just make your changes, commit them, and push them up and the pull request should
+be automatically updated (I think...)
+
+
+### My responses data base
+Show it to them.  View(ans)
+
+
+
+## General comments from what I saw
+
+It is great to have everyone's responses.  Here are some comments that should be helpful to
+everyone.
+
+### Strive for Economy of characters
+When you are writing code, usually, but not always) shorter is going to be
+
+1. easier to read
+1. easier to debug
+1. easier to maintain
+
+As long as it clearly expresses the intent of the program.  
+
+
+Along those lines, (intermixed with some of my OCD code-style ideas) some guidelines are:
+
+1. You don't have to define intermediate variables. Sometimes it is helpful to break up
+long calculation with some intermediates, but not always. So:
+    ```{r, eval=FALSE}
+    # this is preferred
+    gnames > "github"
+
+    # this makes unnecessary variable assignments
+    a <- "github"
+    b <- a < gnames
+    b
+
+    # this also makes unnecessary variable assignments
+    y <- c("github")
+    x <- gnames > y
+    x
+    ```
+The important take home is that an _expression_ basically behaves like a _variable_ anywhere in R.
+1. Character vectors don't have to be a single character, so you can say what you want!
+    ```{r, eval=FALSE}
+    # this is preferred
+    gnames > "github"
+
+    # this is not so precise.  Might work in a certain
+    # problem, but is not general:
+    gnames > "g"
+    ```
+1. You don't have to repeat the question in the answer:
+    ```{r, eval=FALSE}
+    # here are some github names of people taking the course
+    gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+
+    # return a logical vector that gives TRUE for each name that comes after
+    # the word "github" alphabetically
+    submit_answer({
+    gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+    b <- c("github")
+    gnames > b
+    })
+    ```
+2. If doing comparisons, put the variable on the left and the constant (if there is one) on the right:
+    ```{r, eval=FALSE}
+    gnames > "github"  # eric prefers this
+    "github" < gnames  # rather than this
+    ```
+3. Some things aren't necessary.  They aren't wrong, but they are not economical and make code
+harder to read.  The top few from the last homework:
+    1. If it is a vector, you don't have to put `c()` around it to make it a vector:
+        ```{r, eval=FALSE}
+        y <- c(gnames[x])  # gnames[x] is a vector already.
+        y <- gnames[x]     # same things as above, but preferred
+        ```
+        The `c()` function is for _catenating_ vectors, (but beware of "growing vectors", see
+        below.)
+    2. Logical vectors index as logical vectors.  They don't have to be wrapped in `which()`.  The
+    function `which(LL)` returns the indexes for which the logical vector `LL` is `TRUE`.  Many
+    people wrap their logical vectors in it.  Don't.
+        ```{r, eval=FALSE}
+        gnames[which(gnames > "github")] <- "zzz"  # unnecessary which
+        gnames[gnames > "github"] <- "zzz"   # same thing and simpler
+        ```
+    2. Also, if it is a logical vector, you need not coerce it to a logical---it already is:
+        ```{r, eval=FALSE}
+        as.logical(gnames > "github")  # unnecessary coercion
+        gnames > "github" # the > comparison operator returns a logical vector anyway
+        ```
+    2. Get comfortable with precedence
+        ```{r, eval=FALSE}
+        isAfterGithub <- (gnames > "github") # parentheses unnecessary
+        isAfterGithub <- gnames > "github"   # same as above but easier to read
+        gnames > "github"  # best: no intermediate assignment when not needed
+        ```
+
+### Don't use a for loop if the vectorized operation will get you there
+This was one of the hardest things for me as a C programmer, and I suspect
+that python programmers might find it a difficult too.
+
+* Remember. R is a vectorized language.  If you give it a vector it wants to 
+operate elementwise on every element in that vector.  This means that quite
+often you needn't write for loops for operations that you do have to write
+for loops for in C or python.
+    ```{r, eval=FALSE}
+    # this is concise and precise (and computationlly efficient)
+    gnames < "github"
+
+    # this is how a C programmer things about it:
+    x <- c()   # make an empty vector
+    for (name in gnames) { # let name cycle over the values in gname
+        if (name > "github")  # test each value
+            x <- c(x, TRUE) # if it is true, "grow"" x with a TRUE
+        else x <- c(x, FALSE) # if it if FALSE "grow" x with a FALSE
+    }
+    x # return x
+    ```
+The latter is clearly harder to write, harder to maintain, and easier to
+hide bugs in than the former.
+* BUT, did you know that it is also orders
+of magnitude slower in R?  
+    + Try this at home, comparing 10^5 numbers:
+    ```{r, eval=FALSE}
+    x <- rnorm(n = 10^5, mean=1.0, sd=5)  # make 10^5 numbers
+    
+    # test if any are greater than 2.
+
+    # the fast, vectorized way
+    g2_fast <- x > 2
+
+    # slower for-loop way
+    gt_slow <- c() 
+    for(i in 1:length(x)) {
+      gt_slow <- c(gt_slow, x[i]>2)
+    }
+
+    # see that you get the same result with either method:
+    all(g2_fast == gt_slow)
+    # but clearly the vectorized operation is faster
+    ```
+The much maligned "slowness" of R, is sometimes attributable to not doing
+vectorized operations.
+
+
+

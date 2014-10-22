@@ -90,7 +90,9 @@ to try to complete it by Tuesday.  At least give it a whirl.  It is called
 Trial Homework because it is not very long.  Mostly the goal is to figure out how
 to commit your changes and make a GitHub pull request. It would be good to be
 able to discuss it in class after everyone has at least tried to complete it.
-
+* __Lectures:__
+    + [length() and names()](#attr-length-names)
+    + [Comments on the homework](#trial-homework-thoughts)
 
 ### `r  course_day("Th", 3)`
 _git: Branching and Remotes_

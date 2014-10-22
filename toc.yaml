@@ -16,7 +16,7 @@
 - welcome
 - welcome-about-site
 - welcome-links
-./instructions_for_exercises/trial_homework.rmd: []
+./instructions_for_exercises/inst-trial_homework.rmd: []
 ./junk/r_vector_indexing_and_attributes.rmd: []
 ./lectures/atomic-data-types-and-coercion.rmd:
 - r-data-types-and-coercion
@@ -45,6 +45,11 @@
 - intro-objects
 - quick-intro-to-functions
 ./lectures/test-slidy-lecture.rmd: []
+./lectures/trial-homework-thoughts.rmd: trial-homework-thoughts
+./lectures/vector-attributes-and-names-indexing.rmd:
+- attr-length-names
+- object-attributes
+- names-attribute
 ./lectures/vectorization_recycling_and_indexing.rmd:
 - vectorization-and-indexing
 - bin-comp-ops
@@ -53,8 +58,6 @@
 - math-ops
 - indexing
 - replacement-form-indexing
-- object-attributes
-- names-attribute
 ./resources.rmd:
 - course-resources
 - res-learn-r

@@ -1,0 +1,273 @@
+---
+title: Length and names
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+
+init_homework("Length and names lecture")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+```
+
+
+# Object (vector) _attributes_.  _length_, _names_. {#attr-length-names} 
+
+## Object Attributes {#object-attributes}
+
+* Before we can talk about indexing with _names_ we have to talk about the fact that any object can possess _attributes_.
+* Every R object has two _intrinsic_ attributes: `mode` and `length`
+* For atomic vectors, possible modes are: (fill in the blanks)
+* The functions `mode(x)` and `length(x)` return these attributes for `x`
+
+### The _mode()_ function
+```{r}
+set.seed(6)
+x <- sample(x = letters, size = 10)
+
+# a vector of letters:
+x
+# what mode is it?
+mode(x)
+
+# a vector of complex numbers
+y <- 1:10 + 0+3i
+y
+
+# what mode is it?
+mode(y)
+```
+
+### The _length()_ function
+* You are more likely to use `length()` than the `mode()` function.  In fact, you
+will use it all the time.
+* As you might guess, it returns the _length_ of an object (like a vector) as an integer.
+    ```{r}
+    x <- seq(1, 5, by=.67)
+    x
+
+    # how long is that?
+    length(x)
+
+    # how can we pick out just the last element?
+    x[length(x)]
+
+    # how can we return a vector of everything but the last element?
+    x[-length(x)]
+    ```
+
+### The replacement form of the _length()_ function
+
+* Check out this little bit of syntactic sugar: To change the length of an
+object called `obj`, say, you can do like this:
+```{r, eval=FALSE}
+length(obj) <- 16
+```
+* It will chop off the end if the new value is smaller than the old value
+* It will pad the end with NAs if the the new value is larger than the old value
+    ```{r}
+    x <- seq(6.5, 8.8, length.out = 15)
+    x
+
+    # make it longer
+    length(x) <- 25    
+    x
+
+    # now, chop it off if you want:
+    length(x) <- 7
+    ``` 
+
+## A few problems for thought
+
+```{r middle-extracto, rr.question=TRUE}
+# here is a vector:
+y <- seq(pi, 15*pi, by=pi)
+
+# give me all the elements from the 4th up to the 3rd from the last:
+
+```
+
+
+```{r, gimme-n-of-something, rr.question=TRUE}
+set.seed(10)
+# here are a certain number of letters:
+alpha <- sample(letters, size = as.integer(runif(1, min=4, max=20)))
+
+# simulate a random normal deviate for each one (using rnorm)
+
+```
+
+
+
+
+
+## The _names_ Attribute of a Vector {#names-attribute}
+
+* R gives you the option of having a name for every element of a vector
+* You can set the _names_ attribute of a vector with the _replacement form_ 
+of the `names()` function.
+* You can query the _names_ attribute with the `names()` function (it returns a character vector).
+* You can index a vector that has a _names_ attribute with names!
+
+### Setting the _names_ of a vector
+```{r}
+# here's a vector
+x <- c(5,4,7,8)
+
+# here we set its names to whatever we want
+names(x) <- c("first", "second", "third", "boing")
+
+# when we (auto)print the vector, the names are included above the value:
+x
+```
+
+### Reading names in vector output
+
+* This can take some getting used to. For the first 10 years I worked with R I always got confused
+about what was a name and what was a value in the output.  
+* And I thought it was friggin' ugly to have all those names on there sometime
+* And it "can" strain the eyeballs if the names are long. Consider this ridiculous example:
+    ```{r}
+    # values = the first 17 values of the alphabet
+    ab <- letters[1:17]
+    ab  # not so hard to look at
+
+    # the sha1 hashes for each of the 17 letters
+    library(digest)
+    hashes <- unname(sapply(ab, digest, algo = "sha1"))
+    hashes  # sort of ugly to look at
+
+    # name each element in ab with its hash
+    names(ab) <- hashes
+    ab  # print it out now...Really hard to look at
+
+    # but note that we can index with the names (as strings)
+    ab["221799200137b7d72dfc4a618465bec71333a58b"]
+
+    # in the above, output, what is the value and what is the name?
+    ```
+    
+### Get rid of those damn names so I can read the thing
+
+Sometimes you just want to get rid of the names to read stuff, or you
+might have another legitimate reason to do so.  A handy way to do this is
+with the `unname()` function
+```{r}
+ab  # whoa horribly ugly named output
+
+unname(ab)  # returns its argument, but with the names attribute stripped off
+```
+
+```{r}
+x[c("boing", "second")] # note names are retained in result 
+
+x[c("third", "boing", "oops", "first", "first")] # note NA in result
+```
+
+
+### Return the names as a vector
+This is super important:
+
+The names attribute of a vector is just a _vector_ itself of mode character.  
+```{r}
+x <- c(5,4,7,8)  # here is a vector
+
+# here we give it a names attribute, thus providing a name
+# for every element in it
+names(x) <- c("first", "second", "third", "boing")
+x # see it printed with the names
+
+# now, we can do this to get the names back as a vector
+names(x)
+
+# super important!  We can even index it directly.
+# for example: get all the names for which the value
+# of x is greater than 6:
+names(x)[x>6]
+```
+
+### You can index with names!
+Though it might not seem, at first, to be super useful, this is
+incredibly useful.  You can do something like this
+`x[c("boing", "second")]` to extract elements from a named vector.
+
+```{r}
+# same setup as before:
+x <- c(5,4,7,8) 
+names(x) <- c("first", "second", "third", "boing")
+
+# behold the power!
+x[c("boing", "first")]
+```
+
+
+
+### Assignment Form names Indexing 
+
+When you use the _assignment form of the indexing operator_, and you include a name that doesn't exist, it expands the vector beyond its current length
+```{r}
+x <- c(5,4,7,8)
+
+names(x) <- c("first", "second", "third", "boing")
+x
+
+x[c("first", "third", "oofdah", "squawk")] <- c(-1,-2,-3,-4)
+x
+```
+
+### Using names indexing as an associative array
+The power of names indexing really comes through when you want to return a value for
+every unique name or identifier. This sort of construction occurs all the time.
+
+Here is a contrived example:  
+
+* You are studying fish behavior and you have 16 fish 
+that you have labelled `A` through ``r LETTERS[16]``, and you
+have tagged them so you can tell who they are when you see them.
+    ```{r}
+    IDs <- LETTERS[1:16]
+    ```
+* You have recorded the fork length of each fish to the nearest mm
+    ```{r}
+    set.seed(16)
+    fklen <- floor(rnorm(length(IDs), mean = 150, sd = 15))
+    ```
+* You also have watched them all day and you have recorded the order in which they have been
+jumping all day long.  There have been 487 fish jumps recorded today and you have recorded
+the sequence:
+    ```{r}
+    sequence <- sample(IDs, 487, replace = TRUE)
+    ```
+
+Now, what you are really interested in is whether big fish are more likely to jump after big fish than small fish, so you really need a vector which gives the sequence of the _fork lengths_ of the fish that were jumping.  Can you see how to do that using names?  Go for it.
+
+### Other non-intrinsic Attributes (can be skipped for now...)
+
+* Any object in R can have a number of different _attributes_ these are _not_ the data contained in the object, but they may affect how the object is treated.  
+* Attributes are fairly central to the operation of R.
+* Relevant functions:
+    ```{r, eval=FALSE}
+    attributes(x)  # list all non-intrinsic attributes of x
+    
+    attributes(x) <- value # set all attributes of x  (seldom used)
+    attr(x, "boing") # return value of x's "boing" attribute
+    attr(x, "boing") <- value # set x's "boing" attribute to value
+    ```
+Common attributes accessed via various convenience functions
+
