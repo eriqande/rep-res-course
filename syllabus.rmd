@@ -128,8 +128,9 @@ Everyone, please read this!
 
 
 ### `r  course_day("Th", 4)`
-_An overview of GitHub_
+_Merge conflicts, stashing, remotes_
 
+* __Reading__: * [Hilarious analogizing between git and "X-men: Days of Future Past"](http://hashrocket.com/blog/posts/x-men-days-of-future-past-explained-in-git).  This is worth a read, even if we haven't explored all these layers of git.  Thanks to Anthony Clemento for finding this.
 
 ## Week 5 {#syl-week-5}
 
