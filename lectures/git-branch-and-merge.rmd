@@ -11,7 +11,7 @@ layout: default_with_disqus
 
 # Branching and Merging {#branch-and-merge}
 
-## What the heck is a branch?
+## What the heck is a branch? {#whats-a-branch}
 
 * Note that the motto for git is "_local branching on the cheap_," so branches must be important
 ![branching on the cheap](diagrams/git.png)
@@ -82,8 +82,71 @@ repository.
 * Hey, there are two branches pointing to the same commit!
     + That is just fine.  You can have as many branches as you want pointing to a commit.
     + Question.  If changes are committed now, what happens to the two branches? This is crucial...
----
 
----
+
 
     
+## Creating and using branches {#creating-and-using-branches}
+
+### Creating a branch called "testing"
+
+* In the shell, when you type
+    ```{r, eval=FALSE}
+    git branch some-name
+    ```
+git will make a new branch for you named `some-name`.
+* __It will point to whatever commit HEAD currently points to.__ (i.e. the branch that you 
+are currently on.)
+* Let's do this together.
+    1. Create a new rstudio project with version control:
+        + File -> New Project -> New Directory -> Empty Project
+        + Let the directory name be `branchy` and make it a subdirectory of Desktop.
+        + _Important:_ check the box to "create a git repository"
+    2. At this point there are no commits. Stage `.gitignore` and `branchy.Rproj` and commit them.
+    3. Look at the "diff" / History window, and notice that there is one commit and _HEAD_ and _master_
+    are at it:
+    ![rstudio git hist](diagrams/rs-git-hist-1.png)
+    4. Let's "move _master_ forward" by making a new .Rmd file called `simple.Rmd` and committing it.
+    Now our history looks like:
+    ![rstudio git hist](diagrams/rs-git-hist-2.png)
+    5. Now, let's make a new branch called `testing`.  In the shell (in the correct directory):
+        ```{r, eval = FALSE}
+        git branch testing
+        ```
+    Notice that RStudio's git-history shows us that HEAD, master, and testing, all now point to the same
+    commit.  But the visual there doeesn't tell us which branch we are one (where HEAD is attached.)
+        + No worries, upper right of the git pane tells us.
+    
+
+### Checking out a branch
+
+* If we want to be _on a branch_ we need to "check that branch out". Either:
+    ```{r, eval=FALSE}
+    git checkout testing
+    ```
+in the shell, or use the dropdown in the upper right of the git pane.
+
+### When git doesn't let you checkout a branch
+
+## Merging branches {#merging-branches}
+
+Note that merging creates a new commit!!
+This is as it must and should be!
+
+
+### Simplest case = Fast-forward merge
+
+### Harder case, both branches in the merge have moved forward
+
+* Git takes care of the difficulties here (finding the "merge base", etc.)
+
+### Both branches change the same file
+
+* Not a problem unless the same line in the file has been changed in the different branches being merged.
+
+### Merge conflicts
+
+### Resolving merge conflicts
+
+### If we have time...
+It is really fun to browse the history for Hadley's advanced R book.
