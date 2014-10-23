@@ -36,6 +36,12 @@
 - git-thru-rstudio
 - git-play
 - git-how
+./lectures/git-branch-and-merge.rmd:
+- branch-and-merge
+- whats-a-branch
+- creating-and-using-branches
+- merging-branches
+- for-next-time
 ./lectures/learning-rmarkdown-in-an-hour.rmd:
 - rmarkdown-in-an-hour
 - rmarkdown-setup

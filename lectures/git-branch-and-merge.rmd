@@ -289,14 +289,29 @@ _master_ branch.
 merge---it has to make a new commit because it is not equivalent
 to any previous commit (unlike in the fast-forward case).
 
+### Now, check out your history
+
+    ![after the merge](diagrams/after-the-merge.png)
+
+* There is a new commit in there and it has two parents.
+* Whoa! The _changes-on-bottom_ branch __did not__ move forward.
+* You could delete _changes-on-bottom_ now, OR you
+could continue to modify it (it won't have the changes you did 
+on _master_) and merge those in later.  Let that me a fun 
+weekend mission for the motivated...explore what happens.
+
+
 ## For next git session {#for-next-time}
 
 * When git won't let you checkout a branch
     + Stashing
 * Merge conflicts, and resolving them
+* Remotes
 
 
 ### If we have time today
 * It is really fun to browse the version history for 
-[Hadley's advanced R book](https://github.com/hadley/adv-r.git).
+[Hadley's advanced R book](https://github.com/hadley/adv-r.git).  
+    + For fun: make a new project that is a clone of it and look 
+    at its history and try to understand it.
 
