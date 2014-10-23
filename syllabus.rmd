@@ -103,9 +103,13 @@ able to discuss it in class after everyone has at least tried to complete it.
 ### `r  course_day("Th", 3)`
 _git: Branching and Merging_
 
-* __Reading__: Read chapter 3 of the [Pro Git Book](http://git-scm.com/book).  I don't expect people
-to have finished this before class because I didn't post it till Wed night.  We will be covering material
-in this chapter, so you it should be good to read through after class.
+* __Reading__:  I don't expect people
+to have finished this reading before class because I didn't post it till Thursday.  We will be covering material
+in these readings, so it would be good for you to read one or both of them to solidify ideas.  Either:
+    + Read chapter 3 of the [Pro Git Book](http://git-scm.com/book). 
+    + __OR__
+    + Read [this excellent tutorial](https://www.atlassian.com/git/tutorials/using-branches) on branching and merging    
+    + __OR__ read them both.
 * __Lecture:__
     + [Branching and merging](#branch-and-merge)
 

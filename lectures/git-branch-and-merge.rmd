@@ -101,7 +101,7 @@ are currently on.)
     1. Create a new rstudio project with version control:
         + File -> New Project -> New Directory -> Empty Project
         + Let the directory name be `branchy` and make it a subdirectory of Desktop.
-        + _Important:_ check the box to "create a git repository"
+        + _Important:_ check the box to __"create a git repository"__
     2. At this point there are no commits. Stage `.gitignore` and `branchy.Rproj` and commit them.
     3. Look at the "diff" / History window, and notice that there is one commit and _HEAD_ and _master_
     are at it:
@@ -114,9 +114,12 @@ are currently on.)
         git branch testing
         ```
     Notice that RStudio's git-history shows us that HEAD, master, and testing, all now point to the same
-    commit.  But the visual there doeesn't tell us which branch we are one (where HEAD is attached.)
-        + No worries, upper right of the git pane tells us.
-    
+    commit. (__You might have to hit the refresh button__).  They all have the same parent and history too.
+    ![branches](diagrams/testy-master.png)
+    __However__ the visual there doesn't tell us which branch we are one (where HEAD is attached.)
+        + No worries, upper right of the git pane tells us.  We should still be on _master_ because
+        we have not "checked-out" the _testing_ branch yet.
+        ![branch indicator](diagrams/branch-indicator.png)
 
 ### Checking out a branch
 
@@ -124,21 +127,90 @@ are currently on.)
     ```{r, eval=FALSE}
     git checkout testing
     ```
-in the shell, or use the dropdown in the upper right of the git pane.
+in the shell, or use the dropdown menu by clicking on the __Branch Indicator__ in RStudio.
+* In this case nothing exciting happened because _testing_ and _master_ both point to the
+same commit.
+* If _testing_ had pointed to a different commit, the state of the files in your working area might
+have changed.
+* What if you had uncommitted changes on some of the files that changed?!!
+    + Thankfully, git does not let you overwrite unstored changes when you switch branches. (More on this later.)
+    
+### Make some changes on the _testing_ branch
 
-### When git doesn't let you checkout a branch
+1. Make sure you are the _testing_ branch
+1. Add some text to the bottom of simple.Rmd
+2. Stage that file and commit it
+3. Don't stage the "simple.html" file.
+
+
+### Make __some more__ changes to the _testing_ branch
+
+1. Add some more text to the bottom.  Stage and commit.
+2. Don't stage the html file.
+
+### Make even more changes to the testing branch
+
+1. Modify the `.gitignore` file so git ignores all files
+that end in `.html` in your repo.
+
+### Now look at your commit history
+
+* Your _testing_ branch has left _master_ in the dust!
+![master in the dust](diagrams/master-in-the-dust.png)
+* What if, after all of this, we decide that our _testing_
+branch is good stuff and we want to add the changes in 
+_testing_ to _master_ so we can deploy it, etc?
+* This is where merging comes in.
+
+
 
 ## Merging branches {#merging-branches}
+
+The basic idea of a merge:
+
+1. Switch to the branch that you want to add the stuff into
+2. Tell it to merge in changes from another branch (or branches)
+
+* Sometimes this is easy (_fast-forward merges_)
+* Sometimes it is more complicated, if both branches
+  have changed from their common parent.  But, git
+  takes care of most of the details
+
+
+### Simplest case = Fast-forward merge
+
+* To merge _testing_ into _master_ is simple because 
+_master_ is a __direct__ ancestor of _testing_.
+* Here is how you do it:
+    1. Switch to the master branch (best to make sure your working area is clean)
+    2. In the shell (in a directory within the `branchy` repo) type this:
+        ```{r, eval=FALSE}
+        git merge testing
+        ```
+* git should tell you that it must made a fast-forward merge:
+```
+Updating 9f5b2cf..51503c5
+Fast-forward
+ .gitignore |  1 +
+ simple.Rmd | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+```
+
+### Look at your history diagram again
+* You might have to hit the "Refresh" button in the "RStudio: Review Changes" window.
+* See that all that happened is that the _master_ branch has been brought up to where 
+the _testing_ branch is.  
+* No new commits were generated:
+
+
+### Harder case, both branches in the merge have moved forward
+
+* Git takes care of the difficulties here (finding the "merge base", etc.)
 
 Note that merging creates a new commit!!
 This is as it must and should be!
 
 
-### Simplest case = Fast-forward merge
-
-### Harder case, both branches in the merge have moved forward
-
-* Git takes care of the difficulties here (finding the "merge base", etc.)
 
 ### Both branches change the same file
 
@@ -150,3 +222,6 @@ This is as it must and should be!
 
 ### If we have time...
 It is really fun to browse the history for Hadley's advanced R book.
+
+### When git doesn't let you checkout a branch
+
