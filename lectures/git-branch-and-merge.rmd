@@ -14,17 +14,20 @@ layout: default_with_disqus
 ## What the heck is a branch? {#whats-a-branch}
 
 * Note that the motto for git is "_local branching on the cheap_," so branches must be important
-![branching on the cheap](diagrams/git.png)
+
+    ![branching on the cheap](diagrams/git.png)
 
 * A branch is a "lightweight pointer to a commit"...What?
 * Let's refresh our memory on what commits, trees, and blobs are.
 
 
 ### Data structure within the .git folder
-_note: diagrams used here are from Scott Chacon's [ProGit](http://git-scm.com/book/en/) book and are used under the
+
+*  _Note: the next four diagrams are from Scott Chacon's [ProGit](http://git-scm.com/book/en/) book and are used under the
 [CC Noncommercial 3.0 Attribution license](https://creativecommons.org/licenses/by-nc/3.0/us/).
 I took them from [here](https://github.com/progit/progit/tree/master/figures)_
-![A commit](diagrams/18333fig0301-tn.png)
+
+    ![A commit](diagrams/18333fig0301-tn.png)
 
 * Contents of (different versions of) files in your repository are stored in blobs
 * (Sub)directory structure (locations of files in your repository) stored in trees
@@ -38,7 +41,9 @@ I took them from [here](https://github.com/progit/progit/tree/master/figures)_
 
 ### A chain or sequence of commits 
 
-![A commit](diagrams/18333fig0302-tn.png)
+* Commits form a chain by connecting to their parents.
+
+    ![A commit](diagrams/18333fig0302-tn.png)
 
 * The arrows between commits point to parents.  Thus the later commits
 are on the right, and the earlier commits on the left.
@@ -60,7 +65,7 @@ repository.
 * They are "lightweight" in that they don't take up much space (each branch is just a file with the sha-1 hash of a commit in it)
 * Upon initialization, every repository gets a branch called _master_
 
-![A commit](diagrams/18333fig0303-tn.png)
+    ![A commit](diagrams/18333fig0303-tn.png)
 
 * It is customary to let _master_ be where your _stable_, deployable code is kept.
 
@@ -77,7 +82,7 @@ repository.
     whose parent (in this case) is 8e334ab3.
 * In git, if you are on a branch, then the HEAD points to that branch.
 
-![A commit](diagrams/18333fig0305-tn.png)
+    ![A commit](diagrams/18333fig0305-tn.png)
     
 * Hey, there are two branches pointing to the same commit!
     + That is just fine.  You can have as many branches as you want pointing to a commit.
@@ -105,21 +110,28 @@ are currently on.)
     2. At this point there are no commits. Stage `.gitignore` and `branchy.Rproj` and commit them.
     3. Look at the "diff" / History window, and notice that there is one commit and _HEAD_ and _master_
     are at it:
-    ![rstudio git hist](diagrams/rs-git-hist-1.png)
+    
+        ![rstudio git hist](diagrams/rs-git-hist-1.png)
+    
     4. Let's "move _master_ forward" by making a new .Rmd file called `simple.Rmd` and committing it.
     Now our history looks like:
-    ![rstudio git hist](diagrams/rs-git-hist-2.png)
-    5. Now, let's make a new branch called `testing`.  In the shell (in the correct directory):
+    
+        ![rstudio git hist](diagrams/rs-git-hist-2.png)
+        
+    5. Now, let's make a new branch called _testing_.  In the shell (in the correct directory):
         ```{r, eval = FALSE}
         git branch testing
         ```
-    Notice that RStudio's git-history shows us that HEAD, master, and testing, all now point to the same
+    * Notice that RStudio's git-history shows us that _HEAD_, _master_, and _testing_, all now point to the same
     commit. (__You might have to hit the refresh button__).  They all have the same parent and history too.
-    ![branches](diagrams/testy-master.png)
-    __However__ the visual there doesn't tell us which branch we are one (where HEAD is attached.)
+    
+        ![branches](diagrams/testy-master.png)
+    
+    * __However__ the visual there doesn't tell us which branch we are one (where _HEAD_ is attached.)
         + No worries, upper right of the git pane tells us.  We should still be on _master_ because
         we have not "checked-out" the _testing_ branch yet.
-        ![branch indicator](diagrams/branch-indicator.png)
+        
+            ![branch indicator](diagrams/branch-indicator.png)
 
 ### Checking out a branch
 
@@ -148,7 +160,7 @@ have changed.
 1. Add some more text to the bottom.  Stage and commit.
 2. Don't stage the html file.
 
-### Make even more changes to the testing branch
+### Make even more changes to the _testing_ branch
 
 1. Modify the `.gitignore` file so git ignores all files
 that end in `.html` in your repo.
@@ -156,7 +168,9 @@ that end in `.html` in your repo.
 ### Now look at your commit history
 
 * Your _testing_ branch has left _master_ in the dust!
-![master in the dust](diagrams/master-in-the-dust.png)
+
+    ![master in the dust](diagrams/master-in-the-dust.png)
+
 * What if, after all of this, we decide that our _testing_
 branch is good stuff and we want to add the changes in 
 _testing_ to _master_ so we can deploy it, etc?
@@ -197,31 +211,92 @@ Fast-forward
 ```
 
 ### Look at your history diagram again
+
 * You might have to hit the "Refresh" button in the "RStudio: Review Changes" window.
 * See that all that happened is that the _master_ branch has been brought up to where 
 the _testing_ branch is.  
-* No new commits were generated:
+* __No new commits were generated__
+
+    ![fast-forward-result](diagrams/fast-forward-result.png)
+
+
+### We can delete _testing_ now if we want
+
+_master_ points to the same place, so it is redundant.
+```
+git branch -d testing
+```
+If a branch is not redundant, git won't let you delete it with the
+`-d` option (have to use `-D`, but be careful you don't lose track of work
+that you would like to merge in at some point.)
 
 
 ### Harder case, both branches in the merge have moved forward
 
+* Requires a "3-way-merge"
+    + 3 commits involved: the two branches and their common ancestor.
 * Git takes care of the difficulties here (finding the "merge base", etc.)
+* This creates a new commit. This is as it must and should be!
 
-Note that merging creates a new commit!!
-This is as it must and should be!
+### Let's create the need for a 3-way merge
+
+Note, through all of this, __do not__ be amending your previous commits.
+
+1. Make a new branch called _changes-on-bottom_ and check it out.
+    + Note: if you want to simultaneously create a new branch
+    named _changes-on-bottom_ __and__ check it out
+    at the current HEAD location.  You can just do this:
+        ```{r, eval=FALSE}
+        git checkout -b changes-on-bottom
+        ```
+2. Add stuff to `simple.Rmd` to the bottom of the file. Commit.
+3. Delete some of the stuff you just added.  Commit.
+4. Add even more to the bottom of the file.  Commit.
+4. Now checkout _master_ to make changes on the _master_ branch. 
+Notice that your file has been "rolled back" to its state on the
+_master_ branch.
+5. Add some stuff to the **top** part of the file. commit.
+6. Remove half of what you just added. Commit.
+7. Add some more to the top.  Commit.
+
+### Now, look at your history
+* Be sure to choose "all branches" to the right of the "History" button:
+
+    ![needs-3-way-merge](diagrams/needs-3-way-merge.png)
+
+*  __It sort of looks like _master_ is ahead of _changes-on-bottom___ but it isn't.
+* They are diverging _independently_
 
 
+### Will we be able to merge these? 
 
-### Both branches change the same file
+* Both branches change the same file, __BUT__,
+* That is not a problem _unless the same line in the same file has been changed_ in the different branches being merged.
 
-* Not a problem unless the same line in the file has been changed in the different branches being merged.
 
-### Merge conflicts
+### Let's merge them __into__ the _master_ branch
+* The command is the same:
+    + Make sure you are on the _master_ branch
+    + Use the `git merge` command:
+        ```{r, eval=FALSE}
+        git merge changes-on-bottom
+        ```
+* It will pop up an editor for you to write a commit message
+    + This might fail if you don't have an editor set up.
+    + If you get emacs and are unfamiliar with it, this will
+    take some explanation.
+* You need to write a commit message because this is a non-trivial
+merge---it has to make a new commit because it is not equivalent
+to any previous commit (unlike in the fast-forward case).
 
-### Resolving merge conflicts
+## For next git session {#for-next-time}
 
-### If we have time...
-It is really fun to browse the history for Hadley's advanced R book.
+* When git won't let you checkout a branch
+    + Stashing
+* Merge conflicts, and resolving them
 
-### When git doesn't let you checkout a branch
+
+### If we have time today
+* It is really fun to browse the version history for 
+[Hadley's advanced R book](https://github.com/hadley/adv-r.git).
 
