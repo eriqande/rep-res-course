@@ -116,6 +116,12 @@ in this chapter, so you it should be good to read through after class.
 ### `r  course_day("Tu", 4)`
 _Lists: aka "recursive vectors"_
 
+* __Reading__: In case you were wondering why you are going through the grueling
+work of learning R and git, Devon Pearse found this excellent post from Carly Strasser
+at the California Digital Library that makes a good case for sticking with it!
+http://datapub.cdlib.org/2014/10/14/the-10-things-every-new-grad-student-should-do/
+Everyone, please read this!
+
 
 ### `r  course_day("Th", 4)`
 _An overview of GitHub_
