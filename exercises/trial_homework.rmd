@@ -40,8 +40,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
-submit_answer({
-  
+submit_answer({ gnamesafterboolean <- {gnames > c("github")}
 })
 
 ```
@@ -53,7 +52,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 
 # return all the values of gname that come after
 # the word "github" alphabetically
-submit_answer({
+submit_answer({  gnamesafter <- {gnames[gnames > c("github")]}
   
 })
 
@@ -67,7 +66,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # change all the values of gname that come after the word
 # "github" alphabetically to "zzzz" and return the resulting
 # gname vector
-submit_answer({
+submit_answer({ gnames[gnames>c("github")] = "zzzz"
 
 })
 ```
@@ -81,7 +80,7 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 ords <- sample(length(gnames))
 
 # return the first 4 github names that were signed up
-submit_answer({
+submit_answer({ gnamesord <- c(gnames[ords[1]], gnames[ords[2]], gnames[ords[3]], gnames[ords[4]])
 
 })
 ```
