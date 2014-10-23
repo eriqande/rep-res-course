@@ -1,0 +1,89 @@
+---
+title: Branch and Merge
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+# Branching and Merging {#branch-and-merge}
+
+## What the heck is a branch?
+
+* Note that the motto for git is "_local branching on the cheap_," so branches must be important
+![branching on the cheap](diagrams/git.png)
+
+* A branch is a "lightweight pointer to a commit"...What?
+* Let's refresh our memory on what commits, trees, and blobs are.
+
+
+### Data structure within the .git folder
+_note: diagrams used here are from Scott Chacon's [ProGit](http://git-scm.com/book/en/) book and are used under the
+[CC Noncommercial 3.0 Attribution license](https://creativecommons.org/licenses/by-nc/3.0/us/).
+I took them from [here](https://github.com/progit/progit/tree/master/figures)_
+![A commit](diagrams/18333fig0301-tn.png)
+
+* Contents of (different versions of) files in your repository are stored in blobs
+* (Sub)directory structure (locations of files in your repository) stored in trees
+    + The tree and the blobs referenced in it constitute the "snapshot" of the repository.
+* Commits: for a given snapshot, points to a tree, has a comment, an author, a committer, __and__
+    + Unless it is the first commit, it has a pointer to a parent.
+    
+---
+
+---
+
+### A chain or sequence of commits 
+
+![A commit](diagrams/18333fig0302-tn.png)
+
+* The arrows between commits point to parents.  Thus the later commits
+are on the right, and the earlier commits on the left.
+* This is critical: every commit knows where it came from (the previous commit).
+* Just as a genealogy (i.e., links to parents) gives your family history, so too do the commits
+_and the links from each commit to its parent(s)_ constitute the __version history__ of your
+repository.
+
+---
+
+---
+
+### Easy access to commits
+
+* Commits would not be useful if they were just stored in the .git directory of your repository with no way to access them.
+* Branches are how you access commits so that you can:
+    + Check them out (be able to access their contents)
+    + Modify the contents and make a new commit
+* They are "lightweight" in that they don't take up much space (each branch is just a file with the sha-1 hash of a commit in it)
+* Upon initialization, every repository gets a branch called _master_
+
+![A commit](diagrams/18333fig0303-tn.png)
+
+* It is customary to let _master_ be where your _stable_, deployable code is kept.
+
+---
+
+---
+
+
+### What it means to be _on a branch_
+
+* If you are on a branch, (say _master_ for the sake of argument) that means that
+    1. There is a commit pointed to by _master_.  (Let's say it is 8e334ab3)
+    2. Any changes you make, __when staged and committed__ will create a new commit
+    whose parent (in this case) is 8e334ab3.
+* In git, if you are on a branch, then the HEAD points to that branch.
+
+![A commit](diagrams/18333fig0305-tn.png)
+    
+* Hey, there are two branches pointing to the same commit!
+    + That is just fine.  You can have as many branches as you want pointing to a commit.
+    + Question.  If changes are committed now, what happens to the two branches? This is crucial...
+---
+
+---
+
+    

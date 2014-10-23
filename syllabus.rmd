@@ -1,6 +1,12 @@
 ---
-layout: default_with_disqus
 title: Syllabus
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
 ---
 
 ```{r, echo=FALSE}
@@ -83,7 +89,7 @@ _git Overview.  Configuring git_
 ## Week 3 {#syl-week-3}
 
 ### `r  course_day("Tu", 3)`
-_Lists: aka "recursive vectors"_
+_Attributes. Length of vectors. Names_
 
 * __Assignment Due:__ _Exercise Set 1_, named [Trial Homework](#ex-test-start).  I emailed this out to people Saturday night.  I would like everyone
 to try to complete it by Tuesday.  At least give it a whirl.  It is called
@@ -95,14 +101,21 @@ able to discuss it in class after everyone has at least tried to complete it.
     + [Comments on the homework](#trial-homework-thoughts)
 
 ### `r  course_day("Th", 3)`
-_git: Branching and Remotes_
+_git: Branching and Merging_
+
+* __Reading__: Read chapter 3 of the [Pro Git Book](http://git-scm.com/book).  I don't expect people
+to have finished this before class because I didn't post it till Wed night.  We will be covering material
+in this chapter, so you it should be good to read through after class.
+* __Lecture:__
+    + [Branching and merging](#branch-and-merge)
 
 
 
 ## Week 4 {#syl-week-4}
 
 ### `r  course_day("Tu", 4)`
-_Data Frames. Reading in data, etc_
+_Lists: aka "recursive vectors"_
+
 
 ### `r  course_day("Th", 4)`
 _An overview of GitHub_
@@ -111,7 +124,8 @@ _An overview of GitHub_
 ## Week 5 {#syl-week-5}
 
 ### `r  course_day("Tu", 5)`
-_More data frames. Factors.  Tidy Data_
+_Data Frames. Reading in data, etc_
+
 
 ### `r  course_day("Th", 5)`
 _Forking and pull requests_
@@ -124,16 +138,18 @@ _NO CLASS. VETERANS DAY_
 
 
 ### `r  course_day("Th", 6)`
-_Plotting. ggplot and the grammar of graphics_
+_More data frames. Factors.  Tidy Data_
+
 
 
 ## Week 7 {#syl-week-7}
 
 ### `r  course_day("Tu", 7)`
-_Plotting with ggplot_
+_Plotting. ggplot and the grammar of graphics_
+
 
 ### `r  course_day("Th", 7)`
-
+_Plotting with ggplot_
 
 
 ## Week 8 {#syl-week-8}
