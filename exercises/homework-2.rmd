@@ -1,0 +1,47 @@
+---
+title: "Homework 2"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+```
+```{r insert-ids, child="homework-2-control.Rmd"}
+```
+
+## Problems to be done for "`r rr_homework_name`" {#ex-test-start}
+These are just four fairly basic homework problems to do with indexing. The main
+focus of this homework is getting all the GitHub logistics worked out.  
+
+Good luck with this.  I recommend working in groups and helping each other out.
+
+```{r instruct-link, child="link-to-homework-instructions.Rmd"}
+```
+```{r include=FALSE, eval=FALSE}
+################## DON'T MODIFY ANYTHING ABOVE THIS LINE ##########################
+```
+
+
+
+```{r word-comps, rr.question=TRUE}
+# here are some github names of people taking the course
+gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+
+# return a logical vector that gives TRUE for each name that comes after
+# the word "github" alphabetically
+submit_answer({
+  
+})
+
+```
