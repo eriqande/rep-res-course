@@ -16,15 +16,22 @@ library(rrhw)
 # tell knitr where to find the inserted file in case
 # jekyll is building this in the top directory of the repo
 opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+rr_github_name <- NA
+rr_commit <- NA
+
 ```
 ```{r insert-ids, child="homework-2-control.Rmd"}
 ```
 
-## Problems to be done for "`r rr_homework_name`" {#ex-test-start}
-These are just four fairly basic homework problems to do with indexing. The main
-focus of this homework is getting all the GitHub logistics worked out.  
+## Problems to be done for "`r rr_homework_name`" {#hw2-start}
+These are a selection of exercises on coercion, recycling, and indexing, including
+indexing with name.  For each problem, evaluate all the code in the code chunk
+(highlight it and hit CMD-Enter (or cntrl-Enter on a PC)) and then have a look
+at each of the variables involved before writing your answer.
 
-Good luck with this.  I recommend working in groups and helping each other out.
+Make sure your document still knits successfully before submitting.
+
+
 
 ```{r instruct-link, child="link-to-homework-instructions.Rmd"}
 ```
@@ -34,14 +41,242 @@ Good luck with this.  I recommend working in groups and helping each other out.
 
 
 
-```{r word-comps, rr.question=TRUE}
-# here are some github names of people taking the course
-gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
+```{r coerce-and-multiply, rr.question=TRUE}
+# Joe R. Newbie is trying to compute the componentwise product of two 
+# vectors x and y.  But is running into trouble.  Here is what he has
+# done so far:
+x <- c(3, 9, 12, "16", 11.4)
+y <- c(2, 15, 10, 7, 5)
 
-# return a logical vector that gives TRUE for each name that comes after
-# the word "github" alphabetically
+# when he tries to multiply these he gets an error.  Use an `as.` function
+# to coerce x appropriately and then return the product of x and y.
 submit_answer({
   
 })
+
+```
+
+For the following, recall from [this lecture]({#missing-data}) how to test
+for missing data.
+```{r do-stuff-with-NAs, rr.question=TRUE}
+# z is a vector with some missing data values, and w is 
+# a vector of the same length with no missing data:
+set.seed(5)
+w <- sample(1:20, 10)
+z <- sample(1:20, 10)
+z[sample(1:length(z), 4)] <- NA
+
+
+# return a vector that has all the non-NA values in z in the 
+# order in which they occur in z.
+submit_answer({
+              #  <- put your answer to the left of the #. 
+}, subprob = "-a")
+
+# In the above, don't worry about the "subprob" argument.  That is just
+# part of the problem naming and numbering system.
+
+# Another exercise:  Return all the values in w that
+# occur at the same position as the NAs in z.
+submit_answer({
+             
+}, subprob = "-b")
+
+# Another exercise: Return a vector which is like z, but in which all
+# the non-missing values have been multiplied by 2.5 and all the missing
+# values (NAs) have been turned into -1's
+submit_answer({
+             
+}, subprob = "-c")
+
+# Last subproblem: Modify z so that every NA gets replaced by the value
+# in the same position in the vector z
+submit_answer({
+             
+}, subprob = "-d")
+
+```
+
+
+## About Euclidean distance {#about-euclid-dist}
+If you have two vectors $p=(p_1,\ldots,p_n)$ and $q=(q_1,\ldots,q_n)$ that describe
+two points in an $n$-dimensional space, the Euclidean Distance between the points
+is defined as:
+$$
+d(p,q) = \biggl( \sum_{i=1}^n (p_i - q_i)^2 \biggr)^{\frac{1}{2}}
+$$
+The next problem asks you to compute Euclidean distance between two vectors. 
+```{r euclidean-distance, rr.question=TRUE}
+# Let p and q be two vectors defining points in a 20-dimensional space:
+set.seed(10)
+p <- c(-1,1) * rnorm(20, mean=6, sd=2)
+q <- c(-1,1) * rnorm(20, mean=6, sd=2)
+
+# return the Euclidean distance between p and q.  Note that if you are
+# not familiar with the sum() function you should read about it in the 
+# help files by typing "?sum" at your R prompt.
+submit_answer({
+             
+})
+
+```
+
+
+
+```{r bin-comp-combo, rr.question=TRUE}
+# let a, b, and c be the following vectors:
+set.seed(1)
+a <- sample(letters, 100, replace = TRUE)
+b <- rnorm(100)
+c <- sample(1:1000, 100)
+
+# return all the values in c that correspond to positions in 
+# in the vectors where:  
+#   values in "a" are between g and l, inclusive, alphabetically
+# AND
+#   values in "b" are less than -1.5 or greater than 1.0
+
+# For checking, your result should have length 28.
+submit_answer({
+             
+})
+```
+
+
+```{r indexing-and-recycling, rr.question=TRUE}
+# f is capital letters of the alphabet
+f <- LETTERS
+
+# Index f with a logical vector (using recycling) to return every
+# third element in f (i.e. elements 3, 6, 9,...)
+submit_answer({
+
+}, subprob = "-a")
+
+# Use recycling with a logical vector
+# to return every 3rd element in f, starting on element number 2 (i.e.
+# get elements 2, 5, 8, ...)
+submit_answer({
+
+}, subprob = "-b")
+
+
+# A new problem: Given the vector:
+g <- 10:21
+
+# Multiply every odd number in g by 2 and every even number 
+# in g by 3.  Use recycling.  Write as short an expression as
+# possible
+submit_answer({
+
+}, subprob = "-c")
+```
+
+
+```{r using-names, rr.question=TRUE}
+# here are some names of salmon populations in CA and OR:
+pops <- c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_R", "Chetco_R", "Cole_Rivers_H", "Applegate_Cr", "Coquille_R", "Umpqua_sp", "Siuslaw_R")
+
+# each one of these populations belongs to a so-called 
+# "reporting-unit" which may include multiple populations.
+# Here are the reporting units corrsponding to the populations in pops:
+repunits <- c("CaliforniaCoast", "CaliforniaCoast", "KlamathR", "KlamathR", "NCaliforniaSOregonCoast", "NCaliforniaSOregonCoast", "RogueR", "RogueR", "MidOregonCoast", "MidOregonCoast", "MidOregonCoast")
+
+# here is the sequence of population-of-origin for 25 fish caught
+# in a fishery off the coast of california:
+set.seed(12)
+fish_seq <- sample(pops, 25, replace = TRUE)
+
+# Problem (a): Instead of knowing the sequence of salmon populations, some
+# fishery managers want you to give them the sequence of *reporting units*.
+# return a vector of length 25 (same as fish_seq) that gives the sequence of reporting units
+# of the fish in fish_seq.  Do this by setting the names attribute of 
+# repunits to be the pops and then indexing that vector with fish_seq.
+submit_answer({
+
+}, subprob = "-a")
+
+
+# Now, 20 more fish were caught and their lengths measured in mm.  Those
+# lengths are recorded in fish_len, and the populations from which those
+# fish came from are recorded in the names attribute of fish_len
+set.seed(2)
+fish_len <- floor(rnorm(20, mean = 700, sd = 90))
+names(fish_len) <- sample(pops, 20, replace = TRUE)
+
+# Problem (b): Create a new vector equal to fish_len, but give it
+# names that are the reporting units corresponding to the
+# fish_len populations. Call it fish_lr, and, after creating it
+# return it.
+submit_answer({
+
+}, subprob = "-b")
+
+
+# Problem (c): Extract the lengths of the 9 fish from the MidOregonCoast
+# reporting unit.  Don't do this by hand! Use a tidy expression (like indexing
+# on the basis of a comparison of the names attribute of fish_lr)
+submit_answer({
+
+}, subprob = "-c")
+```
+
+
+## Sorting in R  {#sorting-in-r}
+We are going to talk briefly about sorting in R.  There are two main 
+functions used for sorting: `sort` and `order`. 
+
+The `sort` function 
+return a sorted version of its input vector.  For example:
+```{r}
+r <- c(4, 7, 1, 3, 12) # not sorted
+
+sort(r)  # returns all the elements of r in sorted order
+```
+This is useful when all you want to do is sort of single
+vector on the basis of its elements.  However, much of the
+time when one is sorting data, you will be sorting one vector
+_on the basis of a different vector_.  The `sort` function
+is not useful for that.  Instead you can use the `order`
+function.
+
+The `order` function returns the indices which, if used to
+index its argument, would put it in sorted order.  So,
+for example:
+```{r}
+r <- c(4, 7, 1, 3, 12) # not sorted (same vector as above)
+
+order(r) # indices that would extract elements from r in sorted order
+
+# note that you can achieve the same things as sort(r) with
+# r[order(r)]:
+sort(r)
+
+r[order(r)]
+```
+
+`order` is considerably more versatile.  We'll do a quick problem
+on it.
+
+```{r using-order, rr.question=TRUE}
+# Recall the fish_len variable from above.  Imagine that
+# the weight of each fish in kg is in the variable fish_wts.
+# Note that we give it the same names attribute as fish_len.
+fish_wts <- floor(rnorm(20, mean = 15, sd = 3))
+names(fish_wts) <- names(fish_len)
+
+# Problem (a): Return the vector of fish_wts sorted alphabetically
+# on the population that each fish came from.
+submit_answer({
+
+}, subprob = "-a")
+
+# Problem (b): Return fish_len sorted in DECREASING order of the
+# weight of each fish.  (do ?order to learn about sorting in increasing
+# vs decreasing order.)
+submit_answer({
+
+}, subprob = "-b")
+
 
 ```

@@ -1,0 +1,26 @@
+---
+output:
+  html_document:
+    toc: no
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+```
+
+```{r insert-ids, child="homework-2-control.Rmd"}
+```
+
+
+# Instructions for "Homework 2"
+```{r insert-header, child="exercises_standard_header.Rmd"}
+```
