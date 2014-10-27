@@ -11,11 +11,16 @@
 ./assign/assign-3.rmd: assignment-3
 ./blogs.rmd: []
 ./contribute.rmd: []
+./exercises/homework-2.rmd:
+- hw2-start
+- about-euclid-dist
+- sorting-in-r
 ./exercises/trial_homework.rmd: ex-test-start
 ./index.rmd:
 - welcome
 - welcome-about-site
 - welcome-links
+./instructions_for_exercises/inst-homework-2.rmd: []
 ./instructions_for_exercises/inst-trial_homework.rmd: []
 ./junk/r_vector_indexing_and_attributes.rmd: []
 ./lectures/atomic-data-types-and-coercion.rmd:

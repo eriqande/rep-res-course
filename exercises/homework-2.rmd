@@ -25,7 +25,7 @@ rr_commit <- NA
 
 ## Problems to be done for "`r rr_homework_name`" {#hw2-start}
 These are a selection of exercises on coercion, recycling, and indexing, including
-indexing with name.  For each problem, evaluate all the code in the code chunk
+indexing with names.  For each problem, evaluate all the code in the code chunk
 (highlight it and hit CMD-Enter (or cntrl-Enter on a PC)) and then have a look
 at each of the variables involved before writing your answer.
 
@@ -43,7 +43,7 @@ Make sure your document still knits successfully before submitting.
 
 ```{r coerce-and-multiply, rr.question=TRUE}
 # Joe R. Newbie is trying to compute the componentwise product of two 
-# vectors x and y.  But is running into trouble.  Here is what he has
+# vectors x and y,  but is running into trouble.  Here is what he has
 # done so far:
 x <- c(3, 9, 12, "16", 11.4)
 y <- c(2, 15, 10, 7, 5)
@@ -90,7 +90,7 @@ submit_answer({
 }, subprob = "-c")
 
 # Last subproblem: Modify z so that every NA gets replaced by the value
-# in the same position in the vector z
+# in the same position in the vector w
 submit_answer({
              
 }, subprob = "-d")
@@ -131,12 +131,12 @@ b <- rnorm(100)
 c <- sample(1:1000, 100)
 
 # return all the values in c that correspond to positions in 
-# in the vectors where:  
-#   values in "a" are between g and l, inclusive, alphabetically
+# the vectors where:  
+#   values in a are between "g" and "m", inclusive, alphabetically
 # AND
-#   values in "b" are less than -1.5 or greater than 1.0
+#   values in b are less than -1.5 or greater than 1.0
 
-# For checking, your result should have length 28.
+# For checking, your result should have length 6.
 submit_answer({
              
 })
@@ -182,14 +182,14 @@ pops <- c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_R", "Ch
 # Here are the reporting units corrsponding to the populations in pops:
 repunits <- c("CaliforniaCoast", "CaliforniaCoast", "KlamathR", "KlamathR", "NCaliforniaSOregonCoast", "NCaliforniaSOregonCoast", "RogueR", "RogueR", "MidOregonCoast", "MidOregonCoast", "MidOregonCoast")
 
-# here is the sequence of population-of-origin for 25 fish caught
+# here are the populations-of-origin for 25 fish caught
 # in a fishery off the coast of california:
 set.seed(12)
 fish_seq <- sample(pops, 25, replace = TRUE)
 
 # Problem (a): Instead of knowing the sequence of salmon populations, some
 # fishery managers want you to give them the sequence of *reporting units*.
-# return a vector of length 25 (same as fish_seq) that gives the sequence of reporting units
+# Return a vector of length 25 (same length as fish_seq) that gives the sequence of reporting units
 # of the fish in fish_seq.  Do this by setting the names attribute of 
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
@@ -219,6 +219,8 @@ submit_answer({
 submit_answer({
 
 }, subprob = "-c")
+
+# Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
 ```
 
 
@@ -227,13 +229,13 @@ We are going to talk briefly about sorting in R.  There are two main
 functions used for sorting: `sort` and `order`. 
 
 The `sort` function 
-return a sorted version of its input vector.  For example:
+returns a sorted version of its input vector.  For example:
 ```{r}
 r <- c(4, 7, 1, 3, 12) # not sorted
 
 sort(r)  # returns all the elements of r in sorted order
 ```
-This is useful when all you want to do is sort of single
+This is useful when all you want to do is sort a single
 vector on the basis of its elements.  However, much of the
 time when one is sorting data, you will be sorting one vector
 _on the basis of a different vector_.  The `sort` function
@@ -259,19 +261,23 @@ r[order(r)]
 on it.
 
 ```{r using-order, rr.question=TRUE}
-# Recall the fish_len variable from above.  Imagine that
-# the weight of each fish in kg is in the variable fish_wts.
-# Note that we give it the same names attribute as fish_len.
-fish_wts <- floor(rnorm(20, mean = 15, sd = 3))
-names(fish_wts) <- names(fish_len)
+# Imagine you have measured the weights (in kg) and lengths (in mm) of
+# 20 fish and recorded them in the variables wt and len.
+set.seed(3)
+wt <- round(rnorm(20, mean = 15, sd = 3), digits = 1)
+len <- wt * 53 + floor(rnorm(20, mean = 0, sd = 50))
 
-# Problem (a): Return the vector of fish_wts sorted alphabetically
+# and let the population from which the fish arrive come be recorded in
+# the variable wpop
+wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_R", "Chetco_R", "Cole_Rivers_H", "Applegate_Cr", "Coquille_R", "Umpqua_sp", "Siuslaw_R"), 20, replace = TRUE)
+
+# Problem (a): Return the vector wt sorted alphabetically
 # on the population that each fish came from.
 submit_answer({
 
 }, subprob = "-a")
 
-# Problem (b): Return fish_len sorted in DECREASING order of the
+# Problem (b): Return len sorted in DECREASING order of the
 # weight of each fish.  (do ?order to learn about sorting in increasing
 # vs decreasing order.)
 submit_answer({

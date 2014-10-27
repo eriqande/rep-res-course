@@ -130,7 +130,11 @@ Everyone, please read this!
 ### `r  course_day("Th", 4)`
 _Merge conflicts, stashing, remotes_
 
-* __Reading__: * [Hilarious analogizing between git and "X-men: Days of Future Past"](http://hashrocket.com/blog/posts/x-men-days-of-future-past-explained-in-git).  This is worth a read, even if we haven't explored all these layers of git.  Thanks to Anthony Clemento for finding this.
+* __Reading__: [Hilarious analogizing between git and "X-men: Days of Future Past"](http://hashrocket.com/blog/posts/x-men-days-of-future-past-explained-in-git).  This is worth a read, even if we haven't explored all these
+layers of git.  Thanks to Anthony Clemento for finding this.
+* __Assignment Due:__ _Exercise Set 2_, named [Homework 2](#hw2-start).  A collection of exercises on 
+vectorization, recycling, indexing, and names.  Instructions are on the page. I emailed
+this out on Sunday night. It's another GitHub submission.
 
 ## Week 5 {#syl-week-5}
 
