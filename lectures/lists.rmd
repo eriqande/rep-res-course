@@ -1,0 +1,231 @@
+---
+title: Lists
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+
+init_homework("Lists lecture")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+```
+
+
+# Lists (aka "recursive vectors") {#lists-lecture} 
+
+
+
+## Introduction to Lists {#intro-to-lists}
+
+* A _list_ in R is a special type of vector.  
+* Previously we have seen _atomic vectors_ in which each element is a scalar/singleton and all elements must be of the same mode.
+* In a list, each _component_ can be _any object of any sort_!  So, a single component of a list can be an atomic vector, or another list, or a function, or an array, etc.  
+* No restriction that the different components of a list be of the same `mode`, or `length`, or `class` or _anything_!
+* This makes the `list` class a _very important_ class of objects in R.
+    + Most high level functions (like `lm` or `hist`, etc.) return their results in lists
+    + So, you really need to know how to:
+        1. Recognize lists when you see them
+        2. Access elements from lists
+        3. Operate upon the components of lists
+
+
+
+### Creating Lists
+You use the `list()` function to create a list.
+```{r}
+# make L an empty list
+L <- list()  
+L
+
+
+# make a list of two components
+M <- list( c(2,4,6), c("a","b") )
+M
+
+
+# make a list of three components
+N <- list( 12, c(3,4), c(T,T,T,F))
+N
+```
+
+
+### How R prints lists
+* Notice that the i-th component is printed after
+  a `[[i]]` in R's output.  
+    + Shortly we will see that this explicitly tells us
+    how we can extract these values from the list.
+* What if a list includes another list as a component?
+    ```{r}
+    # make a list that has another list as a component
+    Q <- list(c(1, 2, 3, 4, 5, 6),
+              c("a", "b", "c", "d"),
+              list("squish",
+                   list("whizz-bang",
+                        c(F, F, T)
+                        )
+                   )
+              )
+    Q
+    ```
+
+### Names for list components
+
+* Just as we saw atomic vectors with a `names` attribute, so to can lists have names.
+* You can pass names in to the `list()` function:
+    +`list()` takes arguments that are `value` or `tag=value`.  
+    + The `tag`s are recorded in the `names` attribute of the list. 
+        ```{r}
+        # list of 2 named components and one unnamed one
+        a <- list( foo = c("q","w"), bar = "MINE!", 3+5*1i )
+        
+        # note that the names of the components are stored in the 
+        # list's names attribute. Accessible with the names function
+        names(a)  # the names are stored in this attribute
+        ```
+
+
+
+### Backtrack: you can do the same with _c()_
+
+* In the last lecture, we may not have noted that `names` can be assigned
+to atomic vectors during assignment with `c()`, just like one can with `list()`:
+    ```{r}
+    # example of assigning names and values with c() 
+    weights <- c( onefish = 90, 
+                  twofish = 101,
+                  redfish = 112, 
+                  bluefish = 107
+                  )
+    weights
+  
+    # check out the names:
+    names(weights)
+
+    ```
+
+
+### How R prints complex lists with names
+Let's recreate our Q list from above, but put
+a few names on it (and call it Z):
+```{r}
+# make a list that has another list as a component
+Z <- list(screaming = c(1, 2, 3, 4, 5, 6),
+          yellow = c("a", "b", "c", "d"),
+          zonkers = list("squish",
+                         second = list(a.name = "whizz-bang",
+                                       c(F, F, T)
+                                       )
+                         )
+          )
+Z
+```
+
+
+## Accessing Parts of Lists with [ ]
+`L[ vec ]`--- Standard indexing operator.  Call it the "single-bite" extractor---it's like a pair of jaws that just rips off a chunk of the vector or list but doesn't "chew" it at all.
+
+* As before, `vec` is a vector that is positive numeric, negative numeric, logical, or character (names) 
+```{r}
+N[c(3,1)]
+
+N[-1]
+a[c(T,T)]
+a[c("foo", "bar")]
+a[c(3,2)]
+```
+
+If `L` was a list, the result is a list. If `L` was an atomic vector, the result is an atomic vector.
+
+## Accessing Single Components of Lists with [[ ]]
+
+* `<nowiki>L[[ i ]]</nowiki>` is the list-component extractor.  I think of it as the "two-bite" extractor.  It takes a bite of the list and then it "crunches off" its outer shell.  
+* Since it is "chewing" it can't take a big bite---only a single component at a time, so `i` is just a single positive integer or a name.
+* "Crunching off" its outer shell means it returns the _contents_ of the component, and _not_ a list that contains that component.
+```{r}
+N[2]  # single bite
+
+N[[2]] # two-bite (one bite, one chew!)
+a["foo"] # single bite
+a[["foo"]] # two bites
+```
+This can be used with atomic vectors, but seldom is.
+
+
+## The $ Two-Bite Extractor
+If you have names on your list, you can use the `$` to extract single components like so:
+```{r}
+a$foo
+a$bar
+```
+Which is super convenient if you are typing the name since you don't have to use quotation marks.  But it does not work with names that are stored in objects:
+```{r}
+i <- "foo"
+a$i  # NULL! no component named i
+a[[i]] # this returns the same as a$foo
+```
+
+
+## Adding or Changing Components
+Just add a component using `<nowiki>[[ ]]</nowiki>` or `$`:
+```{r}
+length(a)  # number of components
+a[["boing"]] <- 1:24
+length(a) # it is now one component longer
+a$another <- 1:24 > 8 & 1:24 < 13
+a[[10]] <- "this is way out there"
+a$bar <- matrix(rep(10,9), nrow=3)
+```
+Adding an element to a list that is beyond its current length pads the rest with `NULL`s
+
+## Various List Essentials
+
+* You can use the `c()` operator to catenate lists.  If any argument is a list, then it creates a list
+```{r}
+c(a,N) # stick those in there
+
+c(a,c("oops", "this", "atomic", "vector", "gets", "listized!"))
+```
+
+* Note how different this is than trying to catenate with `list()`
+```{r}
+z <- list(a,N)  # this makes a new list with two components that are lists!
+
+z[[1]]$another;  # two two-bites!
+z[[1]][[5]][11]  # two two-bites and a one-bite!
+```
+
+
+## Coercing To/Away From List
+
+* `as.list()` to coerce an atomic vector to be a list with each component being a scalar:
+```{r}
+w <- c("this", "is", "only", "a", "test")
+
+as.list(w)  # make a list of the vector
+names(w) <- c("one", "two", "three", "four", "fish")
+as.list(w)  # names are preserved
+```
+
+* `unlist()` to "flatten" a list into an atomic vector, coercing mode to the most general. Note that `names` if present get prepended to indexes, and NULL components are omitted:
+```{r}
+unlist(a)
+
+```
+
+
