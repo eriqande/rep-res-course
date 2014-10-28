@@ -35,14 +35,15 @@ rr_hw_file_name <- "exercises/trial_homework.rmd"
 
 * A _list_ in R is a special type of vector.  
 * Previously we have seen _atomic vectors_ in which each element is a scalar/singleton and all elements must be of the same mode.
-* In a list, each _component_ can be _any object of any sort_!  So, a single component of a list can be an atomic vector, or another list, or a function, or an array, etc.  
+* In a list, each _component_ can be _any object of any sort_!  So, a single component of a list can be an atomic vector, or another list, or a function, or an array, or a data frame, etc.  
 * No restriction that the different components of a list be of the same `mode`, or `length`, or `class` or _anything_!
-* This makes the `list` class a _very important_ class of objects in R.
-    + Most high level functions (like `lm` or `hist`, etc.) return their results in lists
+* This makes the `list` class _very powerful (!!)_ and makes lists a _very important_ type of object in R.
+* Most high level functions (like `lm` or `hist`, etc.) return their results in lists
     + So, you really need to know how to:
         1. Recognize lists when you see them
         2. Access elements from lists
         3. Operate upon the components of lists
+    + You will also want to know how to create and use _lists_ yourself.
 
 
 
@@ -86,13 +87,14 @@ N
 
 ### Names for list components
 
-* Just as we saw atomic vectors with a `names` attribute, so to can lists have names.
+* Just as we saw atomic vectors with a `names` attribute, so too can lists have names.
 * You can pass names in to the `list()` function:
-    +`list()` takes arguments that are `value` or `tag=value`.  
+    + `list()` takes arguments that are have a `value` or `tag=value` format.  
     + The `tag`s are recorded in the `names` attribute of the list. 
         ```{r}
         # list of 2 named components and one unnamed one
         a <- list( foo = c("q","w"), bar = "MINE!", 3+5*1i )
+        
         
         # note that the names of the components are stored in the 
         # list's names attribute. Accessible with the names function
@@ -104,7 +106,7 @@ N
 ### Backtrack: you can do the same with _c()_
 
 * In the last lecture, we may not have noted that `names` can be assigned
-to atomic vectors during assignment with `c()`, just like one can with `list()`:
+to the elements of atomic vectors during assignment with `c()`, just like one can with `list()`:
     ```{r}
     # example of assigning names and values with c() 
     weights <- c( onefish = 90, 
@@ -137,64 +139,292 @@ Z
 ```
 
 
-## Accessing Parts of Lists with [ ]
-`L[ vec ]`--- Standard indexing operator.  Call it the "single-bite" extractor---it's like a pair of jaws that just rips off a chunk of the vector or list but doesn't "chew" it at all.
+## Accessing Parts of Lists with [ ] {#single-chomp}
 
-* As before, `vec` is a vector that is positive numeric, negative numeric, logical, or character (names) 
+### The Boxcar analogy
+Someone had a nice way of thinking about lists:
+
+* You can think of a list as a train.
+* Each component of a list is a boxcar.
+* What that component holds is the contents of the boxcar.
+
+The weird thing about this is that inside a boxcar you can have a whole 'nuther train...
+
+* However, it provides a nice way of thinking about the indexing lists
+with the different list indexing operators. 
+
+### List indexing operators
+
+* There are `[ ]` and '[[ ]]` and `$`.  
+* We will talk about `[ ]` first
+
+
+### _L[ vec ]_  --- The "standard" indexing operator
+
+* This is what we have been using on atomic vectors.
+* When applied to a list the `[ ]` indexing operator
+    + Returns a list, stil!
+    + Effectively just picks out boxcars from the original list (i.e. original train)
+    and links them up (in the order prescribed by the indexing operator) into a new
+    train.
+* I like to call it the "single-chomp" indexing operator---it's like a pair of jaws that just rips off a chunk of the list but doesn't "chew" into the boxcars at all.
+
+### A diagram might help
+
+* Here is the list `Z` from above.  It is a train with three boxcars:
+
+![list-train.png](diagrams/list-train.png)
+
+* Never mind that the boxcar named "zonkers" has a lot of complicated stuff in it.
+
+* __Now, this is crucial:__ From the perspective of the `[ ]` indexing operator
+the train is just a bunch of boxcars.
+    + The `[ ]` is agnostic to the contents of the boxcars...
+    + When you index it with `[ ]`, the `[ ]` does just what it would
+    do with an atomic vector, it just happens that the elements of a _list_
+    can be thought of as singleton _lists_, themselves (instead of _logicals_ or _numerics_, etc.)
+    
+### The way _[ ]_ sees a list:
+
+So, to the `[ ]` ("single-chomp" indexing operator) the list `Z` really
+looks like this:
+
+![list-train-agnostic.png](diagrams/list-train-agnostic.png)
+
+Hence if do this `Z[c(3,1)]` you get a list back that looks like:
+
+![list-train-agnostic-3-1.png](diagrams/list-train-agnostic-3-1.png)
+
+And if you had X-ray eyes and were able to peek into each of the boxcars 
+of the list `Z[c(3,1)]`, the list would look like this:
+
+![list-train-3-1.png](diagrams/list-train-3-1.png)
+
+
+### Examples of indexing with _[vec]_ on lists in code
+
+* Consider indexing a list with `[vec]`
+* As before, `vec` is a vector that is positive numeric, negative numeric, logical, or character (names)
+(recall the four main ways of indexing a vector...)
+* So, let's see what it looks like when we index some of the lists we created up above:
 ```{r}
+# first play around with the list N
+N
+
+
 N[c(3,1)]
 
+
 N[-1]
+
+
+# now index the list a
+a
+
+
 a[c(T,T)]
+
+
 a[c("foo", "bar")]
+
+
 a[c(3,2)]
+
 ```
 
-If `L` was a list, the result is a list. If `L` was an atomic vector, the result is an atomic vector.
+### Summary
+* When you index a variable `L` with `[ ]`, then
+    + If `L` is a list, the result is a list.
+    + If `L` is an atomic vector, the result is an atomic vector.
 
-## Accessing Single Components of Lists with [[ ]]
 
-* `<nowiki>L[[ i ]]</nowiki>` is the list-component extractor.  I think of it as the "two-bite" extractor.  It takes a bite of the list and then it "crunches off" its outer shell.  
-* Since it is "chewing" it can't take a big bite---only a single component at a time, so `i` is just a single positive integer or a name.
+
+## Accessing Single Components of Lists with [[ ]]  {#double-chomp}
+
+* Indexing with `[ ]` is all fine and dandy if all we ever want to do is
+shuffle boxcars around.
+* But, typically, "the goods" are _inside the boxcars!_
+* How can we get at what is _in the boxcars_?
+* Enter the `[[ ]]` indexing operator.
+* If we do `L[[i]]`, then,
+    1. We go to boxcar _i_
+    2. We open the door of boxcar _i_, pull out _its contents_, and return the contents
+    (but not the boxcar "shell")
+
+### Call it a two-chomp extractor...
+I think of `[[ ]]` as the "two-chomp" extractor. (which is what it looks like...if `[ ]` is the 
+one-chomp extractor) 
+    + The first chomp grabs a boxcar
+    + The second one chews on the boxcar to "crunch off" its outer shell.  
+    
+### _[[ i ]]_ only works with single indexes
+Here is how I think of it:
+* Because `[[ ]]` is "chewing" (to crunch into the boxcar) it can't take too big of a bite
+* In fact, it can only chew on a single component of a list (single boxcar) at a time 
+* So `i` in `[[i]]` can be only:
+    + a single positive integer,  __OR__
+    + a single _name_ of a component.
 * "Crunching off" its outer shell means it returns the _contents_ of the component, and _not_ a list that contains that component.
+    + However, if the contents of the boxcar _is_ another list (for example the "zonkers"
+    component in `Z`), then, of course that list gets returned as a list.
+        + i.e., it only chews through the outermost boxcar.
 ```{r}
-N[2]  # single bite
+N[2]  # single chomp
 
-N[[2]] # two-bite (one bite, one chew!)
-a["foo"] # single bite
-a[["foo"]] # two bites
+
+N[[2]] # two chomps (one bite, one chew!)
+
+
+a["foo"] # single chomp
+
+
+a[["foo"]] # two chomps
+
 ```
-This can be used with atomic vectors, but seldom is.
+
+#### These would not work
+```{r, eval=FALSE}
+# indexer for [[ ]] must be of length 1
+a[[ c("foo", "bar")]]
+
+a[[c(1, 2)]]
+
+# indexer for [[ ]] cannot be negative
+a[[-1]]
+
+# indexer for [[ ]] oughtn't be a logical vector
+a[[ TRUE ]]  # this only works because TRUE
+             # gets coerced to 1
+
+a[[c(TRUE, TRUE)]] # this returns "q".  Weird subtetly. 
+                   # not recommended!
+
+a[[c(TRUE, FALSE)]]  # fails appropriately
+```
+* __N.B.__ The `[[ ]]` can be used with atomic vectors, but seldom is, as it offers nothing
+over `[ ]` in the atomic vector case.
 
 
-## The $ Two-Bite Extractor
-If you have names on your list, you can use the `$` to extract single components like so:
+
+
+## The $ Two-Chomp Extractor {#dollar-sign}
+If you have names on your list, you can use the `$` to
+extract _the contents_ of single components like so:
 ```{r}
 a$foo
+
 a$bar
+
 ```
-Which is super convenient if you are typing the name since you don't have to use quotation marks.  But it does not work with names that are stored in objects:
+Which is convenient if you are typing the name since you don't have to use quotation marks.  But it does not work with names that are stored in objects:
 ```{r}
 i <- "foo"
+
+
 a$i  # NULL! no component named i
+
+
 a[[i]] # this returns the same as a$foo
 ```
 
+### Class Activity:
+Given our list Z:
+```{r}
+Z
+```
+How can you extract the part whose value is: `"whizz-bang".
 
-## Adding or Changing Components
-Just add a component using `<nowiki>[[ ]]</nowiki>` or `$`:
+Do that with _names_, and with _integer indices_, and also
+do it with `$` and with ``[[ ]]` and with a combination of both.
+
+Recall that R prints lists with headers that show how you could
+access each element.
+
+
+
+
+### The $ extractor might need quotes 
+* If the names of the list don't satisfy the requirements for
+names of symbols in the R language, then you need to quote them
+```{r}
+b <- list("my bonny" = 1:3, "lives-over" = 4:9, "the.ocean" = 10:14)
+
+# note when you print it you see the single backticks:
+b
+
+# so, this will work:
+b$`lives-over`
+
+# but it might be preferable to do
+b[["lives-over"]]
+
+# this would fail:  b$lives-over
+
+# Oddly, this works:
+b$my
+
+# Why?
+```
+
+### _$_ and name matching
+* If the name given to $ is the unique prefix of name in the
+list, then it will automagically expand to that
+```{r}
+silly <- list( here.is.a.stupid.long.name = c(F, T, T),
+               here.is.another.stupid.long.name = 4:8
+               )
+
+silly$here.is.a.  # this works for here.is.a.stupid.long.name
+
+silly$here.is.an  # this works for here.is.another.stupid.long.name
+
+# these return NULL
+silly$here.is.a
+
+silly$here
+
+silly$something.completely.different
+
+silly[["what.is.going.on.here?"]]
+```
+
+
+## Adding or Changing Components {#list-add-or-change}
+
+### You can add a component to a list using _[[ ]]_ or _$_:
 ```{r}
 length(a)  # number of components
+
+
 a[["boing"]] <- 1:24
+
+
 length(a) # it is now one component longer
+
+
 a$another <- 1:24 > 8 & 1:24 < 13
+
+
 a[[10]] <- "this is way out there"
-a$bar <- matrix(rep(10,9), nrow=3)
+
 ```
 Adding an element to a list that is beyond its current length pads the rest with `NULL`s
 
-## Various List Essentials
 
+### You can also _replace_ a component using _[[ ]]_ or _$_ 
+```{r}
+a
+
+
+a$bar <- "YOURS"
+
+a
+
+```
+
+## Various List Essentials {#list-essentials}
+
+### Catenating lists
 * You can use the `c()` operator to catenate lists.  If any argument is a list, then it creates a list
 ```{r}
 c(a,N) # stick those in there
@@ -211,7 +441,7 @@ z[[1]][[5]][11]  # two two-bites and a one-bite!
 ```
 
 
-## Coercing To/Away From List
+### Coercing To/Away From List
 
 * `as.list()` to coerce an atomic vector to be a list with each component being a scalar:
 ```{r}
