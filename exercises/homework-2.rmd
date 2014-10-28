@@ -51,7 +51,7 @@ y <- c(2, 15, 10, 7, 5)
 # when he tries to multiply these he gets an error.  Use an `as.` function
 # to coerce x appropriately and then return the product of x and y.
 submit_answer({
-  
+  y*as.numeric(x)
 })
 
 ```
