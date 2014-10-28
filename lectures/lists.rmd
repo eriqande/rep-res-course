@@ -332,7 +332,7 @@ Given our list Z:
 ```{r}
 Z
 ```
-How can you extract the part whose value is: `"whizz-bang".
+How can you extract the part whose value is: `"whizz-bang"`.
 
 Do that with _names_, and with _integer indices_, and also
 do it with `$` and with ``[[ ]]` and with a combination of both.
@@ -347,18 +347,18 @@ access each element.
 * If the names of the list don't satisfy the requirements for
 names of symbols in the R language, then you need to quote them
 ```{r}
-b <- list("my bonny" = 1:3, "lives-over" = 4:9, "the.ocean" = 10:14)
+b <- list("my bonny" = 1:3, "lies-over" = 4:9, "the.ocean" = 10:14)
 
 # note when you print it you see the single backticks:
 b
 
 # so, this will work:
-b$`lives-over`
+b$`lies-over`
 
 # but it might be preferable to do
-b[["lives-over"]]
+b[["lies-over"]]
 
-# this would fail:  b$lives-over
+# this would fail:  b$lies-over
 
 # Oddly, this works:
 b$my
@@ -366,7 +366,7 @@ b$my
 # Why?
 ```
 
-### _$_ and name matching
+### $ and name matching
 * If the name given to $ is the unique prefix of name in the
 list, then it will automagically expand to that
 ```{r}
@@ -391,7 +391,7 @@ silly[["what.is.going.on.here?"]]
 
 ## Adding or Changing Components {#list-add-or-change}
 
-### You can add a component to a list using _[[ ]]_ or _$_:
+### You can add a component to a list using _[[ ]]_ or $:
 ```{r}
 length(a)  # number of components
 

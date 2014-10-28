@@ -50,6 +50,14 @@
 ./lectures/learning-rmarkdown-in-an-hour.rmd:
 - rmarkdown-in-an-hour
 - rmarkdown-setup
+./lectures/lists.rmd:
+- lists-lecture
+- intro-to-lists
+- single-chomp
+- double-chomp
+- dollar-sign
+- list-add-or-change
+- list-essentials
 ./lectures/rstudio-orientation.rmd:
 - rstudio-orientation
 - r-console
