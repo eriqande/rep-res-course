@@ -196,8 +196,7 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # of the fish in fish_seq.  Do this by setting the names attribute of 
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
-  setNames(repunits, pops)
-  repunits[fish_seq]
+
 }, subprob = "-a")
 
 
