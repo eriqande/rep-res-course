@@ -220,7 +220,18 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # fish_len populations. Call it fish_lr, and, after creating it
 # return it.
 submit_answer({
-names(fish_len)
+  
+a<-data.frame(fish_len,names(fish_len))
+b<-data.frame(repunits,names(repunits))
+
+hmm<-merge(a,b, by.x="names.fish_len.",by.y="names.repunits.")
+
+fish_lr<-hmm$fish_len
+names(fish_lr)<-hmm$repunits
+
+fish_lr
+# I know there is an easier way to do this but I guess that is why I am taking this class!
+
 }, subprob = "-b")
 
 
@@ -228,6 +239,8 @@ names(fish_len)
 # reporting unit.  Don't do this by hand! Use a tidy expression (like indexing
 # on the basis of a comparison of the names attribute of fish_lr)
 submit_answer({
+
+  fish_lr[names(fish_lr)=="MidOregonCoast"]
 
 }, subprob = "-c")
 
@@ -266,6 +279,7 @@ order(r) # indices that would extract elements from r in sorted order
 sort(r)
 
 r[order(r)]
+
 ```
 
 `order` is considerably more versatile.  We'll do a quick problem
@@ -286,14 +300,18 @@ wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_
 # on the population that each fish came from.
 submit_answer({
 
-}, subprob = "-a")
+  wt[order(wpop)]
+
+  }, subprob = "-a")
 
 # Problem (b): Return len sorted in DECREASING order of the
 # weight of each fish.  (do ?order to learn about sorting in increasing
 # vs decreasing order.)
 submit_answer({
 
-}, subprob = "-b")
+  len[order(wt, decreasing = T)]
+
+  }, subprob = "-b")
 
 
 ```
