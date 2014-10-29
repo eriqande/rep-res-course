@@ -51,7 +51,7 @@ y <- c(2, 15, 10, 7, 5)
 # when he tries to multiply these he gets an error.  Use an `as.` function
 # to coerce x appropriately and then return the product of x and y.
 submit_answer({
-  
+  as.numeric(x) * y
 })
 
 ```
@@ -70,7 +70,9 @@ z[sample(1:length(z), 4)] <- NA
 # return a vector that has all the non-NA values in z in the 
 # order in which they occur in z.
 submit_answer({
-              #  <- put your answer to the left of the #. 
+    logicalz <- !is.na(z)
+    
+    
 }, subprob = "-a")
 
 # In the above, don't worry about the "subprob" argument.  That is just
