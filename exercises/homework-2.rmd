@@ -153,14 +153,14 @@ f <- LETTERS
 # Index f with a logical vector (using recycling) to return every
 # third element in f (i.e. elements 3, 6, 9,...)
 submit_answer({
-  f[seq(3, length(f), 3)]
+  f[c(F,F,T)]
 }, subprob = "-a")
 
 # Use recycling with a logical vector
 # to return every 3rd element in f, starting on element number 2 (i.e.
 # get elements 2, 5, 8, ...)
 submit_answer({
-  f[seq(2, length(f), 3)]
+  f[c(F,T,F)]
 }, subprob = "-b")
 
 
@@ -171,7 +171,7 @@ g <- 10:21
 # in g by 3.  Use recycling.  Write as short an expression as
 # possible
 submit_answer({
-   
+  g*(3-g%%2)
 }, subprob = "-c")
 ```
 
@@ -196,7 +196,8 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # of the fish in fish_seq.  Do this by setting the names attribute of 
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
-
+    names(repunits)<-pops
+    repunits[fish_seq]
 }, subprob = "-a")
 
 
@@ -212,7 +213,8 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # fish_len populations. Call it fish_lr, and, after creating it
 # return it.
 submit_answer({
-
+    fish_lr<-fish_len
+    names(fish_lr)<-repunits[names(fish_lr[pops])]
 }, subprob = "-b")
 
 
@@ -277,14 +279,14 @@ wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_
 # Problem (a): Return the vector wt sorted alphabetically
 # on the population that each fish came from.
 submit_answer({
-
+    wt[order(wpop)]
 }, subprob = "-a")
 
 # Problem (b): Return len sorted in DECREASING order of the
 # weight of each fish.  (do ?order to learn about sorting in increasing
 # vs decreasing order.)
 submit_answer({
-
+    len[order(wt, decreasing=T)]
 }, subprob = "-b")
 
 
