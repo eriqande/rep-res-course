@@ -222,7 +222,7 @@ N[-1]
 a
 
 
-a[c(T,T)]
+a[c(T,T,F)]
 
 
 a[c("foo", "bar")]
@@ -252,13 +252,14 @@ shuffle boxcars around.
     (but not the boxcar "shell")
 
 ### Call it a two-chomp extractor...
-I think of `[[ ]]` as the "two-chomp" extractor. (which is what it looks like...if `[ ]` is the 
+* I think of `[[ ]]` as the "two-chomp" extractor. (which is what it looks like...if `[ ]` is the 
 one-chomp extractor) 
     + The first chomp grabs a boxcar
     + The second one chews on the boxcar to "crunch off" its outer shell.  
     
 ### _[[ i ]]_ only works with single indexes
 Here is how I think of it:
+
 * Because `[[ ]]` is "chewing" (to crunch into the boxcar) it can't take too big of a bite
 * In fact, it can only chew on a single component of a list (single boxcar) at a time 
 * So `i` in `[[i]]` can be only:
