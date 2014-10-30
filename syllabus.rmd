@@ -141,7 +141,7 @@ layers of git.  Thanks to Anthony Clemento for finding this.
 vectorization, recycling, indexing, and names.  Instructions are on the page. I emailed
 this out on Sunday night. It's another GitHub submission.
 * __Lecture:__
-    + [Merge conflicts, stashing, remotes](#conflicts-and-remotes)
+    + [Merge conflicts, stashing, remotes](http://eriqande.github.io/rep-res-web/lectures/conflicts-stashing-remotes.html)
 
 ## Week 5 {#syl-week-5}
 

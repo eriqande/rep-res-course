@@ -29,6 +29,9 @@
 - coercion
 - missing-data
 - vectorization
+./lectures/conflicts-stashing-remotes.rmd:
+- no-fear-merge-conflicts
+- no-switchy-branchy
 ./lectures/course-introduction.rmd:
 - intro-lecture
 - intro-welcome

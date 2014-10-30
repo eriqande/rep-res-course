@@ -27,7 +27,7 @@ rr_hw_file_name <- "exercises/trial_homework.rmd"
 ```
 
 
-# Lists (aka "recursive vectors") {#conflicts-and-remotes} 
+# Conflicts, stashing, remotes {#conflicts-and-remotes} 
 
 * Goals for this lecture
     1. Help everyone get there core editor configured for git
@@ -41,21 +41,271 @@ rr_hw_file_name <- "exercises/trial_homework.rmd"
 
 ## Configuring your text editor {#intro-to-lists}
 
+### Git needs messages from you
+* When you make commits, git wants you to comment on them
+* If you don't write a commit message, the commit gets aborted
+* Writing comit comments in RStudio is easy: there is a "commit message" box
+* When you are merging branches on the command line, git tries to load up
+a text editor.
+    + Note that a text editor is any program used to edit text files.  Microsoft Word is not 
+    a text editor...
+* On Mac: Popular Unix terminal text editors include _emacs_ and _vi_ or _vim_
+    + These can seem mysterious to the unitiated.  
+* On PC: did any people on PC's have an awkward time writing or saving their commit messages?
 
+### What editor does git use?
+
+* You can configure it:
+    + On my system, I can look at the git configurations in effect like this (in the shell)
+        ```{r, eval=FALSE}
+git config --list
+
+# which tells me this:
+user.name=Eric C. Anderson
+user.email=eric.anderson@noaa.gov
+color.ui=true
+http.sslverify=true
+push.default=matching
+credential.helper=osxkeychain
+diff.tool=opendiff
+difftool.prompt=false
+difftool.twdiff.cmd=/usr/bin/twdiff --wait --resume $LOCAL $REMOTE
+merge.tool=twdiff
+mergetool.prompt=false
+mergetool.twdiff.cmd=/usr/bin/twdiff --wait --resume $LOCAL $REMOTE
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=https://github.com/eriqande/rep-res-course.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+  branch.master.remote=origin
+branch.master.merge=refs/heads/master
+```
+
+*  There actually isn't a `core.editor` in there, because git uses my Unix system definition:
+    ```{r, eval=FALSE}
+env | grep EDITOR
+
+# which gives:
+EDITOR=emacs
+```
+
+
+### What should you use?
+
+* In my opinion, the most hassle free terminal editor for 
+newcomers is `nano` which should already be intsalled on OS X.
+* If you want a reasonable editor for git, on Mac, do this:
+    ```{r, eval=FALSE}
+    git config --global core.editor nano
+```
+* Then, when you find git asking you to edit a commit message, you get
+an editor that has hints about what to do.
+    + Three steps to saving your commit message after editing it:
+        1. `^X` = control-x  (to exit file)
+        2. `Y` to save "Yes, save that thing"
+        3. `RETURN` to choose the default name for the file. (Don't change the name)
+    + Note that your commit message can't be empty (or git will abort the commit).
 
 ## Don't be afraid of merge conflicts {#no-fear-merge-conflicts}
 
+### Conflicts happen
+
+* Git will report a _merge conflict_ when merging two commits in
+which the _same part_ of the _same file_ has been modified.
+* What is meant by the _same part_ of the _same file_
+    + Same line? Same word? Same "paragraph"?, etc.
+    
+### Class activity to explore conflicts
+
+__Here is what I did__ 
+
+1. Create new RStudio project with a git repository and call it `explore_conflict`
+2. Create a new R file called `three_lines.R` and fill it with this:
+    ```{r}
+    # Line 1
+    # Line 2
+    # Line 3
+    ```
+3. commit that file.  After committing you have a _master_ branch.
+4. Immediately make some new branches:
+    ```{r, eval=FALSE}
+    git branch a1
+    git branch a3
+    git branch a13
+    git branch b2
+    ```
+5. Then checkout each of those branches in turn and modify the file `three-lines.R` in them
+according to their names (add an `a` at the end of line 1 in `a1`,
+add an `a` at the end of lines 1 and 3 in `a13`, etc.), i.e. in `a13` the file will look like:
+    ```{r}
+    # Line 1 a
+    # Line 2  
+    # Line 3 a
+```
+    * After this it is easy to view all those branches in RStudio's git History viewer.
+6. Now, we don't want to modify these, but we want to see what we can merge with what else. So, checkout
+new branches like this:
+    1. Can we merge b2 into a13 without a conflict?
+        ```{r, eval=FALSE}
+        git checkout a13
+        git checkout -b a13-and-b2
+        git merge b2  # Lo and behold we get a conflict even though there no changes on the same lines
+        ```
+        + But, conflicts aren't necessarily scary.  Here is the run down.  
+            1. You get a message that looks like
+                ```{r, eval=FALSE}
+                Auto-merging three_lines.R
+                CONFLICT (content): Merge conflict in three_lines.R
+                Automatic merge failed; fix conflicts and then commit the result.
+                ```
+            2. In RStudio's git panel the files with conflicts appear orange, and the file has this 
+            in it:
+                ```{r, eval=FALSE}
+                <<<<<<< HEAD
+                # Line 1 a
+                # Line 2
+                # Line 3 a
+                =======
+                # Line 1
+                # Line 2 b
+                # Line 3
+                >>>>>>> b2
+                ```
+                which shows you that year HEAD branch `a13-and-b2` in this case, has the part
+                above the `======` and the b2 has the part below the `======`.
+            3. To successfully merge these branches, all you need to do is modfify the file to your
+            liking, stage it and commit it. Maybe it should look like:
+                ```{r, eval=FALSE}
+                # Line 1 a
+                # Line 2 b
+                # Line 3 a
+                ```
+                Edit it to look like that and commit it.
+            4. What if you get cold feet?  At any point in the process before you actually commit
+            the merge, if you do
+                ```{r, eval=FALSE}
+                git merge --abort
+                ```
+            git will return your working directory the way it was before you tried doing the merge.  
+    2. How about a3 into a1?
+        ```{r, eval=FALSE}
+        git checkout a1
+        git checkout -b a1-with-a3
+        git merge a3  # No conflicts!
+        ```
+    3. How about a3 into a2?  (Conflict!)  So, it appears that if you make a change on an adjacent line it
+    gives you a conflict.
+    4. How about if the same change is made in each file?  Like a13 onto a1?  Success!!
+    5. How about we make a new branch off _master_ called `wrap-it` and then add stuff to the top and the
+    bottom of the file, but we don't touch the three lines at all.  Will we be able to merge it with `b2`
+    without conflicts?
+        + Yes!  Git is smart enough to recognize the three lines even though they are no longer the only
+        three lines in the file!
+
+    
+    
+            
+    
+    
+
+## When git doesn't let me switch branches (or merge) {#no-switchy-branchy}
+
+### Git will typically not lot you clobber your working area
+
+* If your working directory is _clean_, you can switch branches or _merge_ without git shrieking at you.
+* If you working directory is _dirty_, you might see this:
+    ```{r, eval=FALSE}
+    # IF TRYING TO SWITCH BRANCHES
+    2014-10-30 13:29 /explore_conflict/--% (wrap-it-and-b2) git checkout master
+    error: Your local changes to the following files would be overwritten by checkout:
+    three_lines.R
+    Please, commit your changes or stash them before you can switch branches.
+    Aborting
+
+    ### OR IF TRYING TO MERGE
+    2014-10-30 14:10 /explore_conflict/--% (wrap-it-and-b2) git merge a2
+    error: Your local changes to the following files would be overwritten by merge:
+    three_lines.R
+    Please, commit your changes or stash them before you can merge.
+    Aborting
+    ```
+* Remember, a _dirty_ state in your working directory means that there are changes to some files
+that have not been committed.
+* For a detailed discussion of when git will and won't let you switch branches check out this
+[link](http://stackoverflow.com/questions/22053757/git-checkout-another-branch-when-there-are-uncommitted-changes-on-the-current)
+* Big Note: If uncommitted changes wouldn't be clobbered by switching to a new branch, then that dirty state 
+gets carried over to the branch you are switching to.
 
 
-## When git doesn't let me switch branches {#no-switchy-branchy}
 
+### What can be done when you can't switch branches
+
+* First, try to understand just which files will get clobbered.
+* Then you have the choice of:
+    1. Discarding your changes (easiest to do in the RStudio Diff window)
+    2. Committing your changes
+    3. Stashing your changes.
+* Number 1 is fine if you are sure you want to toss your changes.
+* Number 2 is good if you really want to commit that work
+* If neither #1 or #2 are good for you, then #3 is a good choice.
+
+### What does stashing do?
+
+* Stashing saves the _changes_ that have been made to the current branch (and the 
+state of the index) AND then wipes them away to return your branch to a clean state.
+* Then you can switch branches, work on something else, and when you come back 
+to the original branch you stashed on, you can bring those changes back up.
+* You can also learn other things about your stashes:
+    ```{r, eval=FALSE}
+    git stash list
+
+    git stash show
+
+    git stash show -v
+
+    git stash show stash@{1}  # to see stashes other than the most recent
+
+    # and finally, if you want to bring your stashed work back to life you can do:
+    git stash apply 
+
+    # The above restores the last stash you made
+  
+    # This can restore earlier stashes
+    git stash apply stash@{i}  # where i is 0, 1, 2, ... depending on which stash you want.
+    ```
+    
+### Applying stashes up on branches they weren't stashed off of
+
+* This gets complicated.  Not recommended for now.
+* If you have moved way on from where you stashed, you can do:
+    ```{r, eval=FALSE}
+    git stash new-branch-name
+
+    # OR
+
+    git stash new-branch-name stash@{i}
+    ```
+    which will give you a whole new branch off of the branch you stashed off of, and all the changes on top.
+    + Note: it also drops your stash from the list of stashes!
+    
 
 ## Remote branches
 
-Fetch, Merge, Pull, Push.
+* We will leave a full discussion of these points:
+    * Fetch, Merge, Pull, Push.
+    * Tracking branches
+      until later.
+* Until then, let's have everyone create their own repository on GitHub if there is time.
 
-Don't forget to talk about tracking branches.  Note that I think that is needed for Rstudio to know where to push to and
-pull from.  (otherwise the arrows are greyed out.)
+1. Make a repository to put on GitHub (just make a new RStudio project with git version control)
+2. Make a commit on it.
+3. Go to the GitHub website and click the "+" button...and follow the instructions from there.
+4. Don't let them add a README or LICENSE file.
 
 
-http://stackoverflow.com/questions/22053757/git-checkout-another-branch-when-there-are-uncommitted-changes-on-the-current
+
+
