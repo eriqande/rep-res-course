@@ -2,6 +2,7 @@
 title: "Homework 2"
 output:
   html_document:
+    highlight: tango
     toc: yes
   bookdown::html_chapter:
     toc: no
@@ -93,6 +94,7 @@ submit_answer({
   
 z2<-z*2.5
 z2[is.na(z2)]<- -1
+z2
 
 }, subprob = "-c")
 
@@ -125,7 +127,9 @@ q <- c(-1,1) * rnorm(20, mean=6, sd=2)
 # not familiar with the sum() function you should read about it in the 
 # help files by typing "?sum" at your R prompt.
 submit_answer({
-             
+(sum(p-q)^2)^.5   
+#or using the function dist
+dist(rbind(p,q))
 })
 
 ```
@@ -147,7 +151,9 @@ c <- sample(1:1000, 100)
 
 # For checking, your result should have length 6.
 submit_answer({
-             
+
+  sort(c[(a >= "g" & a <= "m") & (b < -1.5 | b > 1.0)])
+  
 })
 ```
 
@@ -159,6 +165,8 @@ f <- LETTERS
 # Index f with a logical vector (using recycling) to return every
 # third element in f (i.e. elements 3, 6, 9,...)
 submit_answer({
+  
+f[c(FALSE, FALSE, TRUE)]
 
 }, subprob = "-a")
 
@@ -166,6 +174,8 @@ submit_answer({
 # to return every 3rd element in f, starting on element number 2 (i.e.
 # get elements 2, 5, 8, ...)
 submit_answer({
+  
+  f[-1] [c(FALSE, FALSE, TRUE)]
 
 }, subprob = "-b")
 
@@ -178,6 +188,10 @@ g <- 10:21
 # possible
 submit_answer({
 
+    g[c(FALSE, TRUE)]<-g[c(FALSE, TRUE)]*2
+    g[c(TRUE, FALSE)]<-g[c(TRUE, FALSE)]*3
+    g
+  
 }, subprob = "-c")
 ```
 
@@ -202,8 +216,12 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # of the fish in fish_seq.  Do this by setting the names attribute of 
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
-
-}, subprob = "-a")
+  
+  names(repunits)<-pops
+  repunits[fish_seq]
+  
+  
+}, subprob = "-a") 
 
 
 # Now, 20 more fish were caught and their lengths measured in mm.  Those
@@ -218,6 +236,14 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # fish_len populations. Call it fish_lr, and, after creating it
 # return it.
 submit_answer({
+  
+ fish_lr<- fish_len
+  
+  
+names(repunits) <- pops
+fish_lr <- fish_len
+names(fish_lr) <- repunits[names(fish_len)]
+fish_lr
 
 }, subprob = "-b")
 
