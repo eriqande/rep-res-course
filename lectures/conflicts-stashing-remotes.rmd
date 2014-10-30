@@ -1,0 +1,61 @@
+---
+title: Conflicts, stashing, remotes
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+```{r setup, echo=FALSE, include=FALSE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+
+init_homework("Lists lecture")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/trial_homework.rmd"
+```
+
+
+# Lists (aka "recursive vectors") {#conflicts-and-remotes} 
+
+* Goals for this lecture
+    1. Help everyone get there core editor configured for git
+    2. Have everyone create some merge conflicts and resolve them, finding that they
+    really aren't a big deal.
+    3. Discuss git's rules to avoid clobbering uncommitted work by checking out new branches and let
+    everyone play around with _stashing_, git's convenient way to store uncommitted work.
+    4. Remote brances: learn how git interacts with remote repositories via
+    remote branches. Let everyone set up their very own, distinct repository on GitHub.  
+
+
+## Configuring your text editor {#intro-to-lists}
+
+
+
+## Don't be afraid of merge conflicts {#no-fear-merge-conflicts}
+
+
+
+## When git doesn't let me switch branches {#no-switchy-branchy}
+
+
+## Remote branches
+
+Fetch, Merge, Pull, Push.
+
+Don't forget to talk about tracking branches.  Note that I think that is needed for Rstudio to know where to push to and
+pull from.  (otherwise the arrows are greyed out.)
+
+
+http://stackoverflow.com/questions/22053757/git-checkout-another-branch-when-there-are-uncommitted-changes-on-the-current
