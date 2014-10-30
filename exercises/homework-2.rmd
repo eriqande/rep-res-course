@@ -229,6 +229,7 @@ fish_lr[c(names(fish_lr) == "MidOregonCoast")]
 }, subprob = "-c")
 
 # Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
+?
 ```
 
 
