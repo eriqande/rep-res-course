@@ -214,7 +214,8 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # return it.
 submit_answer({
     fish_lr<-fish_len
-    names(fish_lr)<-repunits[names(fish_lr[pops])]
+    names(fish_lr)<-repunits[names(fish_len)]
+    fish_lr
 }, subprob = "-b")
 
 
@@ -222,7 +223,7 @@ submit_answer({
 # reporting unit.  Don't do this by hand! Use a tidy expression (like indexing
 # on the basis of a comparison of the names attribute of fish_lr)
 submit_answer({
-
+    fish_lr[names(fish_lr)=="MidOregonCoast"]
 }, subprob = "-c")
 
 # Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
