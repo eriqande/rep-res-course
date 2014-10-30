@@ -237,11 +237,7 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # return it.
 submit_answer({
   
- fish_lr<- fish_len
-  
-  
-names(repunits) <- pops
-fish_lr <- fish_len
+fish_lr <- fish_len  
 names(fish_lr) <- repunits[names(fish_len)]
 fish_lr
 
@@ -253,6 +249,8 @@ fish_lr
 # on the basis of a comparison of the names attribute of fish_lr)
 submit_answer({
 
+  fish_lr[names(fish_lr)=="MidOregonCoast"]
+  
 }, subprob = "-c")
 
 # Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
@@ -310,6 +308,8 @@ wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_
 # on the population that each fish came from.
 submit_answer({
 
+  wt[order(wpop)]
+  
 }, subprob = "-a")
 
 # Problem (b): Return len sorted in DECREASING order of the
@@ -317,6 +317,8 @@ submit_answer({
 # vs decreasing order.)
 submit_answer({
 
+  len[order(wt, decreasing = TRUE)]
+  
 }, subprob = "-b")
 
 
