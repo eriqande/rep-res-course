@@ -50,8 +50,9 @@ y <- c(2, 15, 10, 7, 5)
 
 # when he tries to multiply these he gets an error.  Use an `as.` function
 # to coerce x appropriately and then return the product of x and y.
-submit_answer({
-  
+submit_answer({ 
+  x <- as.numeric(x)
+  x*y
 })
 
 ```
@@ -70,7 +71,7 @@ z[sample(1:length(z), 4)] <- NA
 # return a vector that has all the non-NA values in z in the 
 # order in which they occur in z.
 submit_answer({
-              #  <- put your answer to the left of the #. 
+z[c(!is.na(z))]           #  <- put your answer to the left of the #. 
 }, subprob = "-a")
 
 # In the above, don't worry about the "subprob" argument.  That is just
@@ -79,20 +80,23 @@ submit_answer({
 # Another exercise:  Return all the values in w that
 # occur at the same position as the NAs in z.
 submit_answer({
-             
+w[c(is.na(z))]         
 }, subprob = "-b")
 
 # Another exercise: Return a vector which is like z, but in which all
 # the non-missing values have been multiplied by 2.5 and all the missing
 # values (NAs) have been turned into -1's
 submit_answer({
-             
+a <- z*2.5
+a[c(is.na(a))] <- -1
+a
 }, subprob = "-c")
 
 # Last subproblem: Modify z so that every NA gets replaced by the value
 # in the same position in the vector w
 submit_answer({
-             
+z[c(is.na(z))] <- w[c(is.na(z))]
+ z             
 }, subprob = "-d")
 
 ```
@@ -116,7 +120,7 @@ q <- c(-1,1) * rnorm(20, mean=6, sd=2)
 # not familiar with the sum() function you should read about it in the 
 # help files by typing "?sum" at your R prompt.
 submit_answer({
-             
+sqrt(sum((p - q) ^ 2))             
 })
 
 ```
@@ -138,7 +142,7 @@ c <- sample(1:1000, 100)
 
 # For checking, your result should have length 6.
 submit_answer({
-             
+c[c((a>="g" & a<="m") & (b< (-1.5) | b>1.0))]             
 })
 ```
 
@@ -150,14 +154,14 @@ f <- LETTERS
 # Index f with a logical vector (using recycling) to return every
 # third element in f (i.e. elements 3, 6, 9,...)
 submit_answer({
-
+f[c(FALSE, FALSE, TRUE)]
 }, subprob = "-a")
 
 # Use recycling with a logical vector
 # to return every 3rd element in f, starting on element number 2 (i.e.
 # get elements 2, 5, 8, ...)
 submit_answer({
-
+f[c(F,T, F, F)]
 }, subprob = "-b")
 
 
@@ -168,7 +172,7 @@ g <- 10:21
 # in g by 3.  Use recycling.  Write as short an expression as
 # possible
 submit_answer({
-
+g*c(3,2)
 }, subprob = "-c")
 ```
 
@@ -193,7 +197,9 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # of the fish in fish_seq.  Do this by setting the names attribute of 
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
-
+names(repunits) <- pops
+rep <- repunits[c(fish_seq)]
+rep
 }, subprob = "-a")
 
 
@@ -209,7 +215,9 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # fish_len populations. Call it fish_lr, and, after creating it
 # return it.
 submit_answer({
-
+fish_lr <- fish_len
+names(fish_lr) <- repunits[c(names(fish_len))]
+fish_lr
 }, subprob = "-b")
 
 
@@ -217,10 +225,11 @@ submit_answer({
 # reporting unit.  Don't do this by hand! Use a tidy expression (like indexing
 # on the basis of a comparison of the names attribute of fish_lr)
 submit_answer({
-
+fish_lr[c(names(fish_lr) == "MidOregonCoast")]
 }, subprob = "-c")
 
 # Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
+?
 ```
 
 
@@ -274,14 +283,14 @@ wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_
 # Problem (a): Return the vector wt sorted alphabetically
 # on the population that each fish came from.
 submit_answer({
-
+wt[order(wpop)]
 }, subprob = "-a")
 
 # Problem (b): Return len sorted in DECREASING order of the
 # weight of each fish.  (do ?order to learn about sorting in increasing
 # vs decreasing order.)
 submit_answer({
-
+len[sort(wt, decreasing= TRUE)]
 }, subprob = "-b")
 
 
