@@ -70,7 +70,7 @@ z[sample(1:length(z), 4)] <- NA
 # return a vector that has all the non-NA values in z in the 
 # order in which they occur in z.
 submit_answer({
-   as.vector(na.omit(z))           #  <- put your answer to the left of the #. 
+   z[!is.na(z)]         #  <- put your answer to the left of the #. 
 }, subprob = "-a")
 
 # In the above, don't worry about the "subprob" argument.  That is just
