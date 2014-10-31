@@ -41,7 +41,10 @@ gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99",
 # return a logical vector that gives TRUE for each name that comes after
 # the word "github" alphabetically
 submit_answer({
-  
+  b <- c("github") # creates vector of dimension 1 with value "github"
+  log_gnames <- gnames > b #creates new vector of logical values (could have simply
+  # returned the vector without assighing an new name)
+  log_gnames
 })
 
 ```
@@ -50,27 +53,28 @@ submit_answer({
 ```{r word-comp-extract, rr.question=TRUE}
 # here are some github names
 gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
-
+b <- c("github")
 # return all the values of gname that come after
 # the word "github" alphabetically
 submit_answer({
-  
+gnames[c(gnames > b)] #indexes gnames by the logical value of the comparison to "b"
 })
-
 ```
 
 
 ```{r word-comp-alter, rr.question=TRUE}
 # here are some github names
 gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
-
+b <- c("github")
 # change all the values of gname that come after the word
 # "github" alphabetically to "zzzz" and return the resulting
 # gname vector
 submit_answer({
-
+gnames [c(gnames > b)] <- "zzzz"
+gnames
 })
 ```
+
 
 
 ```{r two-vec-operations, rr.question=TRUE}
@@ -78,11 +82,11 @@ set.seed(5) # set random number generator
 # here are some github names
 gnames <- c("cpetrik", "wildflowermt", "mad4mocha", "sjohnson216", "okisutch99", "sczTWilliams", "rbeas", "mtarjan", "aaronmams", "lslefebvre")
 # here is the simulated order in which they signed up for GitHub
-ords <- sample(length(gnames))
+ords <- sample(length(gnames)) #not sure what "length" means here.  
 
 # return the first 4 github names that were signed up
 submit_answer({
-
+gnames [c(ords < 5)] #selects elements of gnames that correspond to Ord values 1:4
 })
 ```
 
