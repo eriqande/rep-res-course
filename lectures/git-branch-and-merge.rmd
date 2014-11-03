@@ -285,9 +285,16 @@ _master_ branch.
     + This might fail if you don't have an editor set up.
     + If you get emacs and are unfamiliar with it, this will
     take some explanation.
-* You need to write a commit message because this is a non-trivial
+* git expects you to write a commit message because this is a non-trivial
 merge---it has to make a new commit because it is not equivalent
 to any previous commit (unlike in the fast-forward case).
+    + git provides a basic message (pre-written) in the editor window.
+    + all you have to do is save the file and that message will be commit message.
+        * in the `nano` editor, `^X` (cntrl-x) is the key sequence to exit the file.
+            * if you haven't modified the file at all, hitting `^X` should just save the file
+            and exit.
+            * if you have modified the file `nano` will ask if you want to save it (say Yes), and then hit return to save
+            it with the filename recommended (and, actually, required, by git).
 
 ### Now, check out your history
 
