@@ -1,0 +1,300 @@
+---
+title: Data frames and factors
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+```{r setup, echo=FALSE, eval=TRUE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+
+
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+opts_knit$set(collapse = TRUE)
+opts_knit$set(comment = "#>")
+
+
+init_homework("Data Frames and Factors Lecture")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/not-important-here.rmd"
+```
+
+
+
+
+# Data frames and factors {#Data frames and factors} 
+
+
+* Goals of this lecture:
+    1. Introduce _data frames_! (Possibly the most widely-used and useful data structure in R)
+        a. What is a data frame?
+        b. Making data frames
+        e. Viewing data frames in RStudio
+        b. Indexing data frames
+        c. Reading in data frames
+        d. Writing data frames
+    2. Introduce _factors_ (A tricky little data structure that probably causes more problems than 
+    anything else in R.)
+        a. What they are / what they look like.
+        b. Why we talk about them with _data frames_
+        c. How they behave.
+        d. Ways that they are useful.
+
+
+## Data frames basics {#data-frame-basics}
+
+### What's a data frame?
+
+* A _data frame_ is a __list__ that:
+    + has the _class_ `data.frame`
+    + has _components_ that are all atomic vectors __of the same length__.
+* Think of them as a _table_ of data.  Where:
+    + The rows are _records_ and
+    + The columns are the atomic vectors that contain values of variables.
+* Probably 90% of the time (or more), what someone might call a _data set_ is something
+that can be represented in R as a _data frame_.
+* Example:
+    ```{r}
+    d <- data.frame(
+      age = c(4, 6, 3, 4), 
+      sex = c("MALE", "FEMALE", "FEMALE", "MALE"), 
+      height.inches = c(40, 49, 38, 42), 
+      favorite.sport.or.activity = c("soccer", "soccer", "martial_arts", "ballet")
+    )
+    # now, print it to the screen
+    d
+    ```
+* This thing is shaped like a _matrix_ and can be indexed in special ways (below), but at its core it is a //list//.
+
+### The _data.frame()_ function
+
+* Syntactically, this is like the `list()` function, taking "key=value" pairs. 
+    + For example, the first component has the "key", `age` and the "value" `c(4, 6, 3, 4)`. 
+    + The _keys_ become the _names_ attribute of the data frame.
+* But, returns a `data.frame`:
+    ```{r}
+    class(d)
+    ```
+
+
+### The _names_ / _colnames_ of a _data frame_
+
+* The _names_ attribute of a data frame holds the "column headers"
+    ```{r}
+    names(d)
+    ```
+These can also be accessed as the `colnames` (column names):
+    ```{r}
+    colnames(d)
+    ```
+Which begs the question, are there _row_names of a data frame? Let's try:
+    ```{r}
+    rownames(d)
+    ```
+
+### The _rownames_ of a _data frame_
+
+* You can assign _names_ to the rows of a _data frame_.
+* Use the `rownames()` function. For example:
+    ```{r}
+    rownames(d) <- c("Jon", "Scarlett", "Nancy", "Terry")
+    # then print it out again:
+    d
+    ```
+* _rownames_ have to be unique!
+    ```{r, error=TRUE}
+    rownames(d) <- c("Jon", "Scarlett", "Nancy", "Jon")
+    ```
+* ...and the right length, too:
+    ```{r, error=TRUE}
+    rownames(d) <- c("Jon", "Scarlett")
+    ```
+* If you don't provide them, they will be integers `1:nrow(df)`
+
+### Dimensions of a data frame
+
+* A useful summary of the extent of a data frame is `dim`.  Likewise `ncol` and `nrow`
+    ```{r}
+    dim(d)
+    nrow(d)
+    ncol(d)
+    ```
+
+## Data frame indexing {#data-frame-indexing}
+
+* _data frames_ can be indexed like _lists_ or like _matrices_
+
+### Data frame indexing like a list
+
+* Single-chome extractor `[  ]` with a _single vector_ and _no commas_ picks out the columns, and returns it as another data.frame:           
+    ```{r}
+    # index with integers
+    d[c(1,3)]
+
+    # index with colnames
+    d[c("age", "sex")]
+    ``` 
+Note that the _rownames_ get carried along with the result.
+* Two-chomp extractor `$` returns the vector itself. (Naked, not as part of a data frame)
+    ```{r}
+    d$age
+    
+    d$height.inches
+    ```
+*Two-chomp extractor `[[ ]]` does the same as the `$` but doesn't do prefix-matching
+    ```{r}
+    d[["age"]]
+    ```
+The _rownames_ don't come along with the result.
+
+### Matrix-like indexing of _data frames_ 
+
+* This is new thing! Subset with _two vectors_ separated by a _comma_!
+* i.e., `[row, col]` where:
+    + `rows` is an indexing vector for the rows of row indices or _rownames_ or _logical_ values
+    + `cols` is an indexing vector for the columns indices, or _colnames_ or logical values
+    + And...(big note!) the absence of `rows` or `cols` means "give me all of them" d[1:2,]
+* `rows` and `cols` can be:
+    + positive integer vectors,
+    + negative interger vectors,
+    + character vectors of names, 
+    + logical vectors 
+    + (or mixtures of the two, i.e. `rows` as one and `cols` as another
+* Examples:
+    ```{r}
+    d[,]  # the whole data frame
+
+    d[,1:3] # all rows, first three columns
+
+    d[c(1,4), ] # first and fourth rows, all columns
+
+    d[-1, -2] # all rows except 1 and all columns except 2
+
+    d[d$sex == "MALE", c("age", "favorite.sport.or.activity")] # age and favorite activities of MALES
+
+    d[d$sex == "FEMALE", c(1,3)] # ages and heights of  FEMALES
+
+    d[d$age == 3, ] # all columns from the one three-year-old
+    ```
+
+### Whoa! What happens when _[rows, cols]_ picks out a single column?
+
+* Beware, if your `[rows, cols]` extractor picks out just a _single column_, then by default,
+R will just return a (unnamed) vector, not a data frame!
+    ```{r}
+    # ages of Jon and Terry... What! Where's my data frame?
+    d[c("Jon", "Terry"), "age"]  
+    ```
+* When you want to get a one-column data frame rather than a naked vector, do this:
+    ```{r}
+    d[c("Jon", "Terry"), "age", drop = FALSE]
+    ```
+* This is __super-important__ if you are writing functions that grab variable
+numbers of columns out of data frames (or matrices)
+
+
+## Reading, viewing, and writing data frames {#data-frame-read-view-write}
+
+* Hooray! We are _finally_ learning what to do to get _our own_ data into R!
+* We'll use some data from Big Creek for examples
+    + You should pull the _master_ branch of https://github.com/eriqande/rep-res-course.git to get a file in the `data` directory.
+    + Then go ahead and open up R Studio in that repository if you want to follow along.
+* I have the first 100 lines of the big-creek data set in the `data` directory in both
+    + `.xlsx` format (Ahhh! This is just here if you want to see it.  Remember, never house and manipulate the sole copy
+    of your data in Excel!)
+    + `.csv` format (comma separate values --- a decent format for reading into R)
+* Rather than opening .csv files in Excel to look at them, it's possible to just look at them if they are on GitHub.
+Try [this link](https://github.com/eriqande/rep-res-course/blob/master/data/big_creek_excerpt.csv). 
+    
+### _read.table()_ 
+
+* A function that reads in "table-shaped" data and returns a _data frame_
+* `read.table()` is a rather generic function, that lets you specify:
+    + `file` : the name of the file
+    + `header` : TRUE/FALSE depending on it the file has a header row for the columns
+    + `sep` : the character used to separate columns
+    + `row.names` : column number holding the values to be used for rownames
+    + `na.strings` : what strings signify values that should be read as `NA`
+And many, many others.  Do `?read.table` for the complete list.
+
+### _read.csv()_
+
+* A function identical to `read.table()` except that the default values are set up
+to read in CSV files (like those produced by Excel...)
+* Let's try it:
+    ```{r}
+    bc <- read.csv("data/big_creek_excerpt.csv", stringsAsFactors = FALSE, na.strings = c(""))
+    ```
+* We are using two extra options:
+    + `stringsAsFactors = FALSE` (see next lecture)
+    + `na.strings = c("")` : This means count empty cells as missing data
+* Did that work?  Check the `dim` of bc:
+    ```{r}
+    dim(bc)
+    ```
+Sweet!
+
+### Looking at our data frame
+
+* To figure out what is in our data frame, there are several options.
+    1. Just print it: `bc`.  If the data frame is large, this produces a bunch of hard to read output
+        + All rows at as many columns as can fit on the screen...then the next set of columns, etc.
+    2. use the `head` function.  i.e., `head(bc)`.  Prints just the first 10, rows.  With lots of columns,
+    this is hard to read too.
+    3. Use indexing to look at just a small part: i.e.:
+        ```{r}
+        bc[1:5, 1:4]
+        ```
+    4. Look at the names:
+        ```{r}
+        names(bc)
+        ```
+    That is a little cumbersome
+    5. Perhaps the most information-rich way of looking at it is with the `str` function, which gives you the
+    __str__ucture of an R object:
+        ```{r}
+        str(bc)
+        ```
+    6. Finally, RStudio offers the very useful `View` function. Try this: `View(bc)`
+        + You can even pop that out into a separate window.
+        + They really ought to find a way to keep the headers visible when scrolling.
+        
+
+
+### Writing a data frame back out to a .csv file
+
+* There is a `write.table` function much like `read.table`
+* And there is a `write.csv` function that is similar
+* Here we pick out just the fish between 60 and 100 mm and write 
+the resulting data frame back to a .csv file:
+    ```{r}
+    bc2 <- bc[ bc$LENGTH >= 6 & bc$LENGTH <= 100, ]
+
+    write.csv(bc2, file = "~/Desktop/bc-bits.csv")
+    ```
+and you can open that with Excel, even.
+    + Note that the numeric rownames are in there by default with no header. 
+    + If you read it back in, you would want to use `row.names = 1`.
+    + Read `?write.table` for more info.
+    
+## A tiny blurb about _factors_  #{factors-tiny-blurb}
+
+* In `read.csv` we used the option `stringsAsFactors = FALSE`
+    + What does that mean, and why did I use it?
+
+    
+
+Download [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf) and read the Preface on page 8 and the first few
+paragraphs of Chapter 1 (because it is fun
+to do so---we have all been in R hell at one time or another), then read from section 8.2 through 8.2.8.
