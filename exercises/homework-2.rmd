@@ -52,6 +52,8 @@ y <- c(2, 15, 10, 7, 5)
 # to coerce x appropriately and then return the product of x and y.
 submit_answer({
   
+as.numeric(x) * y  
+
 })
 
 ```
@@ -70,7 +72,9 @@ z[sample(1:length(z), 4)] <- NA
 # return a vector that has all the non-NA values in z in the 
 # order in which they occur in z.
 submit_answer({
-              #  <- put your answer to the left of the #. 
+  
+z[!is.na(z)]              #  <- put your answer to the left of the #. 
+
 }, subprob = "-a")
 
 # In the above, don't worry about the "subprob" argument.  That is just
@@ -79,20 +83,27 @@ submit_answer({
 # Another exercise:  Return all the values in w that
 # occur at the same position as the NAs in z.
 submit_answer({
-             
+  
+w[is.na(z)]             
+
 }, subprob = "-b")
 
 # Another exercise: Return a vector which is like z, but in which all
 # the non-missing values have been multiplied by 2.5 and all the missing
 # values (NAs) have been turned into -1's
 submit_answer({
-             
+  
+rowSums(cbind(2.5*z,-1*as.numeric(is.na(z))),na.rm=TRUE)
+
 }, subprob = "-c")
 
 # Last subproblem: Modify z so that every NA gets replaced by the value
 # in the same position in the vector w
 submit_answer({
-             
+
+z[is.na(z)] <- w[is.na(z)]  
+z
+  
 }, subprob = "-d")
 
 ```
@@ -116,6 +127,8 @@ q <- c(-1,1) * rnorm(20, mean=6, sd=2)
 # not familiar with the sum() function you should read about it in the 
 # help files by typing "?sum" at your R prompt.
 submit_answer({
+  
+sqrt(sum((p-q)^2))
              
 })
 
@@ -138,6 +151,8 @@ c <- sample(1:1000, 100)
 
 # For checking, your result should have length 6.
 submit_answer({
+  
+c[a>="g" & a<="m" & (b<(-1.5) | b>1)]  
              
 })
 ```
@@ -150,6 +165,8 @@ f <- LETTERS
 # Index f with a logical vector (using recycling) to return every
 # third element in f (i.e. elements 3, 6, 9,...)
 submit_answer({
+  
+f[c(TRUE,FALSE,FALSE)]
 
 }, subprob = "-a")
 
@@ -158,6 +175,8 @@ submit_answer({
 # get elements 2, 5, 8, ...)
 submit_answer({
 
+f[c(FALSE,TRUE,FALSE)]  
+  
 }, subprob = "-b")
 
 
@@ -169,6 +188,8 @@ g <- 10:21
 # possible
 submit_answer({
 
+g*c(3,2)  
+  
 }, subprob = "-c")
 ```
 
@@ -194,6 +215,9 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
 
+names(repunits) <- pops
+unname(repunits[fish_seq])
+
 }, subprob = "-a")
 
 
@@ -210,6 +234,9 @@ names(fish_len) <- sample(pops, 20, replace = TRUE)
 # return it.
 submit_answer({
 
+fish_lr <- fish_len
+names(fish_lr) <- unname(repunits[names(fish_len)])
+  
 }, subprob = "-b")
 
 
@@ -218,6 +245,8 @@ submit_answer({
 # on the basis of a comparison of the names attribute of fish_lr)
 submit_answer({
 
+unname(fish_lr[names(fish_lr) == "MidOregonCoast"])
+  
 }, subprob = "-c")
 
 # Bonus question: Why can't you get those 9 fish lengths by doing this: fish_len["MidOregonCoast"] ?
@@ -275,6 +304,8 @@ wpop <- sample(c("Eel_R", "Russian_R", "Klamath_IGH_fa", "Trinity_H_sp", "Smith_
 # on the population that each fish came from.
 submit_answer({
 
+wt[order(wpop)]  
+  
 }, subprob = "-a")
 
 # Problem (b): Return len sorted in DECREASING order of the
@@ -282,6 +313,8 @@ submit_answer({
 # vs decreasing order.)
 submit_answer({
 
+len[order(wpop,decreasing=TRUE)]  
+  
 }, subprob = "-b")
 
 
