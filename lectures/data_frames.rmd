@@ -1,5 +1,5 @@
 ---
-title: Data frames and factors
+title: Data frames
 author: "Eric C. Anderson"
 output:
   html_document:
@@ -33,7 +33,7 @@ rr_hw_file_name <- "exercises/not-important-here.rmd"
 
 
 
-# Data frames and factors {#Data frames and factors} 
+# Data frames and factors {#data-frame-lecture} 
 
 
 * Goals of this lecture:
@@ -44,7 +44,7 @@ rr_hw_file_name <- "exercises/not-important-here.rmd"
         b. Indexing data frames
         c. Reading in data frames
         d. Writing data frames
-    2. Introduce _factors_ (A tricky little data structure that probably causes more problems than 
+    2. Introduce, very briefly, _factors_ (A tricky little data structure that probably causes more problems than 
     anything else in R.)
         a. What they are / what they look like.
         b. Why we talk about them with _data frames_
@@ -203,8 +203,26 @@ R will just return a (unnamed) vector, not a data frame!
 * This is __super-important__ if you are writing functions that grab variable
 numbers of columns out of data frames (or matrices)
 
+### Replacement form indexing
 
-## Reading, viewing, and writing data frames {#data-frame-read-view-write}
+* All these indexing measures have replacement forms:
+    ```{r}
+    # change Terry's favorite activity to soccer
+    d["Terry", 4] <- "paint-ball"
+    d # print it
+
+    # what if we tried to change it to "mushroom hunting"?
+    d["Terry", 4] <- "mushroom hunting"
+    d
+    ```
+Surprise!  What happened?  (Wait till we talk about _factors_ later.)
+* Assigning values to columns will recycle to the right length:
+    ```{r}
+    # make them all five years old...
+    d$age <- 5
+    d
+    ```
+## Reading, viewing, and writing data frames {#read-view-write}
 
 * Hooray! We are _finally_ learning what to do to get _our own_ data into R!
 * We'll use some data from Big Creek for examples
@@ -288,13 +306,97 @@ and you can open that with Excel, even.
     + If you read it back in, you would want to use `row.names = 1`.
     + Read `?write.table` for more info.
     
-## A tiny blurb about _factors_  #{factors-tiny-blurb}
+## A tiny blurb about _factors_  {#factors-tiny-blurb}
 
 * In `read.csv` we used the option `stringsAsFactors = FALSE`
     + What does that mean, and why did I use it?
+* In all the `read.table` family of functions, columns with character data
+(i.e. text strings) get converted to an object of class _factor_.
+* In R you will see _factors_ everywhere.  
+* The name derives from the idea of factors in experimental design, which is 
+a shame (I think) since factors in R are useful in many ways.
+* My suggestion: when you see _factor_ think _vector of __categories___
+
+### Factors are vectors that record discrete _categories_
+
+* Anything measured on a disrete scale can be said to fall into
+one of a set of categories.
+* The discrete scale could be a summary of a continuous scale
+    + For example, the categories of _Small_, _Medium_, and _Large_ are (likely) summaries of
+    a continuous variable like weight or height.
+* If you have measured fish and put them into _Small_, _Medium_, and _Large_, categories
+you might have them in a data frame like this:
+    ```{r}
+    set.seed(17)
+    sml <- data.frame(ID = paste("Fish", 1:15, sep="_"),
+                      SizeCategory = sample(c("Small", "Medium", "Large"), size = 15, replace = T)
+                      )
+
+    # when you print it out it looks pretty normal
+    sml                 
+    ```
+
+### Underlying structure of a _factor_
+
+* The "SizeCategory" column looks like a vector of strings (a character vector),
+but it isn't.
+* A factor is a class that contains:
+    1. A _levels_ attribute that maps $N$ categories to the integers $1,\ldots,N$
+        + (This sounds more complex than it is.  It is just a character vector that gives
+        an ordered collection of category names)
+    2. An integer vector of values between 1 and $N$ used to describe the occurrence of the
+    categories.
+* What?  If that's not clear, continuing with the `sml` example from above should help clarify things
+
+### _sml_ data frame's SizeCategory
+
+* We can access the _levels_ attribute of `sml$SizeCategory` like this:
+    ```{r}
+    levels(sml$SizeCategory)
+    ```
+* The order these are in the _levels_ tells us that:
+    + 1 = "Large" 
+    + 2 = "Medium"
+    + 3 = "Small"
+* And the integer vector part of `sml$SizeCategory` can be visualized by attaching it
+on the right side of the `sml` data frame like this:
+    ```{r}
+    cbind(sml, underlying_integer_vector = unclass(sml$SizeCategory))
+    ```
+* (Note that, by default, if categories are named by characters, R sorts them
+alphabetically to give them an order in the _levels_ of the factor.)
 
     
+### Factors are immensely useful, but tricky
 
-Download [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf) and read the Preface on page 8 and the first few
+* We will continue talking about factors on Thursday.  
+* Before that class, please download [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf)
+and read the Preface on page 8 and the first few
 paragraphs of Chapter 1 (because it is fun
-to do so---we have all been in R hell at one time or another), then read from section 8.2 through 8.2.8.
+to do so---we have all been in R hell at one time or another), then read from section 8.2 through 8.2.8, which 
+covers factor hell.
+
+## Your mission {#mission-data-frame}
+
+In lieu of homework on this topic, everyone should just do the following while 
+this is fresh in your mind:
+
+1. Read `?read.table`
+2. Go get your own data sets that you want to work with (or are working with) and
+read them into R and have a look around them. 
+    + Look over their structure
+    + print them to the console in various ways
+    + `View()` them.
+    + Change some values
+    + Extract just a few, non-adjacent columns
+    + Then save those non-adjacent columns to a new csv file.
+3. If you don't have your own data and want some practice, play with more files that
+I put in the`data` directory of the course repo:
+    ```{r}
+    # parentage assignments of hatchery salmon
+    pbt <- read.table("data/snppit_output_ParentageAssignments.txt", header = TRUE, na.strings = "---")
+    dim(pbt)
+
+    # candidate genes involved in avian song development
+    bird_genes <- read.table("data/candidate-genes.txt", header = TRUE, sep = "\t")
+    ```

@@ -148,10 +148,18 @@ this out on Sunday night. It's another GitHub submission.
 ### `r  course_day("Tu", 5)`
 _Data Frames. Reading in data, etc_
 
+* __Lecture:__
+    + [Introduction to Data Frames](#data-frame-lecture)
+
 
 ### `r  course_day("Th", 5)`
-_Forking and pull requests_
+_Factors. Some GitHub Basics_
 
+* __Reading:__ please download [The R Inferno](http://www.burns-stat.com/pages/Tutor/R_inferno.pdf)
+and read the Preface on page 8 and the first few
+paragraphs of Chapter 1 (because it is fun
+to do so---we have all been in R hell at one time or another), then read from section 8.2 through 8.2.8, which 
+covers factor hell.
 
 ## Week 6 {#syl-week-6}
 

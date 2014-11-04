@@ -1,0 +1,50 @@
+---
+title: Factors
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+```{r setup, echo=FALSE, eval=TRUE}
+# PLEASE DO NOT EDIT THIS CODE BLOCK
+library(knitr)
+library(rrhw)
+
+
+# tell knitr where to find the inserted file in case
+# jekyll is building this in the top directory of the repo
+opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
+opts_knit$set(collapse = TRUE)
+opts_knit$set(comment = "#>")
+
+
+init_homework("Data Frames and Factors Lecture")
+rr_github_name <- NA
+rr_pull_request_time <- NA
+rr_question_chunk_name <- "NotSet"
+rr_branch_name <- "ex-test"
+rr_hw_file_name <- "exercises/not-important-here.rmd"
+```
+
+
+
+
+# Factors {#factor-lecture} 
+
+
+* Goals of this lecture:
+    1. Go into moderate detail on _factors_ (A tricky little data structure that
+    probably causes more problems than anything else in R.)
+        a. What they are / what they look like.
+        b. Why we talk about them with _data frames_
+        c. How they behave.
+        d. Ways that they are useful.
+    2. In the process we will look at the `table` function and have some examples
+    from the world of _genetic stock identification_ of salmon.
+
+
+## Factor basics {#factor-basics}

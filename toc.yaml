@@ -38,6 +38,15 @@
 - course-org
 - course-philos
 - hw-and-assign
+./lectures/data_frames.rmd:
+- data-frame-lecture
+- data-frame-basics
+- data-frame-indexing
+- factors-tiny-blurb
+- mission-data-frame
+./lectures/factors.rmd:
+- factor-lecture
+- factor-basics
 ./lectures/git-basics.rmd:
 - git-basics
 - vcs
