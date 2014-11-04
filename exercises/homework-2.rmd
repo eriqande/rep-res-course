@@ -86,7 +86,7 @@ w[is.na(z)]
 # the non-missing values have been multiplied by 2.5 and all the missing
 # values (NAs) have been turned into -1's
 submit_answer({
-zb -> 2.5*z
+zb <- 2.5*z
 zb[is.na(zb)]<- -1
 zb
 }, subprob = "-c")
@@ -196,7 +196,7 @@ fish_seq <- sample(pops, 25, replace = TRUE)
 # repunits to be the pops and then indexing that vector with fish_seq.
 submit_answer({
 names(repunits)<-pops
-repunits[fish_seq]
+unname(repunits[fish_seq])
 }, subprob = "-a")
 
 
