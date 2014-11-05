@@ -9,28 +9,6 @@ output:
 layout: default_with_disqus
 ---
 
-```{r setup, echo=FALSE, eval=TRUE}
-# PLEASE DO NOT EDIT THIS CODE BLOCK
-library(knitr)
-library(rrhw)
-
-
-# tell knitr where to find the inserted file in case
-# jekyll is building this in the top directory of the repo
-opts_knit$set(child.path = paste(prj_dir_containing("rep-res-course.Rproj"), "extras/knitr_children/", sep=""))
-opts_knit$set(collapse = TRUE)
-opts_knit$set(comment = "#>")
-
-
-init_homework("Data Frames and Factors Lecture")
-rr_github_name <- NA
-rr_pull_request_time <- NA
-rr_question_chunk_name <- "NotSet"
-rr_branch_name <- "ex-test"
-rr_hw_file_name <- "exercises/not-important-here.rmd"
-```
-
-
 
 
 # Factors {#factor-lecture} 
@@ -43,8 +21,400 @@ rr_hw_file_name <- "exercises/not-important-here.rmd"
         b. Why we talk about them with _data frames_
         c. How they behave.
         d. Ways that they are useful.
-    2. In the process we will look at the `table` function and have some examples
-    from the world of _genetic stock identification_ of salmon.
+    2. In the process we will look at the `table` function and have 
+    some examples from the world of _genetic assignment_ of birds.
 
 
 ## Factor basics {#factor-basics}
+
+Let's reiterate some points/examples from the previous session.
+
+### Factors are vectors that record discrete _categories_
+
+* Anything measured on a disrete scale can be said to fall into
+one of a set of categories.
+* The discrete scale could be a summary of a continuous scale
+    + For example, the categories of _Small_, _Medium_, and _Large_ are (likely) summaries of
+    a continuous variable like weight or height.
+* If you have measured fish and put them into _Small_, _Medium_, and _Large_, categories
+you might have them in a data frame like this:
+    ```{r}
+    set.seed(17)
+    sml <- data.frame(ID = paste("Fish", 1:15, sep="_"),
+                      SizeCategory = sample(c("Small", "Medium", "Large"), size = 15, replace = T)
+                      )
+
+    # when you print it out it looks pretty normal
+    sml                 
+    ```
+
+### Underlying structure of a _factor_
+
+* The "SizeCategory" column looks like a vector of strings (a character vector),
+but it isn't.
+* A factor is a class that contains:
+    1. A _levels_ attribute that maps $N$ categories to the integers $1,\ldots,N$
+        + (This sounds more complex than it is.  It is just a character vector that gives
+        an ordered collection of category names)
+    2. An integer vector of values between 1 and $N$ used to describe the occurrence of the
+    categories.
+* What?  If that's not clear, continuing with the `sml` example from above should help clarify things
+
+### _sml_ data frame's SizeCategory
+
+* We can access the _levels_ attribute of `sml$SizeCategory` like this:
+    ```{r}
+    levels(sml$SizeCategory)
+    ```
+* The order these are in the _levels_ tells us that:
+    + 1 = "Large" 
+    + 2 = "Medium"
+    + 3 = "Small"
+* And the integer vector part of `sml$SizeCategory` can be visualized by attaching it
+on the right side of the `sml` data frame like this:
+    ```{r}
+    cbind(sml, underlying_integer_vector = unclass(sml$SizeCategory))
+    ```
+* (Note that, by default, if categories are named by characters, R sorts them
+alphabetically to give them an order in the _levels_ of the factor.)
+
+
+### How R prints factors
+
+* R prints factors by showing the values as the __strings__ that they are.
+* And, at the bottom it prints out the _levels_
+    + Or if there are lots of levels (i.e. categories) then it prints a few of them
+* It looks like this:
+    ```{r}
+    sml$SizeCategory
+    ```
+* So, when you print something and it says `Levels:` on the last line,
+you know you are dealing with a factor.
+
+## A different example {#same-on-factors}
+
+### Another example Data Frame
+
+We can make some bogus data
+```{r}
+set.seed(1)
+bogus <- data.frame(
+  students = rep(c("Devon", "Martha", "Hilary"), 3),
+  tests = rep(c("Sep","Oct", "Nov"), each = 3),
+  scores = as.integer(runif(9, min = 55, max = 98))
+  )
+
+bogus # look at it
+
+str(bogus) # see what the types are. Hey there are factors!
+```
+
+
+### Important Note
+
+* The default behavior of R is to convert character vectors to factors when putting them into a data frame.
+* The column you get in `bogus$students` is the same as is returned by
+    ```{r}
+    factor(rep(c("Devon", "Martha", "Hilary"), 3))
+    ```
+* So, the function `factor()` takes a vector and makes a factor vector out of it 
+
+### What a factor consists of in R
+
+* Somewhat more tersely and technically than before:
+    * A factor is a vector with class attribute of `factor` and with another attribute called `levels` 
+    * For a factor `f`: 
+        ```{r, eval=FALSE}
+        levels(f)   # returns the levels of f
+        levels(f) <-  # can be used to set/modify the levels attribute of f
+        ```
+* `levels(f)` is a _character vector_, that will be sorted by default.
+* The values of the factor variable itself are integers.  
+    + The i-th element of the factor vector tells us which level (or category) the i-th observation falls into.
+
+### What a Factor Looks like Under the Hood
+* One can use the `unclass` function to see the actual parts of an R object
+without having them printed in a way that is specific to the object`s `class` attribute.
+    ```{r}
+    bogus$students  # printed as a factor
+
+    unclass(bogus$students)  # printed generically
+    
+
+    bogus$tests   # printed as a factor
+
+    unclass(bogus$tests)  # printed generically
+    ```
+    
+## Issues and such with factors {#factor-issues}
+
+### You can make R _not_ create factors of character data in data frames
+
+* The `data.frame` function, as well as the `read.table` family of functions
+accept a `stringsAsFactors` parameter.  
+* This can be a reasonable thing to do, since you can always explicitly
+make certain columns factors if you want to, using the `factor` function
+later.
+
+### Why does R use factors?
+
+* The idea of factors is central to the fitting of various statistical models.
+* However R seems to go overboard by wanting to squash any character vector into a factor in a data frame.
+    + Some of this relates to the fact that prior to a fairly late version of R, coding character vectors
+    as factors was more space efficient.
+* There are numerous hassles and headaches involved in dealing with factors, but factors are here to
+stay in R, so we had better get comfortable with them.
+* There are also many good things about factors (see later).
+
+### Factors, once made, restrict allowable levels
+Example:
+```{r}
+studentsf <- bogus$students # this is a factor variable
+
+studentsf # print it and see its values and levels
+
+studentsf[c(1,4,7)] # return all the Devon values.
+                    # note that the levels are still all three names
+
+# Now, what if we want to change the name "Devon" to "The Dude"?
+studentsf[c(1,4,7)] <- "The Dude"  # R gets upset when you do this!
+```
+
+### How can you change values of factors?
+
+* Two main ways:
+    1. Modify the levels.  In this example we will change "Devon" to "The Dude"
+        ```{r}
+        # Look at bogus$students
+        bogus$students
+        
+        # Confirm that Devon is the first element of the levels
+        levels(bogus$students)
+        
+        # Change that to "The Dude" using assignment-form indexing
+        levels(bogus$students)[1] <- "The Dude"
+        
+        # Now look at the factor
+        bogus$students
+        ```
+    2. Coerce the factor to a character vector, modify, and re-`factor()` it
+        ```{r}
+        # let's change "Martha" to "Martha A"
+        # what happens when we coerce to character?
+        as.character(bogus$students)
+        
+        # OK, so make a variable of that and then modify it
+        tmp <- as.character(bogus$students)
+        tmp[tmp == "Martha"] <- "Martha A"  # change every occurrence of "Martha" to "Martha A"
+        
+        # When we turn tmp back into a factor, what does it look like?
+        factor(tmp)
+        
+        # OK, cool, we can assign that to bogus$students
+        bogus$students <- factor(tmp)
+        
+        # Look at the result:
+        bogus
+        ```
+
+### Catenating two factors
+
+* What if we have this scenario:
+    ```{r}
+    # imagine you have two factors
+    boys_f <- factor(c("Joe", "Ted", "Fred", "Joe"))
+    girls_f <- factor(c("Anne", "Louise", "Louise", "Lucy", "Louise"))
+    ```
+and, further, imagine you want to bung them together into a factor of `kids_f`.
+* This fails spectacularly:
+    ```{r}
+    kids_f <- c(boys_f, girls_f)
+    kids_f
+    ```
+Yikes!  It has just catenated the underlying integer vectors!
+* To get what you want:
+    1. coerce each to character
+    2. catenate 
+    3. re-`factor` it
+i.e.:
+    ```{r}
+    kids_f <- factor(c(as.character(boys_f), as.character(girls_f)))
+    kids_f
+
+    # check out the levels:
+    levels(kids_f)
+    ```
+    
+### What about adding rows to data frames?
+
+* Fortunately, if you want to add rows to a data frame,
+you can do that with `rbind()` and it will update the factor columns appropriately:
+    ```{r}
+    extra <- rbind(bogus,
+                   data.frame(students = c("Hilary", "Eve"), 
+                              tests = c("Jan", "Sep"),
+                              scores = c(88, 97)
+                              )
+                   )
+
+    # what was the result?
+    extra
+
+    # what do the levels look like:
+    levels(extra$students)
+    
+    levels(extra$tests)
+    ```
+
+
+### Factor levels stick around
+* Even if you delete all occurrences of a level in a factor vector,
+the levels do not _automatically_ change:
+    ```{r}
+    no.dude <- bogus[ bogus$students != "The Dude", ]  # drop Devon (The Dude) and his dudeliness
+    no.dude  # print it out...no "The Dude"
+
+    no.dude$students   # print that column of students
+
+    # whoa-ho!  The Dude is still a level...The Dude abides!
+    # check again
+    levels(no.dude$students)
+```
+* If you have subsetted a data frame and you want to get rid of 
+the extra levels of all the factors, you can do like this with `droplevels()`:
+    ```{r}
+    no.dude2 <- droplevels(no.dude)
+
+    no.dude2  # print it
+
+    # check the levels
+    levels(no.dude2$students)  # no The Dude!
+    ```
+* In many contexts you _will_ want the factor levels to stick around. In others you don't.
+
+### Numeric/Character/Factor Disasters
+The most common disaster that can happen with factors occurs when
+you think you can get back to a numeric vector by coercing a factor to as.numeric:
+```{r}
+# here are  some integers
+my.nums <- c(1,4,8,10,1,8,8,8,10)
+
+# make them a factor
+numf <- factor(my.nums)
+
+# try to recover the original integers
+as.numeric(numf)  # disaster
+
+# 2 "correct" ways of doing it
+as.numeric(as.character(numf))  # coerce to character first, then to numeric
+
+
+as.numeric(levels(numf)[numf])  # slurp out the levels by numf and coerce
+```
+
+## Why factors are super useful! {#factor-utility}
+* I am going to go through just one example that involves counting up occurrences 
+of different categories.  
+* When counting categories you usually will want to:
+    1. Record a zero for known categories that had no observations
+    2. List the categories in a particular order
+* Both of these desires can be accommodated by judicious use of _factors_!
+    1. Because _levels_ "stick around" categories will be counted (as 0) even
+    if there are no observations of them
+    2. The _levels_ of a factor can be put in any order desired, and that order
+    will be used in reporting from many different functions.
+    
+### The _table()_ function
+
+* `table(x)` gives the number of occurrence of each unique category in `x`.
+    ```{r}
+    set.seed(2)
+    x <- sample(letters, size = 100, replace = TRUE)
+    x  # print it
+
+    # count the number of each occurence
+    table(x)
+    ```
+* It also can count the number of occurrences of pairs of categories:
+    ```{r}
+    set.seed(20)
+    x <- sample(letters[1:3], size = 10, replace = TRUE)
+    y <- sample(LETTERS[1:3], size = 10, replace = TRUE)
+    
+    
+    cbind(x,y)  # think of lining up x and y together
+
+    # how often do you see the combination a,A or a,B or c,B  etc.
+    table(list(x, y)) 
+    ```
+
+### Some sample data from birds
+
+* Example from [Mapping migration in a songbird ...](http://onlinelibrary.wiley.com/doi/10.1111/mec.12977/abstract)
+* 393 birds from various _locations_ in the breeding range of Wilson's warbler
+
+![wilson's warbler](http://www.allaboutbirds.org/guide/PHOTO/LARGE/WilsonsWarbler-Vyn_090606_5182.jpg)
+
+* These were genotyped, and _locations_ were lumped into _regions_
+* Then we asked how well we could use the genetic data to assign individual
+birds from each _location_ to the correct _region_
+* Here is what the output looks like (a data frame)
+    ```{r}
+    wiwa <- read.csv("data/bird-self-assignments.csv", row.names=1)
+
+    head(wiwa)
+
+    # here are the different locations
+    levels(wiwa$PopulationOfOrigin)
+
+    # here are the different regions
+    levels(wiwa$MaxColumn)
+    ```
+    
+### Counting up self-assignments
+
+* We can count how many birds from each location were assigned to which regions using `table()`
+    ```{r}
+    table(list(wiwa$PopulationOfOrigin, wiwa$MaxColumn))
+    ```
+* That is all right, but the locations and regions are not 
+ordered very sensibly.
+    + They are ordered alphabetically, 
+    + It would be better to order them geographically
+* We can do this by resetting the levels in the order we want:
+    1. First, get vectors that have all the categories you want in the 
+    order you want them in
+        ```{r}
+        # a vector of regions in a geographically sensible order
+        regions_ordered <- c("AK.EastBC.AB", "Wa.To.NorCalCoast", "CentCalCoast", "CalSierra", "Basin.Rockies", "Eastern")
+          
+        # get a vector of locations in a good order
+        locations_ordered <- c("wAKDE", "wAKYA", "wAKUG", "wAKJU", "wABCA", "wBCMH", "wWADA", 
+        "wORHA", "wORMB", "wCAEU", "wCAHM", "wCABS", "wCASL", "wCATE", "wCACL", "wCAHU",
+        "wMTHM", "wOREL", "wCOPP", "wCOGM", "eQCCM", "eONHI", "eNBFR"
+        )
+        ```
+    2. Then, this is the magical step: reset the levels to be the ordered vectors of categories you want. 
+    You do this by passing in the ordered vector to the `levels` argument of the `factor()` function:
+        ```{r}
+        # order the levels of the regions nicely
+        wiwa$MaxColumn <- factor(wiwa$MaxColumn, levels = regions_ordered)
+        
+        # order the levels of the locations nicely
+        wiwa$PopulationOfOrigin <- factor(wiwa$PopulationOfOrigin, levels = locations_ordered)
+        ```
+        + __WARNING__ DO NOT DO THIS!
+            ```{r}
+            levels(wiwa$MaxColumn) <- regions_ordered
+            levels(wiwa$PopulationOfOrigin) <- locations_ordered
+           ```
+        You have to reconstitute is as a factor after changing the levels.  Otherwise you can
+        get totally wrong values.
+    3. Then use table again, and note the ordering of the categories in the output:
+        ```{r}
+        table(list(wiwa$PopulationOfOrigin, wiwa$MaxColumn))
+        ```
+  * Many, many functions use the order of the levels of a factor to determine what order to
+  output things in (like drawning legends on plots, etc.).  So knowing how to 
+  set the order of the levels with `factor(my.factor, levels = my.ord)` is very useful.
+  
