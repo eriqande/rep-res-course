@@ -51,7 +51,7 @@ y <- c(2, 15, 10, 7, 5)
 # when he tries to multiply these he gets an error.  Use an `as.` function
 # to coerce x appropriately and then return the product of x and y.
 submit_answer({
-  
+  as.numeric(x)*y
 })
 
 ```
@@ -70,7 +70,7 @@ z[sample(1:length(z), 4)] <- NA
 # return a vector that has all the non-NA values in z in the 
 # order in which they occur in z.
 submit_answer({
-              #  <- put your answer to the left of the #. 
+  z[!is.na(z)]            #  <- put your answer to the left of the #. 
 }, subprob = "-a")
 
 # In the above, don't worry about the "subprob" argument.  That is just
@@ -79,20 +79,24 @@ submit_answer({
 # Another exercise:  Return all the values in w that
 # occur at the same position as the NAs in z.
 submit_answer({
-             
+   w[!is.na(z)]          
 }, subprob = "-b")
 
 # Another exercise: Return a vector which is like z, but in which all
 # the non-missing values have been multiplied by 2.5 and all the missing
 # values (NAs) have been turned into -1's
 submit_answer({
-             
+   z2 <- z
+   z2[!is.na(z2)] <- z2[!is.na(z2)]*2.5 
+   z2[is.na(z2)] <- -1
+   z2
 }, subprob = "-c")
 
 # Last subproblem: Modify z so that every NA gets replaced by the value
 # in the same position in the vector w
 submit_answer({
-             
+   z[is.na(z)] <- w[is.na(z)] 
+   z
 }, subprob = "-d")
 
 ```
@@ -116,7 +120,8 @@ q <- c(-1,1) * rnorm(20, mean=6, sd=2)
 # not familiar with the sum() function you should read about it in the 
 # help files by typing "?sum" at your R prompt.
 submit_answer({
-             
+  d <- sqrt(sum((p-q)^2))  
+  d
 })
 
 ```
