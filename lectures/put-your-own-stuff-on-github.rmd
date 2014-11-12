@@ -1,0 +1,107 @@
+---
+title: Putting repos on github
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# Put your stuff on GitHub {#put-it-on-github} 
+
+## Goals
+
+* I want everyone to walk through the process of:
+    1. Making an RStudio project with git version control
+    2. Committing some stuff in it.
+    3. Making a "home" for that at GitHub
+    4. Pushing the contents to GitHub
+    5. Modifying something, committing, and pushing it up anew.
+    6. Cloning the repo elsewhere.
+* The folks at RStudio and GitHub have worked pretty hard to
+make such a process about as easy as can be.
+
+
+### Make a project
+
+* By now, this should be familiar:
+    1. From RStudio, choose File -> New Project...
+    2. Choose "New Directory" then "Empty Project" 
+    3. Give the directory a name (like `my_proj`)
+    4 Click the button to use git version control
+    
+### Make some changes and commit them.
+
+* For this step, try something like this:
+    1. Choose File -> New File -> Text File
+    2. Then insert something like:
+        ```
+        # My own (basically empty) project on GitHub
+
+        I am just figuring out how to put my own stuff
+        up on GitHub.
+        ```
+    into it and save that as a file called `README.md` in the top level of your
+    project directory.
+    3. Make a new file (if you want) and add some R code to it.
+    4. Commit those new files
+        a. Stage the files you want to commit. This should be at least `.gitignore`, `my_proj.Rproj`, and `README.md`
+        b. Commit them (write a short commit message).
+* Cool.  At this point you have a git repo you can put on GitHub. 
+
+### Putting it up on GitHub
+
+* Here is the strategy that we will follow for this part (in brief)
+    1. Go to GitHub and create a new repository there named `my_proj`
+    2. Follow the instructions on GitHub on how to get info into that repository.
+* In more detail here it how your create a new repository on GitHub
+    1. Go to __your__ GitHub page.  It will be at `https://github.com/USERNAME` where USERNAME is replaced with
+    your GitHub name.
+    2. On the top right of the page there is a `+` symbol with a little triangle next to it (should be just to
+    the right of your username).  Click this and choose `New Repository`.
+    3. In the text box, type in `my_proj`
+    4. In the Description box, feel free to put whatever you want to in there. (Like `first attempt!`)
+    5. Leave the `Public` button checked.
+    6. __DO NOT__ initialize the repo with a README file.  __Neither should you__ click the button to add
+    a `gitignore` or a license file.
+    7. Hit `Create Repository`
+* Now, here is how you get your stuff into that repo.
+    1.  After doing the above steps, you get a screen that shows a quick setup.  Make sure that the `http` button
+    is activated, instead of the `ssh` button.
+    2. Copy the two lines of code under where it says _or push an existing repository from the command line__
+    3. Open up a Shell from your `my_proj` RStudio project.  (Choose Tools -> Shell) and paste the two lines
+    of code into the shell. (You probably have to hit return after that, too.)
+    4. If everything worked correctly, you should see a messsage like this:
+        ```
+        Counting objects: 5, done.
+        Delta compression using up to 2 threads.
+        Compressing objects: 100% (4/4), done.
+        Writing objects: 100% (5/5), 567 bytes | 0 bytes/s, done.
+        Total 5 (delta 0), reused 0 (delta 0)
+        To https://github.com/eriqande/my_proj.git
+        * [new branch]      master -> master
+        Branch master set up to track remote branch master from origin.
+        ```
+    5. That is it.  Now you can commit new changes and easily push them up to GitHub from within RStudio.
+    6. Go back to your GitHub page and choose the repositories tab and you will find your `my_proj` repo there.
+    
+### Have fun playing around
+
+* Here are some thing to try:
+    1. Note that you can actually edit files directly on GitHub (try to
+    figure out how to edit your README on GitHub) and then
+    commit those changes.  Then you can pull them down to your local repo.
+    2. In the Shell, go to a new directory and then give a command like:
+        ```
+        git clone https://github.com/USERNAME/my_proj.git
+        ```
+    where USERNAME is replaced with your username.  (Note that on the right side of your `myproj` repository
+    page on GitHub, you can find the correct __https__ clone URL.
+        + This will give you a completely new clone of your repository.  This can be nice if you need
+        to set up work on a different computer, etc.
+        
+

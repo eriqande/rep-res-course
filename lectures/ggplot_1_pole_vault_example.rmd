@@ -1,0 +1,53 @@
+---
+title: ggplot2 - 1
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# Intro to ggplot2 {#ggplot2-intro-lecture} 
+
+
+```{r}
+library(lubridate)  # for dealing with dates
+library(ggplot2)
+library(plyr)
+# first off read the data into a data frame
+pv <- read.table("data/mens_pole_vault_raw.txt", 
+                comment.char = "%", 
+                sep = "\t", 
+                header = TRUE, 
+                stringsAsFactors = FALSE
+                )
+
+# and then clean it up:
+pv$Date <- gsub("\\[[0-9]\\]", "", pv$Date)  # remove the footnote refs in the dates
+pv$Date <- mdy(pv$Date)  # convert dates to lubridate 
+pv$Record <- as.numeric(gsub(" m.*", "", pv$Record))  # remove the "m" and other stuff from the heights
+names(pv)[names(pv) == "Record"] = "Meters" # change "Record" column to "Meters"
+
+# now add a column for the date of first record for each athlete
+tmp <- ddply(.data = pv, .variables = "Athlete", .fun = function(pv) min(pv$Meters))
+rownames(tmp) <- tmp$Athlete
+pv$FirstRecordMeters <- tmp[pv$Athlete, "V1"]
+
+# now add a column for date of the next record:
+pv$DateNext <- c(pv$Date[-1], ymd(today()))
+
+ggplot(data = pv, mapping = aes(x = Date, y = Meters, color = Nation))  + 
+ # geom_point() +
+  geom_line(color = "black", size = .1) +
+  geom_rect(aes(xmin = Date, 
+                xmax = DateNext, 
+                ymin = FirstRecordMeters, 
+                ymax = Meters,
+                fill = Nation,
+                colour = Nation
+                ))
+```

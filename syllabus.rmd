@@ -160,6 +160,9 @@ and read the Preface on page 8 and the first few
 paragraphs of Chapter 1 (because it is fun
 to do so---we have all been in R hell at one time or another), then read from section 8.2 through 8.2.8, which 
 covers factor hell.
+* __Lecture:__
+    + [More about factors](#factor-lecture)
+    + [Putting your own repositories on GitHub](#put-it-on-github)
 
 ## Week 6 {#syl-week-6}
 
@@ -168,7 +171,9 @@ _NO CLASS. VETERANS DAY_
 
 
 ### `r  course_day("Th", 6)`
-_More data frames. Factors.  Tidy Data_
+_NO CLASS._
+* There was a conflict with the room and this seemed like a good time for
+everyone to start loading their own data into R and working with it.
 
 
 

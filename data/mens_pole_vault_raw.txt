@@ -1,0 +1,75 @@
+%% These data were copied from the table at http://en.wikipedia.org/wiki/Men's_pole_vault_world_record_progression
+%% and then pasted directly into this text file (and these two lines added).
+Record	Athlete	Nation	Venue	Date	#[2]
+4.02 m	Marc Wright	 United States	Cambridge, U.S.	June 8, 1912[1]	1
+4.09 m	Frank Foss	 United States	Antwerp, Belgium	August 20, 1920[1]	1
+4.12 m	Charles Hoff	 Norway	Copenhagen, Denmark	September 22, 1922[1]	1
+4.21 m	Charles Hoff	 Norway	Copenhagen, Denmark	July 22, 1923[1]	2
+4.23 m	Charles Hoff	 Norway	Oslo, Norway	August 13, 1925[1]	3
+4.25 m	Charles Hoff	 Norway	Turku, Finland	September 27, 1925[1]	4
+4.27 m	Sabin Carr	 United States	Philadelphia, U.S.	May 27, 1927[1]	1
+4.30 m	Lee Barnes	 United States	Fresno, U.S.	April 28, 1928[1]	1
+4.37 m	William Graber	 United States	Palo Alto, U.S.	July 16, 1932[1]	1
+4.39 m	Keith Brown	 United States	Boston, U.S.	June 1, 1935[1]	1
+4.43 m	George Varoff	 United States	Princeton, New Jersey, U.S.	July 4, 1936[1]	1
+4.54 m	Bill Sefton	 United States	Los Angeles, U.S.	May 29, 1937[1]	1
+4.54 m	Earle Meadows	 United States	Los Angeles, U.S.	May 29, 1937[1]	1
+4.60 m	Cornelius Warmerdam	 United States	Fresno, U.S.	June 29, 1940[1]	1
+4.72 m	Cornelius Warmerdam	 United States	Compton, U.S.	June 26, 1941[1]	2
+4.77 m	Cornelius Warmerdam	 United States	Modesto, U.S.	May 23, 1942[1]	3
+4.78 m	Robert Gutowski	 United States	Palo Alto, U.S.	April 27, 1957[1]	1
+4.80 m	Don Bragg	 United States	Palo Alto, U.S.	July 2, 1960[1]	1
+4.83 m	George Davies	 United States	Boulder, U.S.	May 20, 1961[1]	1
+4.89 m	John Uelses	 United States	Santa Barbara, U.S.	March 31, 1962[1]	1
+4.93 m	Dave Tork	 United States	Walnut, U.S.	April 28, 1962[1]	1
+4.94 m	Pentti Nikula	 Finland	Kauhava, Finland	June 22, 1962[1]	1
+5.00 m	Brian Sternberg	 United States	Philadelphia, U.S.	April 27, 1963[1]	1
+5.08 m	Brian Sternberg	 United States	Compton	June 7, 1963[1]	2
+5.13 m	John Pennel	 United States	London, England	August 5, 1963[1]	1
+5.20 m	John Pennel	 United States	Coral Gables, U.S.	August 24, 1963[1]	2
+5.23 m	Fred Hansen	 United States	San Diego, U.S.	June 13, 1964[1]	1
+5.28 m	Fred Hansen	 United States	Los Angeles, U.S.	July 25, 1964[1]	2
+5.32 m	Bob Seagren	 United States	Fresno, U.S.	May 14, 1966[1]	1
+5.34 m	John Pennel	 United States	Los Angeles, U.S.	July 23, 1966[1]	3
+5.36 m	Bob Seagren	 United States	San Diego, U.S.	June 10, 1967[1]	2
+5.38 m	Paul Wilson	 United States	Bakersfield, U.S.	June 23, 1967[1]	1
+5.41 m A	Bob Seagren	 United States	Echo Summit, U.S.	September 12, 1968[1]	3
+5.44 m	John Pennel	 United States	Sacramento, U.S.	June 21, 1969[1]	4
+5.45 m	Wolfgang Nordwig	 East Germany	Berlin, Germany	June 17, 1970[1]	1
+5.46 m	Wolfgang Nordwig	 East Germany	Turin, Italy	September 3, 1970[1]	2
+5.49 m	Christos Papanikolaou	 Greece	Athens, Greece	October 24, 1970[1]	1
+5.51 m	Kjell Isaksson	 Sweden	Austin, U.S.	April 8, 1972[1]	1
+5.54 m	Kjell Isaksson	 Sweden	Los Angeles, U.S.	April 15, 1972[1]	2
+5.55 m	Kjell Isaksson	 Sweden	Helsingborg, Sweden	June 12, 1972[1]	3
+5.63 m	Bob Seagren	 United States	Eugene, U.S.	July 2, 1972[1]	4
+5.65 m	David Roberts	 United States	Gainesville, U.S.	March 28, 1975[1]	1
+5.67 m	Earl Bell	 United States	Wichita, U.S.	May 29, 1976[1]	1
+5.70 m	David Roberts	 United States	Eugene, U.S.	June 22, 1976[1]	2
+5.72 m	Władysław Kozakiewicz	 Poland	Milan, Italy	May 11, 1980[1]	1
+5.75 m	Thierry Vigneron	 France	Paris, France	June 1, 1980[1]	1
+5.75 m	Thierry Vigneron	 France	Lille, France	June 29, 1980[1]	2
+5.77 m	Philippe Houvion	 France	Paris, France	July 17, 1980[1]	1
+5.78 m	Władysław Kozakiewicz	 Poland	Moscow, Soviet Union	July 30, 1980[1]	2
+5.80 m	Thierry Vigneron	 France	Mâcon, France	June 20, 1981[1]	3
+5.81 m	Vladimir Polyakov	 Soviet Union	Tbilisi, Soviet Union	June 26, 1981[1]	1
+5.82 m	Pierre Quinon	 France	Cologne, Germany	August 28, 1983[1]	1
+5.83 m	Thierry Vigneron	 France	Rome, Italy	September 1, 1983[1]	4
+5.85 m	Sergey Bubka	 Soviet Union	Bratislava, Czechoslovakia	May 26, 1984[1]	1
+5.88 m	Sergey Bubka	 Soviet Union	Paris, France	June 2, 1984[1]	2
+5.90 m	Sergey Bubka	 Soviet Union	London, England	July 13, 1984[1]	3
+5.91 m	Thierry Vigneron	 France	Rome, Italy	August 31, 1984[1]	5
+5.94 m	Sergey Bubka	 Soviet Union	Rome, Italy	August 31, 1984[1]	4
+6.00 m	Sergey Bubka	 Soviet Union	Paris, France	July 13, 1985[1]	5
+6.01 m	Sergey Bubka	 Soviet Union	Moscow, Soviet Union	June 8, 1986[1]	6
+6.03 m	Sergey Bubka	 Soviet Union	Prague, Czechoslovakia	June 23, 1987[1]	7
+6.05 m	Sergey Bubka	 Soviet Union	Bratislava, Czechoslovakia	June 9, 1988[1]	8
+6.06 m	Sergey Bubka	 Soviet Union	Nice, France	July 10, 1988[1]	9
+6.07 m	Sergey Bubka	 Soviet Union	Shizuoka, Japan	May 6, 1991[1]	10
+6.08 m	Sergey Bubka	 Soviet Union	Moscow, Soviet Union	June 9, 1991[1]	11
+6.09 m	Sergey Bubka	 Soviet Union	Formia, Italy	July 8, 1991[1]	12
+6.10 m	Sergey Bubka	 Soviet Union	Malmö, Sweden	August 5, 1991[1]	13
+6.11 m	Sergey Bubka	 Ukraine	Dijon, France	June 13, 1992[1]	14
+6.12 m	Sergey Bubka	 Ukraine	Padua, Italy	August 30, 1992[1]	15
+6.13 m	Sergey Bubka	 Ukraine	Tokyo, Japan	September 19, 1992[1]	16
+6.14 m A[3]	Sergey Bubka	 Ukraine	Sestriere, Italy	July 31, 1994[1]	17
+6.16 m i	Renaud Lavillenie	 France	Donetsk, Ukraine	February 15, 2014[4]	1

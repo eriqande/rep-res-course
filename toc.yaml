@@ -47,6 +47,10 @@
 ./lectures/factors.rmd:
 - factor-lecture
 - factor-basics
+- same-on-factors
+- factor-issues
+- factor-utility
+./lectures/ggplot_1_pole_vault_example.rmd: ggplot2-intro-lecture
 ./lectures/git-basics.rmd:
 - git-basics
 - vcs
@@ -70,6 +74,7 @@
 - dollar-sign
 - list-add-or-change
 - list-essentials
+./lectures/put-your-own-stuff-on-github.rmd: put-it-on-github
 ./lectures/rstudio-orientation.rmd:
 - rstudio-orientation
 - r-console
