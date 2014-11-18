@@ -50,7 +50,10 @@
 - same-on-factors
 - factor-issues
 - factor-utility
-./lectures/ggplot_1_pole_vault_example.rmd: ggplot2-intro-lecture
+./lectures/ggplot_1_pole_vault_example.rmd:
+- ggplot2-intro-lecture
+- ggplot-prereq
+- pv-example
 ./lectures/git-basics.rmd:
 - git-basics
 - vcs

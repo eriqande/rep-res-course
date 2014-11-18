@@ -182,6 +182,9 @@ everyone to start loading their own data into R and working with it.
 ### `r  course_day("Tu", 7)`
 _Plotting. ggplot and the grammar of graphics_
 
+* __Lecture:__
+    + [Introduction to ggplot](#ggplot2-intro-lecture)
+
 
 ### `r  course_day("Th", 7)`
 _Plotting with ggplot_

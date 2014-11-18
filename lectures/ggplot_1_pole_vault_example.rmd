@@ -13,12 +13,17 @@ layout: default_with_disqus
 
 # Intro to ggplot2 {#ggplot2-intro-lecture} 
 
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.width=10, fig.height=7, out.width = "600px", out.height = "420px")
+```
+
 ### Prerequisites {#ggplot-prereq}
 * To work through the examples you will need a few different packages.
 * Please download/install these before coming to class:
     1. install necessary packages:
         ```{r, eval = FALSE}
-        install.packages("ggplot2","lubridate", "plyr", "mosaic")
+        install.packages("ggplot2","lubridate", "plyr", "mosaic", "mosaicData")
         ```
     2. Pull the most recent version of the rep-res-course repo just before coming to class.
 
@@ -71,10 +76,10 @@ in particular ways can generate all these named graphics (and more)
 
 1. _data_ and _aesthetic mappings_
 2. _geoms_ (geometric objects)
-3. _stat_s (statistical transformations)
-4. _scale_s 
-5. _coord_s (coordinate systems)
-6. _facet_s (a specification of how to break things into smaller subplots)
+3. _stats_ (statistical transformations)
+4. _scales_ 
+5. _coords_ (coordinate systems)
+6. _facets_ (a specification of how to break things into smaller subplots)
 
 We will focus on 1, 2 for most of today.
 
@@ -233,7 +238,7 @@ in them, map _color_ to _Nation_:
 
 Quite a few.  There is a good summary with little icons for each [here](http://docs.ggplot2.org/current/)
 
-### Another plot
+### Getting even sillier
 
 * Here is another plot I made while geeking out.
 * I wanted to get a sense for how much individual athletes had improved since their first world record
@@ -246,7 +251,8 @@ pv$FirstRecordMeters <- tmp[pv$Athlete, "V1"]
 # now add a column for date of the next record:
 pv$DateNext <- c(pv$Date[-1], ymd(today()))
 
-ggplot(data = pv, mapping = aes(x = Date, y = Meters, color = Nation))  + 
+bb <- ggplot(data = pv, mapping = aes(x = Date, y = Meters, color = Nation))  + 
+  geom_ribbon(aes(ymax = Meters, color = NULL), ymin = min(pv$Meters), alpha = 0.2, fill = "orange") +
   geom_line(color = "black", size = .1) +
   geom_rect(aes(xmin = Date, 
                 xmax = DateNext, 
@@ -255,13 +261,100 @@ ggplot(data = pv, mapping = aes(x = Date, y = Meters, color = Nation))  +
                 fill = Nation,
                 color = Nation
                 ))
+bb
 ```
+
 I used `geom_rect()` to plot rectangles where the bottom edge is situated at the athlete's 
 lowest world record.  Note how it required massaging some data into the 
 data frame at the beginning.
 
 
+### More! Add some text to it!
+
+Now, I want to try to get every single name in the first time the person set
+the record. Of course, they won't all fit exactly at the point (Date and Meters)
+of each record, so let's space them out evenly, then draw little line segments
+to meet up with the records.
+
+1. We make a new data frame that has just the first time a person got
+a record
+    ```{r}
+    pv1 <- pv[pv$X..2.==1,]
+    pv1[1:5, ]  # have a look at it
+    ```
+2. Look at the previous plot and decide that we would like to run names
+equally spaced along a line that runs from about (1910, 4.25) to (1980, 6.5).
+Note that we will have to squish `r nrow(pv1)` names along that line. So, we
+can define the points along it as follows:
+    ```{r}
+    pv1$nameline.x <- seq(mdy("1-1-1910"), mdy("1-1-1980"), length.out = nrow(pv1))
+    # holy cow! did you see how we got  sequence of dates? lubridate is sick!
+    pv1$nameline.y <- seq(4.5, 6.44, length.out = nrow(pv1))
+    ```
+3. Add that line to the plot as colored points atop a black line.
+    ```{r}
+    bb2 <- bb + 
+      geom_line(data = pv1, mapping = aes(x = nameline.x, y = nameline.y), color = "black", size = 0.2) +
+      geom_point(data = pv1, mapping = aes(x = nameline.x, y = nameline.y))
+    bb2
+    ```
     
+    Notice how the color of Nation gets applied to it automatically.
+4. Now, little colored lines from the nameline points to the records. For this
+we can use the `geom_segment()` function.
+    ```{r}
+    bb3 <- bb2 + geom_segment(data = pv1, mapping = aes(xend = nameline.x, yend = nameline.y))
+    bb3
+    ```
+5. Finally, we want to add the names of the athletes in there.  We already have their names
+in `pv1`.  We use the `geom_text()` function.
+    ```{r, warning=FALSE}
+    bb4 <- bb3 + geom_text(data = pv1, aes(label = Athlete, x = nameline.x - dyears(.75), y = nameline.y + .03), 
+                           angle = -45, hjust = 1)
+    bb4
+    ```
+6. That is pretty cool, but a lot of names have gotten chopped off.  Can we do something about that? 
+There might be something a little more automatic, but we can do it by-hand, too:
+    ```{r, warning=FALSE}
+    bb4 + coord_cartesian(xlim = mdy(c("1-1-1890", "1-1-2020")), ylim = c(3.8, 7.1))
+    ```
 
+## Playing on your own {#ggplot-play-on-own}
 
+It can be downright daunting learning `ggplot`.  That is why I recommend you
+get a feel for it by playing with a sort of ggplot GUI developed by the guys who
+make the `mosaic` package.
 
+Do this:
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(mosaic)
+library(mosaicData)
+```
+```{r, eval=FALSE}
+library(ggplot2)
+library(mosaic)
+library(mosaicData)
+library(lubridate)
+mPlot(mtcars, system = "ggplot")
+```
+This will load the mtcars data set into moscaic's ggplot "interactor".  
+
+* Click the "gear" symbol in the upper left of the plot window and start fiddling!
+* Hit the Show Expression button to see what commands create the resulting plot.
+* Look for other data sets.  Type `data()` to see a list of them.  Or try 
+```{r, eval=FALSE}
+data(package = "mosaicData")
+```
+Then consider:
+```{r, eval=FALSE}
+mPlot(Heightweight, system = "ggplot")
+mPlot(Galton, system = "ggplot")
+mPlot(Births78, system = "ggplot")
+```
+Or plug your own data frame in there.
+
+* After seeing the expression, can you modify it to add more stuff, like:
+```{r}
+Births78$day_of_week <- wday(ymd(Births78$date), label = TRUE)
+ggplot(data=Births78, aes(x=dayofyear, y=births, color = day_of_week)) + geom_point()  + theme(legend.position="right") + labs(title="") + geom_smooth(method = "loess", alpha = .1)
+```
