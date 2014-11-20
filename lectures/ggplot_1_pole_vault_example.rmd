@@ -23,7 +23,7 @@ opts_chunk$set(fig.width=10, fig.height=7, out.width = "600px", out.height = "42
 * Please download/install these before coming to class:
     1. install necessary packages:
         ```{r, eval = FALSE}
-        install.packages("ggplot2","lubridate", "plyr", "mosaic", "mosaicData")
+        install.packages(c("ggplot2","lubridate", "plyr", "mosaic", "mosaicData"))
         ```
     2. Pull the most recent version of the rep-res-course repo just before coming to class.
 
@@ -107,7 +107,7 @@ All I can say is you owe it to yourself to persevere --- `ggplot2` is really wor
 ### A pole vaulting example
 
 * Here is a concrete example: we will investigate the history of pole-vaulting world records
-* I grabbed the data by copying them from Wikipedia and pasting them into a text file
+* I grabbed the data by copying them from http://en.wikipedia.org/wiki/Men's_pole_vault_world_record_progression and pasting them into a text file
 * Here we make a data frame out of them:
     ```{r}
     library(lubridate)  # for dealing with dates
@@ -226,9 +226,10 @@ in them, map _color_ to _Nation_:
     d5 <- d4 + geom_rug(sides = "bl", mapping = aes(color = Nation))
     d5
     ```
-    
-    Note that we are using the `aes()` function to add the mapping of _color_ to _Nation_ within the `geom_rug()` function.
+    * Note that we are using the `aes()` function to add the mapping of _color_ to _Nation_ within the `geom_rug()` function.
         + Note also that the legend was created automatically.
+    * Wow! A legend is produced automatically, by default, and it looks pretty good.  This doesn't happen without an all-out
+    wrestling match in R's base graphics system.
     
 * So, that was some fun playing around with the truly awesome ease with which you can build up complex and lovely graphics with ggplot.
 
@@ -236,7 +237,9 @@ in them, map _color_ to _Nation_:
           
 ### How many geoms are there?
 
-Quite a few.  There is a good summary with little icons for each [here](http://docs.ggplot2.org/current/)
+* Quite a few.  There is a good summary with little icons for each [here](http://docs.ggplot2.org/current/)
+* Note that most geoms respond to the aesthetics of `x`, `y`, and `color` (or `fill`).  And some have more (or other) aesthetics you can
+map values to.
 
 ### Getting even sillier
 
@@ -258,8 +261,7 @@ bb <- ggplot(data = pv, mapping = aes(x = Date, y = Meters, color = Nation))  +
                 xmax = DateNext, 
                 ymin = FirstRecordMeters, 
                 ymax = Meters,
-                fill = Nation,
-                color = Nation
+                fill = Nation
                 ))
 bb
 ```
@@ -288,7 +290,7 @@ Note that we will have to squish `r nrow(pv1)` names along that line. So, we
 can define the points along it as follows:
     ```{r}
     pv1$nameline.x <- seq(mdy("1-1-1910"), mdy("1-1-1980"), length.out = nrow(pv1))
-    # holy cow! did you see how we got  sequence of dates? lubridate is sick!
+    # holy cow! did you see how easily we got that sequence of dates? lubridate is amazing!
     pv1$nameline.y <- seq(4.5, 6.44, length.out = nrow(pv1))
     ```
 3. Add that line to the plot as colored points atop a black line.
@@ -299,7 +301,7 @@ can define the points along it as follows:
     bb2
     ```
     
-    Notice how the color of Nation gets applied to it automatically.
+    Notice how the color of Nation gets applied to the points automatically.
 4. Now, little colored lines from the nameline points to the records. For this
 we can use the `geom_segment()` function.
     ```{r}
@@ -340,6 +342,7 @@ mPlot(mtcars, system = "ggplot")
 This will load the mtcars data set into moscaic's ggplot "interactor".  
 
 * Click the "gear" symbol in the upper left of the plot window and start fiddling!
+    + Note that you only access a fraction of ggplot's functionality this way, but it can still be informative.
 * Hit the Show Expression button to see what commands create the resulting plot.
 * Look for other data sets.  Type `data()` to see a list of them.  Or try 
 ```{r, eval=FALSE}

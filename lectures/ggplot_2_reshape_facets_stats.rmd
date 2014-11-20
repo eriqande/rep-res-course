@@ -1,0 +1,280 @@
+---
+title: ggplot2 - 1
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# Further fun with ggplot2 {#ggplot2-second-lecture} 
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.width=10, fig.height=7, out.width = "600px", out.height = "420px")
+```
+
+## Intro {#ggplot-2-intro}
+
+### Prerequisites {#ggplot-prereq}
+* To work through the examples you will need a few different packages.
+* Please download/install these before coming to class:
+    1. install necessary packages:
+        ```{r, eval = FALSE}
+        install.packages(c("ggplot2","lubridate", "plyr", "mosaic", "mosaicData", "reshape2"))
+        ```
+    2. Pull the most recent version of the rep-res-course repo just before coming to class.
+
+### Goals for this hour:
+
+1. Discuss _wide_ vs. _long_ format data, and how ggplot operates on the latter
+2. Introduce the `reshape2` package for converting between _wide_ and _long_ formats
+3. Demonstrate _faceting_ (creating many smaller plots whilst breaking data up over different categories)
+4. Brief discussion of ggplot's _stats_ (statistical transformations)
+
+
+## Wide vs Long format {#wide-v-long}
+
+### Grand Rapids, MI snow data 1893-2011
+* We will explore this using the snowfall data from Grand Rapids, Michigan that is in the `mosaicData` package.
+(thanks to Megan S. for pointing this data set out as a good example!)
+* Here we will print out a small part of it:
+    ```{r}
+    library(mosaicData)
+    dim(SnowGR)  # how many rows and columns?
+    head(SnowGR)  # have a look at the first few rows
+    ```
+* We could think of a few plots we might want to make from this:
+    + Average snowfall for each month
+    + Distribution since 1893 of snowfall in each month, 
+    + etc.
+* Would be great to explore this with ggplot, but there is one small problem:
+    + ggplot accepts _long_ format data, and `SnowGR` is in _wide_ format.
+    
+### Wide vs. Long, colloquially
+
+* Wide format data is called "wide" because it typically has a lot of columns
+which stretch widely across the page or your computer screen
+* Long format data is called "long" because it typically has fewer columns
+but preserves all the same information.  In order to that, it has to
+be longer...
+* Most of us are familiar with looking at wide format data
+    + It is convenient if you are doing data entry
+    + It often lets you see more of the data, at one time, on your screen 
+* Long format data is typically less familiar to most humans
+    + It seems awfully hard to get a good look at all (or most) of it
+    + It seems like it would require more storage on your hard disk
+    + It seems like it would be harder to enter data in a long format
+    + if we have been using Microsoft Excel for too long our conceptual
+    model for how to analyze data may never have developed beyond thinking
+    about operating on columns as if each one were a separate entity.
+* Which is better?
+    + Well, there _are_ some contexts where putting things in wide format is computationally
+    efficient because you can treat data in a matrix format and to efficient
+    matrix calculations on it.
+    + However, 
+        1. adding data to wide format data sets is very hard
+        1.it is very difficult to conceive of analytical schemes
+        that apply generally across all wide-format data sets. 
+        1. many tools in R want data in long format
+        1. the long format for data corresponds to the _relational model_ for
+        storing data, which is the model used in most modern data bases like
+        the SQL family of data base systems.
+        
+### ID variables, Measured variables, Values
+
+* A more technical treatment of wide versus long data requires some terminology:
+    + <span style="color:blue">Identifier variables</span> are often categorical things that cross-classify observations into
+      categories.
+    + <span style="color:red">Measured variables</span> are the names given to properties or characteristics that you can go out
+    and measure.
+    + <span style="color:orange">Values</span> are the values that you measure are record for any particular measured variable.
+* In any particular data set, what you might want to call an <span style="color:blue">Identifier variables</span> versus a
+<span style="color:red">Measured variables</span> can not always be entirely clear. 
+    + Other people might choose to define things differently.
+* However, to my mind, it is _less important_ to be able to precisely recognize these three entities in every possible situation (where there might be some fuzziness about which is which)
+* And it is _more important_ to understand how <span style="color:blue">Identifier variables</span>,
+<span style="color:red">Measured variables</span>, and <span style="color:orange">Values</span> interact and
+behave when we are transforming data between wide and long formats.
+
+
+### Variables and values in SnowGR
+
+* To give this some concreteness, let's go back to the SnowGR data set.
+* However, let us drop the "Total"  column from it first because that is 
+just computed from the other columns and is not "directly measured".
+    ```{r}
+    Snow <- SnowGR[, -ncol(SnowGR)]
+    ```
+* Now, color it up:  
+    ```{r, echo = FALSE}
+    library(png)
+    library(grid)
+    img <- readPNG("diagrams/snow_wide.png")
+    grid.raster(img)
+    ```
+* We can think of SeasonStart and SeasonEnd as being <span style="color:blue">Identifier variables</span>.
+They identify which season we are in.
+* The months are the <span style="color:red">Measured variables</span>, because you go out and measure snow in each month
+* And the <span style="color:orange">Values</span> occupy most of the table.
+
+
+### Long Format Snow
+
+* When something is in long format, there are columns for values of the <span style="color:blue">Identifier variables</span>
+and there is _one column_ for the values of the values of the <span style="color:red">Measured variables</span> and 
+one column for the <span style="color:orange">Values</span> 
+* This is called a [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf) format.
+* It looks like this:  
+    ```{r, echo = FALSE}
+    img <- readPNG("diagrams/snow_long.png")
+    grid.raster(img)
+    ```
+* This is the type of data frame that ggplot can deal with.
+
+### Reshaping data
+
+* Hadley Wickham's package `reshape2` is perhaps the nicest utility for converting
+between long and wide format.
+* Today we will look at the `melt` function which converts from wide to long format.
+* When you "melt" a big, wide, block of data, you can stretch it easily into long format.
+* `melt` takes a few arguments. The most important are these:
+    +  __data__: the data frame in wide format
+    + <span style="color:blue">id.vars</span>: character vector of the names of the columns
+    that are the <span style="color:blue">Identifier variables</span>
+        * __NOTE__: if this is ommitted, but <span style="color:red">measure.vars</span> is given, then all the columns that __are not__
+    in <span style="color:red">measure.vars</span> are assumed to be <span style="color:blue">id.vars</span>
+    + <span style="color:red">measure.vars</span>: The names of the columns that hold the <span style="color:red">Measured variables
+    </span>.  
+        * __NOTE__: if this is ommitted, but <span style="color:blue">id.vars</span> is given, then all the columns that __are not__
+    in <span style="color:blue">id.vars</span> are assumed to be <span style="color:red">measure.vars</span>
+    + __variable.name__: What do you want to call the column of <span style="color:red">Measured variables</span> in the
+    long (or molten) data frame that you are making?
+    + __value.name__: What do you want to call the column of <span style="color:orange">Values</span> in the long format data
+    frame you are making?
+* Let's see it in action:
+    ```{r}
+    library(reshape2)
+    longSnow <- melt(data = Snow, 
+                     id.vars = c("SeasonStart", "SeasonEnd"), 
+                     variable.name = "Month", 
+                     value.name = "Snowfall"
+                    )
+    head(longSnow)  # see what it looks like
+    ```
+* Note that you have to __quote__ the column names (unlike in ggplot!)
+## Plotting some snowfall
+
+We are going to make some plots to underscore some particular points about ggplot
+
+### Order of items done via factors
+
+* Let's make simple boxplots summarizing snowfall for each month over all the years.  We want 
+Month on the $x$-axis and we will map Snowfall to the $y$-axis.
+    ```{r}
+    library(ggplot2)
+    g <- ggplot(data = longSnow, mapping = aes(x = Month, y = Snowfall))
+    g + geom_boxplot()
+    ```
+* Hey!  The months came out in the right order.  That is cool.  Why?
+    + Because, by default, `melt` made a factor of the Month column and
+    ordered the values as they appeared in the data frame:
+        ```{r}
+        class(longSnow$Month)
+        levels(longSnow$Month)
+        ```
+
+### Colors: discrete or continuous gradient?
+
+* When `ggplot` applies colors to things, it uses discrete values if the values of discrete (aka factors or characters) and 
+continuous gradients if they are numeric.
+* We can plot points, coloring them by SeasonStart (which is numeric...) instead of making boxplots
+    ```{r}
+    g + geom_point(aes(color = SeasonStart))
+    ```
+* If we made a factor out of SeasonStart, then each SeasonStart gets it own color (far more than would be reasonable to visualize)
+    ```{r}
+    g + geom_point(aes(color = factor(SeasonStart)))
+    ```
+* So that is a little silly.
+
+### Dealing with overplotting of points 
+
+* Notice that many points are drawn over one another.  You can reveal many more points by "jittering" each one.
+* This is easily achieved with `geom_jitter()` instead of `geom_point()`
+    ```{r}
+    g + geom_jitter(aes(color = SeasonStart))
+    ```
+
+
+## Faceting {#ggplot-facets}
+
+* Sometimes it is helpful to break your data into separate subsets (usually on the value of a factor) and make a plot that
+is a series of smaller plots.
+
+### Facet Wrap
+* Let's consider looking at a histogram of Snowfall:
+    ```{r}
+    d <- ggplot(data = longSnow, aes(x = Snowfall)) + geom_histogram(binwidth = 2, fill = "blue")
+    d
+    ```
+* That is nice, but it might be more interesting to see that month-by-month
+* We can add a `facet_wrap` specification.  We are "faceting in one long strip" but then
+"wrapping" it to fit on the page:
+    ```{r}
+    d + facet_wrap(~ Month, ncol = 4)
+    ```
+
+### Facet Grid
+* You can also make a rows x column `facet_grid`.  In fact that is where the `~` sort of specification
+comes from.  
+* Let's imagine that we want to look at Nov through Mar snowfall, in the three different, equal-length, periods of years.
+    ```{r}
+    # make intervals
+    longSnow$Interval <- cut_interval(longSnow$SeasonStart, n = 3, dig.lab = 4)
+
+    # here is what they are:
+    levels(longSnow$Interval)
+
+    # get just the months we are interesed in
+    Winter <- droplevels(subset(longSnow, Month %in% c("Nov", "Dec", "Jan", "Feb", "Mar")))
+
+    # note the use of droplevels!
+    ```
+* Now we can plot that with a facet_grid:
+    ```{r}
+    w <- ggplot(Winter, aes(x = Snowfall, fill = Interval)) + 
+      geom_histogram(binwidth = 2) +
+      facet_grid(Interval ~ Month)
+    w
+    ```
+* How about a different kind of plot that is like a continuous boxplot? Just for fun.
+    ```{r}
+    y <- ggplot(Winter, aes(x = Month, y = Snowfall, fill = Interval))
+    y + geom_violin() + facet_wrap(~ Interval, ncol = 1)
+    ```
+
+## ggplot's statistical transformations
+
+* In order to create boxplots and histograms, ggplot is clearly doing some sort of statistical
+operations on the data.  
+    + For the histograms it is _binning_ the data
+    + For the box plots it is computing _boxplot_ statistics (notches, and medians, etc)
+    + For the violine plots it is computing _density_ statistics.
+* Each `geom_xxx()` function is associated with a default `stat_xxxx` function and vice-versa.
+
+### Accessing the outputted values of stat_xxxx() functions
+
+* This is not entirely trivial, but can be done by looking at the output of `ggplot_build()`
+    ```{r}
+    boing <- ggplot_build(w)
+    head(boing$data[[1]])
+    ```
+* This can be a fun exercise to get your head around what sort of data are produced by each of the stats (and there
+are quite a few of them!  http://docs.ggplot2.org/current/ )
+
+

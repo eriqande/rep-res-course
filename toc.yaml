@@ -54,6 +54,13 @@
 - ggplot2-intro-lecture
 - ggplot-prereq
 - pv-example
+- ggplot-play-on-own
+./lectures/ggplot_2_reshape_facets_stats.rmd:
+- ggplot2-second-lecture
+- ggplot-2-intro
+- ggplot-prereq
+- wide-v-long
+- ggplot-facets
 ./lectures/git-basics.rmd:
 - git-basics
 - vcs

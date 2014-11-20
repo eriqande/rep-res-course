@@ -189,11 +189,20 @@ _Plotting. ggplot and the grammar of graphics_
 ### `r  course_day("Th", 7)`
 _Plotting with ggplot_
 
+* __Lecture:__
+    + [More ggplot. Reshaping](#ggplot2-second-lecture)
+
 
 ## Week 8 {#syl-week-8}
 
 ### `r  course_day("Tu", 8)`
 _NO CLASS. THANKSGIVING WEEK_
+* __Reading:__ Download the [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf) article by Hadley and read it.
+* __Watch a Video!__ Take 45 minutes to watch the video tutorial on the `dplyr` package that we will take about 
+after we come back from Thanksgiving.  It is on this page:  http://www.dataschool.io/dplyr-tutorial-for-faster-data-manipulation-in-r/
+
+
+
 
 ### `r  course_day("Th", 8)`
 _NO CLASS. THANKSGIVING WEEK_
