@@ -11,7 +11,7 @@ knitr and pandoc. To create the site, you need:
 * [knitr](http://yihui.name/knitr/): `install.packages("knitr")`
 * [rmarkdown](http://cran.r-project.org/web/packages/rmarkdown/index.html)  `install.packages("rmarkdown")`
 * [bookdown](https://github.com/hadley/bookdown)  Since I have my .rmd files in subdirectories I use a slightly modified version of this package that you can get thusly:  
-`devtools::install_github(repo = "bookdown", username = "eriqande", ref = "index-recursively")`
+`devtools::install_github("eriqande/bookdown", ref = "index-recursively")`
 
 You should make sure that you have recent versions of the R packages.  Here is what has worked for me:
 ```r

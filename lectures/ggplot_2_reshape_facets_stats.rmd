@@ -15,7 +15,11 @@ layout: default_with_disqus
 
 ```{r, include = FALSE}
 library(knitr)
-opts_chunk$set(fig.width=10, fig.height=7, out.width = "600px", out.height = "420px")
+opts_chunk$set(fig.width=10,
+               fig.height=7,
+               out.width = "600px",
+               out.height = "420px",
+               fig.path = "lecture_figs/ggplot-more-")
 ```
 
 ## Intro {#ggplot-2-intro}
