@@ -90,6 +90,13 @@
 - r-console
 - intro-objects
 - quick-intro-to-functions
+./lectures/string-manipulation.rmd:
+- string-manipulation
+- string-manipulation-intro
+- string-manip-prereq
+- rmis-example-problem
+- reg-exp
+- getting-to-business
 ./lectures/test-slidy-lecture.rmd: []
 ./lectures/trial-homework-thoughts.rmd: trial-homework-thoughts
 ./lectures/vector-attributes-and-names-indexing.rmd:

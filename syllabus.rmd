@@ -211,10 +211,13 @@ _NO CLASS. THANKSGIVING WEEK_
 ## Week 9 {#syl-week-9}
 
 ### `r  course_day("Tu", 9)`
-_A more formal look at functions. Let's create our own package_
+_String Manipulation and Text Processing in R_
+
+* __Lecture:__
+    + [String Manipulation](#string-manipulation)
 
 ### `r  course_day("Th", 9)`
-
+_A more formal look at functions. lapply()_
 
 
 ## Week 10 {#syl-week-10}

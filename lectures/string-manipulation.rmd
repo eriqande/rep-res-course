@@ -24,7 +24,7 @@ library(stringr)
 library(zoo)
 ```
 
-## Intro {#ggplot-2-intro}
+## Intro {#string-manipulation-intro}
 
 R comes with some fairly well-developed tools for string manipulation and the application
 of _regular expressions_.  If you are a fan of Perl or Python, or you have a penchant for 
@@ -50,7 +50,7 @@ To illustrate these ideas we will use a real example from my own work: processin
 data specifications for the coded wire tag data base.  
 
 
-### Prerequisites {#ggplot-prereq}
+### Prerequisites {#string-manip-prereq}
 * To work through the examples you will the `stringr` package.
 * Please download/install this before coming to class:
     1. install necessary packages:
@@ -89,7 +89,7 @@ remember all sorts of codes).
 hand-extract all these codes? ...Dreadful!
 * The folks who run the RMPC are pretty cool, though, and were able to supply me with a Microsoft Word (__yack!!__) 
 document from whence the PDF file was created.  
-* MS Word, as we've all learned in this course is not a reproducible are easily parseable format, but we are
+* MS Word, as we've all learned in this course is not a reproducible or easily parseable format, but we are
 going to do our best with it.
 
 ### PSC Spec in text
@@ -204,9 +204,8 @@ Fld #	and Data Field Name	Cols
     
 ### Our mission
 
-* For every field (in each of the five data bases) that has specialized codes, we want to know what the
-code is and what it means. 
-* In the end we will want to have a tidy data frame of these that looks like this:
+* For every field (in each of the five data bases) that has specialized codes, we want to know what the codes are and what they means. 
+* In the end we will want to have a tidy data frame of these that looks something like this:
 
 chapter  |  field    |    code    |  value
 -------- |  ------   |    -----   |  ------
@@ -240,6 +239,7 @@ vec <- c("fred", "foo", "food", "bed", "reefed")
 str_detect(vec, "fred")
 
 # see if any have an "f" followed by a "d"
+# after 0 or more other characters
 str_detect(vec, "f.*d")
 
 # see if any start with an "f"
@@ -254,43 +254,61 @@ str_detect(vec, "o$")
 * Yes, there is a whole pantheon of regular expression "metacharacters" that you will want to
 get familiar with.  
 * Entire books have been written on regular expressions, so I won't attempt to teach you all of it now, but I will
-point out some things that you will want to know
-    ```{r, eval=FALSE}
-    # special meaning is given to these characters:
-     . \ | ( ) [ ] { } ^ $ * + ?
-                   
-    .  # the dot matches any character (or number or punctuation, etc)
-    
-    \  # backslash is often used to "escape" metacharacters
-    
-    ( )  # these guys are used to capture the parts of a string that match subpatterns
-    
-    [ ]  # you can specify character classes (like "any lower case letter" inside these)
-    
-    ?    # The preceding item is optional and will be matched at most once.
+point out some things that you will want to know.
 
-    *    # The preceding item will be matched zero or more times.
+1. The simplest pattern is a single character. So, a regular expression of "`a`"" says, match anything with
+an "`a`"" in it.  
+2. You can do things like specify how many times a pattern must occur to be considered a match. For example maybe you had strings of DNA and you wanted to detect runs of 7 "A"'s in a row in it.  The regular
+expression that matched that would be `"A{7}"`.
+3. A pattern can be a wildcard character which can take many different forms like:
+    + `.` = anything
+    + `[a-z]` a _character class_ consisting of all lowercase letters
+    + `[[:lower:]]` another way of specifying the same thing as `[a-z]` that responds to locality.
+4. You can group patterns together by wrapping them in `(` and `)`.  Then you can treat those
+things as patterns that must occur a certain number of times to be considered a match, etc.
 
-    +    # The preceding item will be matched one or more times.
+We will see examples of these things as we solve our problem at hand.  For now, just know that
+you can build up regular expressions to search for very complex patterns in strings using this
+regex syntax that can seem quite baffling or even daunting at first.
 
-    {n}  # The preceding item is matched exactly n times.
+For now, here are some important things to know
+```{r, eval=FALSE}
+# special meaning is given to these characters:
+. \ | ( ) [ ] { } ^ $ * + ?
 
-    {n,} # The preceding item is matched n or more times.
+.  # the dot matches any character (or number or punctuation, etc)
 
-    {n,m} # The preceding item is matched at least n times, but not more than m times.
+\  # backslash is often used to "escape" metacharacters (and in R that could mean two backslashes)
 
-    ```
-    For a more complete description do `?regex` and see the "Extended Regular Expressions" section.
+( )  # these guys are used to group patterns and also
+     # to capture the parts of a string that match grouped subpatterns
+
+[ ]  # you can specify character classes (like "any lower case letter" inside these)
+
+?    # The preceding item is optional and will be matched at most once.
+
+*    # The preceding item will be matched zero or more times.
+  
++    # The preceding item will be matched one or more times.
+  
+{n}  # The preceding item is matched exactly n times.
+
+{n,} # The preceding item is matched n or more times.
+
+{n,m} # The preceding item is matched at least n times, but not more than m times.
+
+```
+For a more complete description do `?regex` and see the "Extended Regular Expressions" section.
 
 
-## Getting down to business
+## Getting down to business {#getting-to-business}
 
 Quick note on `stringr` functions.  Most of them have the syntax of:
 ```{r, eval=FALSE}
 str_something( string,  pattern )
 ```
 where _something_ is like "detect" or "match" or "replace", and _pattern_ is a 
-regular expression passed in as a quoted string (or even a character vector)
+regular expression passed in as a quoted string (or even a character _vector_ in some cases)
 
 ### Step 1: read the strings in!
 
@@ -315,7 +333,7 @@ In this way we get a vector, of, for example, what chapter we are in.
 
 Let's do it for the chapter names:
 ```{r}
-chapter <- rep(NA, length(spec))
+chapter <- rep(NA, length(spec))  # make a vector of NAs
 chap_positions <- which(str_detect(spec, "^CHAPTER"))
 
 # see what that looks like:
@@ -324,7 +342,7 @@ chap_positions
 # now, the titles of the chapters are on the line following "^CHAPTER"
 # so let's get those and put them in and then roll them forward
 chapter[chap_positions] <- spec[chap_positions + 1]
-chapter_names <- na.locf(chapter) # from the zoo package.  It rolls the last value forward over NAs
+chapter_names <- na.locf(chapter, na.rm = FALSE) # from the zoo package.  It rolls the last value forward over NAs
 
 # if you are following along, do this to see what we have done:
 #   cbind(chapter_names)
@@ -333,7 +351,7 @@ chapter_names <- na.locf(chapter) # from the zoo package.  It rolls the last val
 ### Step 2.5: Let's get the chapter numbers while we are at it
 
 Now, we want to extract the number of each chapter.  We can use a regular expression that
-finds strings in spec that
+finds strings in `spec` that
 
 1. first have to match "^CHAPTER"
 2. but then also have at least one space 
@@ -347,11 +365,13 @@ Here we go!
 # grab them
 chap_nums <- str_match(spec, "^CHAPTER +([[:digit:]]+)")
 
+# notice that we have wrapped the part that matches one or more digits in parentheses!
+
 # note that str_match returns a matrix:
 head(chap_nums)
 
 # roll them forward
-chapter_numbers <- na.locf(chap_nums[,2])
+chapter_numbers <- na.locf(chap_nums[,2], na.rm = FALSE)
 
 # see what we have done so far looks like
 head(cbind(chapter_numbers, chapter_names))
@@ -382,5 +402,116 @@ lines, stuck between TABS:
 ```{r}
 field_starts <- which(str_detect(spec, "^[[:digit:]]{1,2}\t"))
 field_names <- str_match(spec[field_starts + 1], "^\t([_[:alnum:]]+)\t")
-field_names
+field_names[,2]
 ```
+
+Hmmm, some of these are not looking right.  The NAs in the early numbers
+are not so good, and the ones with uppercase letters look wrong.  Let's get the 
+line numbers and look at the original file:
+```{r}
+linenos_to_investigate <- field_starts[which(is.na(field_names[,2]) | str_detect(field_names[,2], "[[:upper:]]"))] + 1 
+linenos_to_investigate
+```
+When we take a look at all those linenumbers we see in one case a typo in the specification, and in
+a lot of other places you find the sort of inconsistent formatting that is __unavoidable when you put
+this type of critical data in a PDF file or a Word file and expect people to scrape it out.__  
+
+I will repeat one of the themes of this course:   You can't be putting your stuff in a Word file or an Excel
+file and expect to have your research be reproducible.  Those data specifications should live in their own 
+separate tidy SQL table within the RMIS data base.
+
+But anyway, from the looks of it, we can safely ignore those inconsistent spots, because those fields don't
+actually have codes that we are going to be scraping out in the next step.  
+
+So, now we have to put those `field_names` into a `fields` vector and roll them forward over the
+NAs:
+```{r}
+fields_0 <- rep(NA, length(spec))
+fields_0[field_starts] <- field_names[,2]
+fields <- na.locf(fields_0, na.rm = FALSE)
+```
+
+Now, that this is done, let's see what we are working on so far.  We have something
+looking like this:
+```{r}
+head(na.omit(data.frame(chapter_numbers, chapter_names, fields, stringsAsFactors = FALSE)))
+```
+
+Rippin!  That looks tidy! 
+
+### Step 4: Extract the codes and values
+
+Now we just have to extract the lines that have the code definitions on them!
+
+When we find occurrences of these things, it always seems that they follow a pattern of:
+```{r, eval=FALSE}
+TAB + Quote + AlphaNumericOrDash + Quote + TAB + EqualsSign + ValueWithNoSpaceAfterEqualsSign
+```
+So, we can write a regex pattern for that.  Some things must be noticed though:
+
+1. The single quotes are not simple---they can be upside down or right side up and they are
+not consistent.
+2. AlphaNumericOrDash is risky.  Let's start by matching one or more of anycharacter between those quotation marks.
+3. All we can really do is plan to grab the value all the way out to the end of the line.
+4. Sometimes they do have a space after the equals sign.
+
+Here is what our basic regex to capture each of those things looks like in the `str_detect`function:
+```{r}
+gotem <- str_detect(spec, "\t[‘’].+[‘’]\t=.*$")
+
+# note that the quotes might not look different in the font in the HTML.
+# see the actual code in RStudio to see what they look like.
+
+sum(gotem)  # how many lines of the spec match?
+head(spec[gotem])  # what do some of them look like?
+```
+
+That is all fine and well, but what we really want to do is capture particular parts of those lines
+that match certain subpatterns. So, prepare yourself for a parenthesis bonanza.  
+
+Recall that parentheses group patterns and we can extract the parts that match those sub-patterns
+explicitly with `str_match()`:
+```{r}
+codes_and_values <- str_match(spec, "\t[‘’](.+)[‘’]\t=(.*)$")
+```
+The above grabs the "1 or more occurrences of any character" between the quotes and also all the characters
+after the equals sign.  `str_match` returns a matrix.  The first column is the whole match, and each 
+successive column is a successive grouping (ordered by opening parenthesis, I believe.)
+
+If there isn't a match then you get NAs.
+
+### Step 5: Trim whitspace and bung these all into a data frame
+
+We now just need to stick these all into a data frame, but we will want to trim leading and trailing whitespace off of all of the codes and values in case someone left some in there... So we can use `str_trim()`:
+```{r}
+codes_and_values <- str_trim(codes_and_values)
+```
+Then make that data frame
+```{r}
+code_frame <- data.frame(chapter_numbers, 
+                         chapter_names,
+                         fields,
+                         codes = codes_and_values[,2],
+                         values = codes_and_values[,3],
+                         stringsAsFactors = FALSE)
+```
+Finally, remember that we only want to grab the codes for Chapters 2 through 6 inclusive.  And, of course,
+we can drop any rows that have NAs since there were no codes or values on those lines.  So
+```{r}
+final_codes <- na.omit(subset(code_frame, chapter_numbers >= 2 & chapter_numbers <= 6))
+```
+
+Phew! How does it look?  Let's look at the first 100 lines of it:
+
+```{r, results='asis'}
+# i have to change some #'s because the renderer confuses them with links
+kable(str_replace_all(string = as.matrix(final_codes[1:100,]), pattern = "#", "--"), row.names = FALSE)
+```
+
+__Booyah!__ It looks great.  (There are some issues though with location codes which are hierarchical and thus require special treatment.)
+
+Of course, it would be better if we didn't have to go through all this rigmarole to get there.  But what can
+you do?
+
+Note that the above format is tidy, and if we had any of the data bases loaded as data frames then it would
+be pretty straightforward to replace the codes with their values and keep them as factors.  
