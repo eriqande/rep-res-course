@@ -1,0 +1,2855 @@
+
+CHAPTER 1
+INTRODUCTION, DEFINITIONS, AND RULES
+
+CWT data must be exchanged in the form of a PSC Format Version 4.1 dataset.
+The definition and specification of PSC Format Version 4.1 is described in this set of documents.
+A.	Points of Data Exchange
+Valid points of exchange are:
+•	Canada site:  Mark Recovery Unit, Pacific Biological Station, Fisheries & Oceans Canada
+•	U.S. site:  Pacific States Marine Fisheries Commission’s Regional Mark Processing Center (hereafter “Mark Center”) http://www.rmpc.org
+B.	Scheduled Frequency of Data Exchange
+Any data should be exchanged as soon as it is considered to be complete.  The minimal schedule in which data needs to be exchanged is as follows:
+1.	From the Mark Center to Canada:
+a.	Release and Location datasets will be sent to Canada:
+1)	when specifically requested by Canada, or
+2)	within two weeks of validation and processing at the Mark Center
+b.	Recovery, Catch/Sample, and Catch & Effort datasets will be sent to Canada:
+1)	when specifically requested by Canada, or
+2)	immediately upon validation and processing at the Mark Center
+2.	From Reporting Agencies to the Mark Center: 
+a.	Release:
+1)	Mid-Year Release (CWT Only): Incomplete mid-year data records for the current calendar year (i.e. where first_release_date equals the current calendar year) should be reported no later than August 15 of the current calendar year.  Preliminary release data must include at a minimum all of the following fields:  record_code, format_version, submission_date, reporting_agency, release_agency, coordinator, tag_code_or_release_id, tag_type, species, brood_year, rearing_type, first_release_date, last_release_date, and hatchery_location_code.    NOTE:  Only the year portion of the first_release_date and last_release_date field is required.
+2)	Final Release:  Complete data records for the current calendar year should be reported no later than January 31 of the following year.	
+b.	Recovery:	Preliminary data for the current calendar year should be reported no later than January 31 of the following year.  This applies to Recovery records where field “Run Year” is equal to the current calendar year.
+c.	Catch/Sample:	Preliminary data for the current calendar year should be reported no later than January 31 of the following year.  This applies to Catch/sample records where field “Catch Year” is equal to the current calendar year.
+d.	Catch & Effort:	Preliminary data for the current calendar year should be reported no later than January 31 of the following year.  This applies to Catch & Effort records where field “Catch Year” is equal to the current calendar year.
+e.	Location:	Locations can be sent whenever updates are deemed necessary by the reporting agency as required to validate data files mentioned above.
+f.	Description: 	One corresponding Description file must be submitted with any data file mentioned above when submitted to the Mark Center.  However, a Description file should not be re-submitted when a data file is re-submitted solely for the purpose of correcting validation errors.  One and only one description file should be sent in association with a set of one or more data files for a given submission date.  In the event that more than one description file for the associated data file(s) is sent, only the latest description file uploaded for the given submission date will be processed for the database and also displayed on the Data Status web page.
+C.	Required Grouping of Records within Data Type Files
+1.	From Mark Center to Canada:
+a.	Release:		All releases per file.
+b.	Recovery:	One reporting agency, one run year, and all data to date per file.
+c.	Catch/Sample:	One reporting agency, one catch year, and all data to date per file.
+d.	Catch & Effort:	One reporting agency, one calendar year, and all data to date per file.
+e.	Location:		All locations per file.
+2.	From Reporting Agencies to the Mark Center:
+a.	Release:		One reporting agency and any number of release records per file.
+b.	Recovery:	One reporting agency, one run year, and all data to date per file.
+c.	Catch/Sample:	One reporting agency, one catch year, and all data to date per file.
+d.	Catch & Effort:	One reporting agency, one calendar year (date_catch_effort_year), and all data to date per file.
+e.	Location:		One reporting agency and all Location Codes to date per file.
+f.	Description:	One reporting agency and only new Descriptions since last submission per file.
+For information on how to remove data records and submit full data sets, see Section H below.
+
+D.	General Data File Requirements
+1.	All PSC Format data must be presented in Comma-Separated Value (CSV) files using the ASCII character set;
+2.	All files must contain only newline-delimited records (i.e. one record per line);
+3.	The first record in the dataset must contain the corresponding “Data Field Names” as they are defined (with underscores replacing spaces) for the data type in this specification.
+4.	All fields which contain a data value must not contain any leading or trailing blanks unless specifically allowed in the Description & Validation notes for a particular field;
+5.	All fields which contain a data value must be surrounded on both ends by double-quotes (“) and must be separated by a comma (,);
+6.	All fields which do not contain a data value (for whatever reason) are considered NULL values and must have NO representation whatsoever in the data file.  The fields for which data is absent will simply be represented by two consecutive commas (,,);
+7.	No double-quotes (“) are allowed in the contents (i.e. values) of any data field because the double-quote (“) is sequestered for exclusive use as the delimiter character for data exchange;
+8.	Leading zeros are optional unless they are part of a value in a lookup field.  An Example of a required leading zero as part of the value in a lookup field is: value ‘01’ for the Release coordinator field.  Decimal and trailing zeros are optional for numeric values in which all the digits after the decimal point would be zeros.  For numeric values with a fractional part the decimal should be present.  Implied decimals are not allowed;
+9.	Data field types and ranges: 
+•	All data specified as “Numeric” must contain only ASCII characters in the range:   ’0’ through ’9’ or a decimal character ’.’;
+•	All data specified as “Lookup” are considered coded values having a corresponding lookup table, even if they appear numeric;
+•	Date values should have neither blank ( ) nor zero (0) characters appended to optional components (i.e. in cases where only partial dates are permitted).  For example, the date August, 2001 should be formatted as follows:
+•	Correct formatting:		“200108”
+•	Incorrect formatting: 	“20010800”  or  “200108  “;
+
+10.	Data file names must not contain any blank spaces.
+E.	Methods of Data File Exchange
+1.	Methods of file transfer may be any of the following:
+•	Internet File Transfer Protocol (FTP) using the RMPC Internet web-site at the following address: http://www.rmpc.org
+•	Internet File Transfer Protocol (FTP)  using an individual login account on the Mark Center computer;  FTP to this address: ftp.rmpc.org 
+•	CD-ROM disc
+2.	For file-transfer purposes, files may be compressed using PKZip, or Unix “gzip” file compression software;
+F.	Explanation of Columns in Data Type Tables
+1.	PSC Fld #	Field number for Format Version 4.1;
+2.	PSC Common Name  Common usage name;
+3.	Data Field Name  	Header record field name;
+4.	Max Cols		Maximum field width (i.e. columns or bytes);
+5.	Reqd		Required field.  May indicate one of the following:
+•	Yes:	The field must contain data for the record to be considered a valid PSC Format record.
+•	No:	The field is optional.  NOTE:  Some fields, however, are conditionally required;
+6.	Format /Use	This column identifies how the field is to be interpreted and used for database management purposes.  It may contain any of the following:
+•	‘Lookup’ 		The field contains codes that have a corresponding value in a lookup table.
+•	‘Primary Key Lookup’ Field used to look up specific and distinct records within a data type. 
+•	‘Foreign Key Lookup’ Field used to associate many records within a data type to specific and distinct records of another data type. 
+•	‘Numeric’		The field can contain only numeric characters and can be treated as a mathematical quantity.
+•	‘Alpha-Numeric’	The field can contain alpha and/or numeric characters and cannot be used as a mathematical quantity.
+•	Data Type or List	 Possible values the field may contain.  The meaning of each value would be described in the “Validation” column.
+•	Pattern Template	Shows the exact order and required contents of each character in the field;
+7.	Validation Rules	This column will contain some combination of the following:
+•	A brief explanation of the meaning of the field along with any pertinent notes to be aware of when determining a value to go in the field.
+•	A list of meanings corresponding to the values listed in the Format column described in item 6 above.
+•	Conditions under which the field is required, if any.
+•	Ranges permitted in numeric data type fields.
+•	Special values which have complex patterns or which are dependent on the contents of other fields;
+G.	Data Type Record Examples  (NOTE: All field names are required for header records)
+1. Release Data – row and column excerpts:
+Header
+Record	record_code,format_version,submission_date,reporting_agency,release_agency,coordinator,tag_code_or_release_id,tag_type,first_sequential_number,last_sequential_number,related_group_type,related_group_id,species,run,brood_year,first_release_date,last_release_date,release_location_code,hatchery_location_code,stock_location_code,release_stage,rearing_type,study_type,release_strategy,avg_weight,avg_length,study_integrity,cwt_1st_mark,cwt_1st_mark_count,cwt_2nd_mark,cwt_2nd_mark_count,non_cwt_1st_mark,non_cwt_1st_mark_count,non_cwt_2nd_mark,non_cwt_2nd_mark_count,counting_method,tag_loss_rate,tag_loss_days,tag_loss_sample_size,tag_reused,comments
+line #1	"N","4.1","20090402","CDFO","CDFO","03","!03NOCO9703",,,,,,"2","3","1997","19980512","19980512","2FS  JNSTR2532","2FS  JNSTH2532","2FS  JNSTS5428","F","H","B",,"2.1",,,,,,,"0000","7316",,,"W",,,,,"FED FRY RELEASE"
+line #2	"T","4.1","20090402","CDFO","CDFO","03","185126","0",,,,,"1","3","2002","20030507","20030509","2FS  JNSTR0106","2FS  JNSTH0106","2FS  JNSTS0106","S","H","B",,"3.07","66",,"5000","30976",,,"0000","186439","5000","614","W",".0194","10",
+"1699",,"DELAYED FED FRY REL TO LOWER QUINSAM LAKE."
+line #n	,,,,,,,,,,,,
+
+
+2. Recovery Data—row and column excerpts:
+Header
+Record	"record_code","format_version","submission_date","reporting_agency","sampling_agency","recovery_id","species","run_year","recovery_date","recovery_date_type","period_type","period","fishery","gear","adclip_selective_fishery","estimation_level","recovery_location_code","sampling_site","recorded_mark","sex","weight","weight_code","weight_type","length","length_code","length_type","detection_method","tag_status","tag_code","tag_type","sequential_number","sequential_column_number","sequential_row_number","catch_sample_id","sample_type","sampled_maturity","sampled_run","sampled_length_range","sampled_sex","sampled_mark","estimated_number"
+line #1	"R","4.1","20090402","ODFW","ODFW","L8359","2","2006","20061009","R","6","42","21","13",,"4","5F33209  R3     13","3","5000",
+"F","00.63","1","1","0752","0","1","E","1","631561","13",,,,"2006130097","1","4",,,,,"00002.00"
+line #2	"R","4.1","20090402","ODFW","ODFW","G3956","1","2006","20060424","R","6","18","46","14","S","4","5F33307  R1     14","1",
+"5000",,,,,"0780","0","1","V","1","093613","11",,,,"2006140007","1","4","1",,,,"00003.11"
+line #n	,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+3. Catch/Sample Data—row and column excerpts:
+Header
+Record	record_code,format_version,submission_date,reporting_agency,sampling_agency,catch_sample_id,species,catch_year,period_type,period,first_period,last_period,fishery,adclip_selective_fishery,estimation_level,catch_location_code,detection_method,sample_type,sampled_maturity,sampled_run,sampled_length_range,sampled_sex,sampled_mark,number_caught,escapement_estimation_method,number_sampled,number_estimated,number_recovered_decoded,number_recovered_no_cwts,number_recovered_lost_cwts,number_recovered_unreadable,number_recovered_unresolved,number_recovered_not_processed,number_recovered_pseudotags,mr_1st_partition_size,mr_1st_sample_size,mr_1st_sample_known_ad_status,mr_1st_sample_obs_adclips,mr_2nd_partition_size,mr_2nd_sample_size,mr_2nd_sample_known_ad_status,mr_2nd_sample_obs_adclips,mark_rate,awareness_factor,sport_mark_incidence_sampl_size,sport_mark_inc_sampl_obs_adclips
+line #1	"S","4.1","20090402","ODFW","ODFW","2006140007","1","2006","6","18",,,"46","S","4","5F33307  R      14","V","1","4",,,,,"1196"
+,,"384","3.11","39","4",,"1",,,,"384","384","384","44",,,,,".1145",,,
+line #2	"S","4.1","20090402","ODFW","ODFW","2006130097","2","2006","6","42",,,"21",,"4","5F33209  R      13","E","1","4",,,,,"9075",,
+"4032","2.27","201","13","2",,,,,"216","216","0","161","3816","273","273","208",".721",,,
+line #n	,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+4. Catch & Effort Data—row and column excerpts:
+Header
+Record	record_code,format_version,submission_date,reporting_agency,sampling_agency,catch_sample_id,species,catch_year,period_type,period,first_period,last_period,fishery,adclip_selective_fishery,estimation_level,catch_location_code,detection_method,sample_type,sampled_maturity,sampled_run,sampled_length_range,sampled_sex,sampled_mark,number_caught,escapement_estimation_method,number_sampled,number_estimated,number_recovered_decoded,number_recovered_no_cwts,number_recovered_lost_cwts,number_recovered_unreadable,number_recovered_unresolved,number_recovered_not_processed,number_recovered_pseudotags,mr_1st_partition_size,mr_1st_sample_size,mr_1st_sample_known_ad_status,mr_1st_sample_obs_adclips,mr_2nd_partition_size,mr_2nd_sample_size,mr_2nd_sample_known_ad_status,mr_2nd_sample_obs_adclips,mark_rate,awareness_factor,sport_mark_incidence_sampl_size,sport_mark_inc_sampl_obs_adclips
+line #1	"S","4.1","20090402","ODFW","ODFW","2006140007","1","2006","6","18",,,"46","S","4","5F33307  R      14","V","1","4",,,,,"1196"
+,,"384","3.11","39","4",,"1",,,,"384","384","384","44",,,,,".1145",,,
+line #2	"S","4.1","20090402","ODFW","ODFW","2006130097","2","2006","6","42",,,"21",,"4","5F33209  R      13","E","1","4",,,,,"9075",,
+"4032","2.27","201","13","2",,,,,"216","216","0","161","3816","273","273","208",".721",,,
+line #n	,,,,,,,,,,,,,,,,,,,,,
+
+5. Location Data—row and column excerpts:
+Header
+Record	record_code,format_version,submission_date,reporting_agency,location_code,location_type,name,latitude,longitude,psc_basin,psc_region,epa_reach,description
+line #1	"L","4.1","20090402","IDFG","4F-1706020804408.44","1","JOHNSON CREEK TRAP",,,"SALM","SNAK","1706020804408.44","The NPT Johnson Creek trap facility."
+line #2	"L","4.1","20090402","IDFG","4F-1706030800100.09","3","CLEARWATER HATCHERY",,,"CLEA","SNAK","1706030800100.09","CLEARWATER HATCHERY"
+line #n	,,,,,,,,,,,,
+
+6. Description Data—row excerpt (all columns shown here):
+Header
+Record	"record_code","format_version","submission_date","reporting_agency","submission_status","file_type","file_status","first_year","last_year","description"
+line #1	"D","4.1","20090219","CDFO","R",""LC","C",,,"Increasing readability of recovery and catch locations strips for Fraser River sport fishery for modeling purposes. Modifications to Chinook catch for Fraser gillnet/first nations fishery and West Coast Vancouver Island troll fisheries"
+
+line #2	"D","4.1","20090402","CDFW","N","RL","I",,,"CWT 2007 RELEASES OF BY2006 CHINOOK FROM THE YUBA RIVER WERE SUBMITTED"
+line #3	"D","4.1","20090402","CDFW","R","RC","C","2007",,"UPDATE TO 2007 RECOVERY YEAR - ADDED INLAND RECOVERIES ASSOCIATED WITH SNAKE RIVER SPAWNING SAMPLES"
+
+H.    Methods of Removing Data Records (for one Reporting Agency)
+
+  1.  Release:  To delete release records from the CWT/RMIS database, release data must be processed as a "full set" of releases.  To cause this to happen, please do the following:
+        a.    Prepare a COMPLETE Releases data file for your Reporting Agency.  I.e. The file must include all legitimate records of releases from your Reporting Agency -- both tagged and untagged (records beginning with the "!" /Bang character) -- and for ALL HISTORY.
+        b.    REMOVE any records that are now deemed not legitimate by your agency and you would like to have deleted from the CWT/RMIS database.
+        c.    Place the following text into the filename:  "FULLSET".  I.e. the text "..FULLSET.." must appear somewhere in the actual name of the file uploaded to the RMPC.  The RMPC Data Administrator will look for the string "FULLSET" in the filename.  If seen, the administrator is to  process the data file as a full set of release data.  In that case, the database load process will compare all new records with all existing records (BOTH tagged and untagged) on file in the database.   For any tagged record not included, a check is done to determine if any recoveries exist where Tag Status = '1' for the tagcode.  If recoveries exist then the record will not be archived.  Any records not included in the new dataset that can be archived will be archived.  Thereafter the record(s) will be permanently deleted from the CWT database.  If any recoveries with Tag Status '1' exist for a tagcode then it cannot be deleted, regardless of the Reporting Agency.
+        d.    Proceed w/ the FTP upload to the RMPC as with any other file (see Section E above).
+       Please note that Release records may be sent as a partial dataset (i.e. any number of records from 1 up to all records for given agency, see Section C.2. a above); however, this method allows only replacement of existing release records or addition of new release records, not removal of release records.
+  2.  Recovery:  To remove one or more recovery records from the CWT/RMIS database, simply remove the intended records from the recovery data set by Run Year, and re-submit the entire set of Recovery data (all remaining legitimate records) for the given Run Year to the RMPC (see Section C.2.b above).
+  3.  Catch/Sample:  To remove one or more catch/sample records from the CWT/RMIS database, simply remove the intended records from the catch/sample data set by Catch Year, and re-submit the entire set of Catch/Sample data (all remaining legitimate records) for the given Catch Year to the RMPC (see Section C.2.c above).
+  4.  Catch & Effort:  To remove one or more catch & effort records from the CWT/RMIS database, simply remove the intended records from the catch & effort data set by Calendar Year, and re-submit the entire set of Catch & Effort data (all remaining legitimate records) for the given Calendar Year to the RMPC (see Section C.2.d above).
+  5.  Location:  To remove one or more location code records from the CWT/RMIS database, simply remove the intended records from the locations data set (all records) for the Location Reporting Agency, and re-submit the entire set of location codes (all remaining legitimate records) to the RMPC (see Section C.2.e above).   The database load process will compare all new records with all existing records on file in the database.  For any location code record not included, a check is done to determine if any data exist which reference that location code.  If any referenced data exist then the record will not be archived.  Any records not included in the new dataset that can be archived will be archived.   Thereafter the record(s) will be permanently deleted from the CWT/RMIS database.
+  6.  Description:  Description data (metadata) are regarded as a permanent record of data changes and cannot be removed except by special request to the RMPC data administrator.
+	  See also Section  C.2.f above.
+
+
+ 
+CHAPTER 2
+Release Data
+
+PSC 	PSC Common Name	Max	Reqd	Format /Use	Description & Validation Rules.......................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must match one of the following:
+	record_code			’T’	=Tagged Release record
+				’N’	=Non-Associated Release record
+					See chapter 16 for further discussion of the use of this field.
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Should match submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Release Agency	10	Yes	Lookup	Abbreviations for tagging agencies
+	release_agency				Must contain an agency code defined in chapter 8
+					
+6	Coordinator	2	Yes	Lookup	Reporting coordinator for the release group of this individual record
+	coordinator				Must match one of the following:
+				’01’	=ADFG (S.E. Alaska)
+				’02’	=NMFS – Alaska
+				’03’	=CDFO
+				’04’	=WDFW
+				’05’	=ODFW
+				’06’	=NMFS – Columbia River
+				’07’	=USFWS
+				’08’	=CDFG
+				’09’	=BCFW
+				’10’	=IDFG
+				’11’	=YAKA
+				’12’	=ADFG (S. Central AK)
+				’13’	=MIC (Metlakatla, AK)
+				’14’	=NWIFC
+				’15’	=CRITFC
+				‘16’	          =NEZP
+				‘17’	          =QDNR
+				‘18’	          =STIL
+					
+7	Tag Code or Release ID	12	Yes	Primary Lookup	This identifier represents either:
+	tag_code_or_release_id			AGD1D2D3D4	Case 1)  If this release contains CWT fish:  Enter tag_code_or_release_id as follows:
+	See notes to follow				Cols. 1 – 2:	Agency;  Cols. 3 - 4: Data 1;  Cols. 5 - 6: Data 2;  Cols. 7 - 12:Data 3 and 4
+					Color coded tags and rare-earth tags:   Report in Alpha only
+					Sequential tags: Report only AG,D1,D2 for Release data; Report D3, D4 only in Recovery data file, fields ‘sequential_column_number’ and ‘sequential_row_number’
+					Must have record_code = ‘T’
+					Must have even number of characters
+					Must be unique
+					Must match one of the following patterns:
+					All numeric  OR  all Alpha  OR  1 Alpha then all numeric  OR  all numeric then ’*’ then 1 numeric  OR
+					1 Alpha then all numeric then ’*’ then 1 numeric  OR  all Alpha then ’*’ then 1 numeric  OR  ’##’ then 2 Alpha
+					  OR       ’##’ then 2 Alpha then ’*’ then 1 numeric  OR  ’$$’ then 2 Alpha  OR  ’$$’ then 2 Alpha then ’*’ then 1 numeric
+					  OR       Special cases:  ’XX0500’  ’HF1505’  ’HF1515’
+					See notes to follow
+					Case 2)  If this release contains no CWT fish:  Enter tag_code_or_release_id as follows:
+					Column 1 must be ’!’
+					Columns 2 and 3 must match one of the valid coordinator codes for the Releases coordinator field:
+					Must have record_code = ‘N’
+					Must be unique
+					
+NOTES for tag_code_or_release_id:
+1) Re-use of tag codes is not approved.  In those cases when a tag code is re-used, whether by accident or intentionally, any subsequent recoveries may be regarded as unresolved discrepancies (where tag status [Recovery file] is ’7’) as determined by the reporting agency.
+2) In cases where a tag code is accidentally re-used, the first occurrence may be appended with a ’*1’.  The second occurrence must have the suffix ’*2’ appended, and the n-th occurrence thereafter must have the suffix ’*n’ appended.  Additionally, the field ’tag_reused’ must be assigned the value ’Y’ for the original tag code and all subsequent instances of the tag code.
+3) See chapter 16 for discussion regarding the use of Blank or Agency-Only wire.
+					
+					
+8	Tag Type	2	No	Lookup	Code to indicate type of tag used for release group;  If present, must match one of the following:
+	tag_type			’0’	=Standard binary (1mm)
+				’1’	=Half tags (H type)
+				’2’	=Half tags (B type)
+				’3’	=6 word half length tags
+				’4’	=X-ray binary  ( tag_code_or_release_id must be ’XX0500’)
+				’5’	=Standard color
+				’6’	=Solid color (##)
+				’7’	=Striped color ($$)
+				’8’	=Rare Earth
+				’9’	=Repeating series
+				’10’	=Sequential 6 word binary;
+				’11’	=Length & ½ Binary (1.5mm)
+				’12’	=Standard Alphanumeric, includes Decimal (1 mm)
+				’13’	=Length & ½ Alphanumeric, includes Decimal (1.5 mm)
+				’14’	=Sequential Alphanumeric, includes Decimal
+				’15’	=Half length Alphanumeric, includes Decimal (0.5mm)
+				’16’	=Pseudo tag, blank wire
+					If tag_type = ’10’, then first_sequential_number is required and last_sequential_number is required
+					Required if record_code is ‘T’
+					If tag_type = ‘0’ thru ‘15’ then record_code must be ‘T’
+					If tag_type = ‘16’ then record_code must be ‘N’
+					See chapter 16 for further discussion of the use of this field.
+					
+9	First Sequential Number	5	No	Numeric	Smallest value in sequential number series; Field used for sequential tags only
+	first_sequential_number				If present, must be numeric in the range ’0’ through ’16383’ for tag_type ‘10’ or ‘0’ through ‘99999’ for tag_type ‘14’
+					Must be absent unless tag_type is ’10’, ’14’
+					
+10	Last Sequential Number	5	No	Numeric	Largest value in sequential number series; Field used for sequential tags only
+	last_sequential_number				If present, must be numeric in the range ’0’ through ’16383’ for tag_type ‘10’ or ‘0’ through ‘99999’ for tag_type ‘14’
+					Must be absent unless tag_type is ’10’, ’14’
+					
+11	Related Group Type	1	No	Lookup	Code indicating whether this release group is double index tagging or otherwise
+	related_group_type				Required if related_group_id is present
+					If present, must match one of the following:
+				‘D’	=Double index tag groups
+				‘O’	=Other related groups
+					
+12	Related Group ID	15	No	Alpha-Numeric	Specifies linkage among double index tag groups or other related groups
+	related_group_id				Required if related_group_type is present
+					If present, first 2 columns must match one of the valid coordinator codes for the Releases coordinator field:
+					AND  columns 3 - 6 must contain year of release
+					AND  columns 7 – 15 are agency defined alpha-numeric text
+					If present, at least one other record must exist with this same value
+Within a new dataset, if Related Group type (field 11) is ‘D’ then, at least 1 record must exist with the “AD Clip” condition where:
+1) cwt_1st_mark starts with ‘5’ OR cwt_2nd_mark starts with ‘5’;
+					AND 2) cwt_1st_mark count +  cwt_2nd_mark count > 0
+AND at least 1 record must exist with the “no Ad Clip” condition where:
+         1) cwt_1st_mark starts with ‘0’ OR cwt_2nd_mark starts with ‘0’;
+AND 2) cwt_1st_mark count +  cwt_2nd_mark count > 0
+AND all records involved must have the same Related Group Id (field 12), Species (field 13) and Brood Year (field 15).
+13	Species	2	Yes	Lookup	Code indicating species of release group;  Must match one of the following:
+	species			’1’	=Chinook
+				’2’	=Coho
+				’3’	=Steelhead
+				’4’	=Sockeye
+				’5’	=Chum
+				’6’	=Pink
+				’7’	=Masu
+				’8’	=Cutthroat
+				’9’	=Atlantic Salmon
+					
+14	Run	2	No	Lookup	Code to indicate run of this release group; If present, must match one of the following:
+	run			’1’	=Spring
+				’2’	=Summer
+				’3’	=Fall (includes type S Coho)
+				’4’	=Winter
+				’5’	=Hybrid
+				’6’	=Landlocked
+				’7’	=Late Fall (includes type N Coho)
+				’8’	=Late Fall Upriver Bright Chinook
+					
+15	Brood Year	4	Yes	YYYY	Calendar year when majority of parents of these fish spawned;
+	brood_year				If more than one brood present (i.e. wild tagging), then use dominant brood and report mixed stock tagging in Comments
+Must be less than or equal to the current year
+					
+16	First Release Date	8	No	YYYYMMDD	Date in which releasing began for this release group
+	first_release_date				Must be of the form ’YYYYMMDD’ where:
+					MM must be in the range ’01’ through ’12’.   May be absent
+					DD must be in the range ’01’ through the last day of the month referenced by MM.   Must be absent if MM is absent.  May be absent when MM is present
+					This date must be less than or equal to today
+					First_release_date must be less than or equal to last_release_date
+					Required if study_integrity is not ‘D’
+					YYYY portion of date is required.
+					
+17	Last Release Date	8	No	YYYYMMDD	Date in which releasing ended for this release group
+	last_release_date				If the release occurs on a single day, report that date for both first and last date fields.
+					Must be of the form ’YYYYMMDD’ where:
+					MM must be in the range ’01’ through ’12’.   May be absent
+					DD must be in the range ’01’ through the last day of the month referenced by MM.   Must be absent if MM is absent.  May be absent when MM is present
+					This date must be less than or equal to today
+					Last_release_date must be greater than or equal to first_release_date
+					Required if study_integrity is not ‘D’
+					YYYY portion of date is required.
+					
+18	Release Location Code	19	No	Lookup	Hierarchical location code to geographically identify actual release location
+	release_location_code				All location codes are standardized within a given State or Province, and coordinated by the State/Province 
+					If present, must exactly match the location_code of location_type ’4’ in the PSC Location file
+					Required if study_integrity is not ‘D’
+					Trailing blanks should not be included
+					
+19	Hatchery Location Code	19	No	Lookup	Hierarchical location code to geographically identify actual site of hatchery
+	hatchery_location_code				All location codes are standardized within a given State or Province, and coordinated by the State/Province 
+					If present, must exactly match the location_code of location_type ’3’ in the PSC Location file 
+					Required if rearing_type is ’H’ 
+					Must be absent if rearing_type is ’W’ or ’M’
+					Trailing blanks should not be included
+ 
+					
+20	Stock Location Code	19	No	Lookup	Hierarchical coding scheme to identify the stock’s location or stream
+	stock_location_code				All location codes are standardized within a given State or Province, and coordinated by the State/Province 
+					If present, must exactly match the location_code of location_type ’5’ in the PSC Location file
+					Trailing blanks should not be included
+					
+21	Release Stage	1	No	Lookup	Code indicating stage of majority of release group at point of release;  If present, must match one of the following:
+	release_stage			’Z’	=Zygote (eyed eggs)
+				’E’	=Emergent fry
+				’F’	=Fed fry
+				’G’	=Fingerling
+				’V’	=Advanced fingerling
+				’Y’	=Yearling
+				’P’	=Pre-smolt
+				’S’	=Smolt
+				’A’	=Adult
+				’M’	=Multiple release stages
+					If ’M’ then comments are required
+					
+22	Rearing Type	1	Yes	Lookup	Code indicating most prevalent rearing method for this release group; If present, must match one of the following:
+	rearing_type			’H’	=Hatchery reared fish (includes any wild fish reared in the hatchery)
+				’W’	=Wild fish
+				’M’	=Mixed hatchery & wild (downstream migrant or marine tagging)
+				’U’	=Unknown (unavailable from release agency)
+					If ’H’ then hatchery_location_code is required
+					If ’W’, or ’M’ then hatchery_location_code must be absent and release_strategy must be absent
+					
+23	Study Type	1	No	Lookup	Code indicating type of study reflected by release group;  If present, must match one of the following:
+	study_type			’E’	=Experimental
+				’P’	=Production
+				’B’	=Both experimental and production
+				’O’	=Other
+				’K’	=PSC key indicator stocks
+				’I’	=Other index streams
+					
+24	Release Strategy	2	No	Lookup	Code indicating strategy used to liberate majority of release group;  If present, must match one of the following
+	release_strategy			‘FR’	=Forced release
+				‘MX’	=Mixed release strategies
+				‘VO’	=Volitional release
+					Must be absent if rearing_type is ‘W’ or ‘M’
+25	Avg Weight	7	No	Numeric	Average weight of a fish in this release group at point of release
+	avg_weight				Units = grams/fish
+					If present, must be numeric in the range:’.01’ through ’9999.99’
+					No implied decimal. Decimal optional with up to 2 digits after the decimal point
+					
+26	Avg Length	6	No	Numeric	Average length of a fish in this release group at point of release
+	avg_length				Units = millimeters (fork length)
+					If present, must be numeric in the range:  ’1’ through ’999999’
+					
+27	Study Integrity	1	No	Lookup	Code indicating the survival viability of this release group or the integrity of this study
+	study_integrity				If present, must match one of the following:
+				’N’	=Normal range expected
+				’D’	=Fish destroyed; zero survival assumed
+				’W’	=Warning flag for serious problems
+					If ’W’ then comments are required
+					
+28	CWT 1st Mark	4	No	Lookup	Mark(s) on CWT fish corresponding to count value in cwt_1st_mark_count
+	cwt_1st_mark				If present, must match a mark code from Mark Coding table in chapter 11
+					Required if record_code is ‘T’
+					Must be absent if record_code is ‘N’
+					Required if corresponding cwt_1st_mark_count is present
+					Must be absent if corresponding cwt_1st_mark_count is absent
+					Must not begin with ‘9’ if brood_year is greater than 1994
+					See chapter 15 for further discussion of the use of this field.
+					
+29	CWT 1st Mark Count	8	No	Numeric	Number tagged with CWT corrected for tag loss and mortality
+	cwt_1st_mark_count				Corresponds to mark code value in cwt_1st_mark
+					Required if corresponding cwt_1st_mark is present and study_integrity is not ‘D’
+					Must be absent if corresponding cwt_1st_mark is absent
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					See chapter 15 for further discussion of the use of this field.
+					
+30	CWT 2nd Mark	4	No	Lookup	Mark(s) on CWT fish corresponding to count value in cwt_2nd_mark_count
+	cwt_2nd_mark				If present, must match a mark code from Mark Coding table in chapter 11
+					Must be absent if record_code is ‘N’
+					Required if corresponding cwt_2nd_mark_count is present
+					Must be absent if corresponding cwt_2nd_mark_count is absent
+					Must not contain the same value as cwt_1st_mark
+Must not begin with ‘9’ if brood_year is greater than 1994  
+See chapter 15 for further discussion of the use of this field.
+					
+31	CWT 2nd Mark Count	8	No	Numeric	Number tagged with CWT corrected for tag loss and mortality
+	cwt_2nd_mark_count				Corresponds to mark code value in cwt_2nd_mark
+					Required if corresponding cwt_2nd_mark is present and study_integrity is not ‘D’
+					Must be absent if corresponding cwt_2nd_mark is absent
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					Must be absent if cwt_1st_mark_count is zero or absent
+					See chapter 15 for further discussion of the use of this field.
+					
+32	Non CWT 1st Mark	4	No	Lookup	Mark(s) on Non-CWT fish corresponding to count value in non_cwt_1st_mark_count
+	non_cwt_1st_mark				If present, must match a mark code from Mark Coding table in chapter 11
+					Required if record_code is ‘N’
+					Required if corresponding non_cwt_1st_mark_count is present
+					Must be absent if corresponding non_cwt_1st_mark_count is absent
+					Must not begin with ‘9’ if brood_year is greater than 1995
+					See chapter 15 & 16 for further discussion of the use of this field.
+					
+33	Non CWT 1st Mark Count	9	No	Numeric	Number with No CWT Tag
+	non_cwt_1st_mark_count				Corresponds to mark code value in non_cwt_1st_mark
+					Required if corresponding non_cwt_1st_mark is present and study_integrity is not ‘D’
+					Must be absent if corresponding non_cwt_1st_mark is absent
+					If present, must be numeric in the range:  ’0’ through ’999999999’
+					See chapter 15 & 16 for further discussion of the use of this field.
+					
+34	Non CWT 2nd Mark	4	No	Lookup	Mark(s) on Non-CWT fish corresponding to count value in non_cwt_2nd_mark_count
+	non_cwt_2nd_mark				If present, must match a mark code from Mark Coding table in chapter 11
+					Required if corresponding non_cwt_2nd_mark_count is present
+					Must be absent if corresponding non_cwt_2nd_mark_count is absent
+					Must not contain the same value as non_cwt_1st_mark
+					Must not begin with ‘9’ if brood_year is greater than 1995
+					See chapter 15 & 16 for further discussion of the use of this field.
+					
+35	Non CWT 2nd Mark Count	9	No	Numeric	Number with No CWT Tag
+	non_cwt_2nd_mark_count				Corresponds to mark code value in non_cwt_2nd_mark
+					Required if corresponding non_cwt_2nd_mark is present and study_integrity is not ‘D’
+					Must be absent if corresponding non_cwt_2nd_mark is absent
+					Must be absent if non_cwt_1st_mark_count is absent
+					If present, must be numeric in the range:  ’0’ through ’999999999’
+					See chapter 15 & 16 for further discussion of the use of this field.
+					
+36	Counting Method	1	No	Lookup	Method used to determine number of non-CWT fish in the given release group; If present, must match one of the following:
+	counting_method			’B’	=Book estimates
+				’C’	=Actual physical counts
+				’P’	=Petersen estimates
+				’W’	=Weight derived estimates
+				’V’	=Volumetric Conversion
+				’F’	=Feed Conversion Estimates
+					
+37	Tag Loss Rate	6	No	Numeric	Proportion of fish which shed the CWT from the tag loss sample (expressed as a decimal)
+	tag_loss_rate				If present, must be numeric in the range:  ’0’ through ’1’
+					No implied decimal.  Decimal optional with up to 4 digits after the decimal point
+					Must be absent if record_code is ‘N’ and tag_type is not ‘16’
+					May be present if record_code is ‘N’ and tag_type is ‘16’
+					See chapter 15 for further discussion of the use of this field.
+					
+38	Tag Loss Days	3	No	Numeric	Number of days fish held to measure tag loss;  Fish tagged and released the same day are assigned ’0’  
+	tag_loss_days				If present, must be numeric in the range:  ’0’ through ’999’
+					Must be absent if record_code is ‘N’ and tag_type is not ‘16’
+					May be present if record_code is ‘N’ and tag_type is ‘16’
+					
+39	Tag Loss Sample Size	5	No	Numeric	Number of fish sampled to calculate tag loss rate
+	tag_loss_sample_size				If present, must be numeric in the range:  ’0’ through ’99999’
+					Must be absent if record_code is ‘N’ and tag_type is not ‘16’
+					May be present if record_code is ‘N’ and tag_type is ‘16’
+					
+40	Tag Reused	1	No	Boolean	Flag to indicate whether or not this record’s tag code has been re-used
+	tag_reused				Required if record_code is ‘T’ and this record is either the original of a reused tag code or any
+					instance of a reused tag code
+					If present, must have the value ’Y’
+					Must be absent if record_code is ‘N’
+					
+41	Comments	80	No	Text	Permits brief summary of pertinent information regarding release group
+	comments				Required if study_integrity is ’W’ or release_stage is ‘M’
+ 
+CHAPTER 3
+Recovery Data
+
+PSC	PSC Common Name	Max	Reqd	Format /Use	Description & Validation Rules...........................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must have the value ’R’:
+	record_code			’R’	=Recovery record
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Must match submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Sampling Agency	10	No	Lookup	Agency responsible for sampling or collecting and tag recovery; May differ  from reporting_agency
+	sampling_agency				If present, must contain an agency code defined in chapter 8
+					
+6	Recovery ID	10	Yes	Primary Lookup	Unique ID’s assigned to each recovery record by the recovery agency
+	recovery_id				Once reported, must remain the same forever for this snout recovery
+					Must be unique for a given reporting_agency and run_year
+					Must not contain embedded blanks
+ 
+					
+7	Species	2	Yes	Lookup	Code indicating species of this recovered fish;  Must match one of the following:
+	species			’1’	=Chinook
+				’2’	=Coho
+				’3’	=Steelhead
+				’4’	=Sockeye
+				’5’	=Chum
+				’6’	=Pink
+				’7’	=Masu
+				’8’	=Cutthroat
+				‘9’	=Atlantic Salmon
+					Must match the value in corresponding Catch/Sample data file, species
+					
+8	Run Year	4	Yes	YYYY	Calendar year corresponding to catch of this recovery in the fishery. For escapement which crosses year 
+	run_year				boundaries, it is the year in which majority of run returns
+					Must match Catch Year of corresponding Catch/Sample data file.
+					For recoveries without an associated Catch/Sample, report same year as those with an associated catch/sample
+					Must be the same for all records in this dataset
+					
+9	Recovery Date	8	Yes	YYYYMMDD	Date closest to that in which the catch occurred in the fishery for this decoded tag
+	recovery_date				Must be of the form ’YYYYMMDD’ where:
+					YYYY is Required and must be in range; ’1970’ through the current year
+					MM must be in the range ’01’ through ’12’.   May be absent
+					DD must be in the range ’01’ through the last day of the month referenced by MM.   Must be absent if MM is absent.  May be absent if MM is present
+					Must not contain embedded blanks
+					Example: April 29, 2000 is coded: 20000429
+					
+10	Recovery Date Type	1	No	Lookup	Code indicating the method used to determine recovery_date;  If present, must match one of the following:
+	recovery_date_type			’R’	=Reported date
+				’C’	=Calculated date
+					
+11	Period Type 	2	No	Lookup	Code to Indicate the type of time periods in which sampling occurred in the fishery / stratum for this tag recovery;
+	period_type				If present, must match one of the following:
+				’1’	=Escapement period (across years possible)
+				’2’	=Bi-weekly (statistical 2 week)
+				’3’	=Semi-monthly (calendar)
+				’4’	=Statistical month
+				’5’	=Calendar month
+				’6’	=Statistical week (beginning Monday)
+				’7’	=Week (beginning Sunday)
+				’8’	=Seasonal (Use for spring, summer, fall, or winter run periods)
+				’10’	=Weekend (Saturday, Sunday & observed holiday(s))
+				’11’	=Weekday (Monday – Friday excluding observed holiday(s))
+					Required if sample_type is ’1’, ’2’, ’4’, or ’6’
+					Required if period  present;  
+					period_type and period must match that used in Catch/Sample data file for the given stratum
+					
+12	Period	2	No	Lookup	Indicates the complete range of time in which sampling occurred in the fishery / stratum for this tag recovery; Possible Ranges:
+	period			n=’01’	=Escapement period (across years possible)
+				n=’01-26’	=Bi-weekly (statistical 2 week)
+				n=’01-24’	=Semi-monthly (calendar)
+				n=’01-12’	=Statistical month
+				n=’01-12’	=Calendar month
+				n=’01-54’	=Statistical week (beginning Monday)
+				n=’01-54’	=Week (beginning Sunday)
+				n=’01-04’	=Seasonal periods ( 01=Spring, 02=Summer, 03=Fall, 04=Winter)
+				n=’01-54’	=Weekend beginning Saturday (or Friday if on observed holiday)
+				n=’01-54’	=Weekday beginning Monday (or first working day following observed holiday)
+					Required to map across to sampling period range in the Catch/Sample data file
+					Required if period_type present
+					period_type and period must match that used in Catch/Sample data file
+					 for the given stratum
+					
+13	Fishery	3	Yes	Lookup	Code (standardized PSC fishery code) to indicate the fishery in which this recovery occurred
+	fishery				Must match a code in the “Fishery” column from Chapter 9
+					Must match the value in corresponding Catch/Sample data file, fishery
+					
+14	Gear	6	No	Lookup	Code used by Agency “in-house” to identify its individual fishery or gear
+	gear				If present, should match a code in the “Fishery or Gear” column from Chapter 9
+					
+15	Adclip Selective Fishery 	1	No	Boolean	Flag to indicate whether this recovery came from a fishery where only adipose clipped fish were allowed to be harvested
+	adclip_selective_fishery				Required if Run Year (field 8) > 2007
+					Must match one of the following:
+				‘S’	= Yes /adclip selective fishery
+				‘M’	= Yes /mixed selective fishery (ad-clipped plus unclipped fish); see note below
+				‘N’	= Not selective
+					Must have the value ‘S’ or ‘M’ if fishery is selective for ad-clips
+					
+NOTE: for adclip_selective_fishery ‘M’: refers to ad-clipped and unclipped catch.   For example” a bag limit of 1 unclipped but multiple clipped fish.
+					
+16	Estimation Level	1	No	Lookup	Level of resolution at which expansion is made;  If present, must match one of the following:
+	estimation_level			’2’	=Level 2 (Sector)
+				’3’	=Level 3 (Region)
+				’4’	=Level 4 (Area)
+				’5’	=Level 5 (Location)
+				’6’	=Level 6 (Sub-Location)
+					Must match the value in corresponding Catch/Sample data file estimation_level
+					Required if estimated_number is greater than  ’0’
+					
+17	Recovery Location Code	19	Yes	Lookup	Hierarchical and geographical coding scheme rendering multiple levels of resolution to Recovery Site
+	recovery_location_code				All location codes are standardized within a given State or Province, and coordinated by the State/Province
+					Must exactly match the Location Code of Location Type ’1’ in the PSC Location file 
+					Trailing blanks should not be included
+					
+18	Sampling Site	4	No	Alpha-Numeric	Agency “in-house” codes for Port of landing, hatchery, etc.
+	sampling_site				
+					
+19	Recorded Mark	4	Yes	Lookup	External mark recorded by sampler (See Note to follow)
+	recorded_mark				Must contain a code defined in chapter 11
+					
+NOTES for recorded_mark:
+If Adipose clip status is Known then the recorded_mark should be:
+0xxx 	if fish has not been Adipose clipped
+5xxx 	if fish has been Adipose clipped
+where xxx represents other marks which may have been checked and recorded
+
+If Adipose clip status is Unknown then the recorded_mark should be:
+9xxx	where xxx represents other marks which may have been checked and recorded
+
+					
+20	Sex	1	No	Lookup	Code to indicate sex of this recovered fish;  If present, must match one of the following:
+	sex			’F’	=Female
+				’M’	=Male
+ 
+					
+21	Weight	5	No	Numeric	Weight in Kilograms
+	weight				If present, must be numeric in the range:  ’.01’ through ’99.99’
+					No implied decimal.  Decimal optional with up to 2 digits after the decimal point
+					These fields must all have values or must all be absent:
+					– weight
+					– weight_code
+					– weight_type
+					
+22	Weight Code	1	No	Lookup	Code to indicate method of measuring fish for weight;  If present, must match one of the following:
+	weight_code			’1’	=Round
+				’2’	=Dressed, head on
+				’3’	=Dressed, head off
+					These fields must all have values or must all be absent:
+					– weight
+					– weight_code
+					– weight_type
+					
+23	Weight Type	1	No	Lookup	Code to indicate how weight was determined;  If present, must match one of the following:
+	weight_type			’1’	=Actual weight
+				’2’	=Calculated weight (Sample size may be unknown)
+					These fields must all have values or must all be absent:
+					– weight
+					– weight_code
+					– weight_type
+					
+24	Length	4	No	Numeric	Length in millimeters
+	length				If present, must be numeric in the range:  ’1’ through ’9999’
+					Must not be greater than 1600mm if Species (field 7) is ‘1’ (Chinook)
+					Must not be greater than 1300mm if Species (field 7) is not ‘1’
+					These fields must all have values or must all be absent:
+					– length
+					– length_code
+					– length_type
+ 
+					
+25	Length Code	1	No	Lookup	Code to indicate method of measuring fish for length;  If present, must match one of the following:
+	length_code			’0’	=Fork length (preferred measurement)
+				’1’	=Mid-eye to fork
+				’2’	=Mid-eye to caudal peduncle
+				’3’	=Total length
+				’4’	=Head length: Eye to opercula
+				’5’	=Head length: Tip of snout to opercula
+					These fields must all have values or must all be absent:
+					– length
+					– length_code
+					– length_type
+					
+26	Length Type	1	No	Lookup	Code to indicate how length was determined;  If present, must match one of the following:
+	length_type			’1’	=Actual length
+				’2’	=Calculated length  (Sample size may be unknown)
+					These fields must all have values or must all be absent:
+					– length
+					– length_code
+					– length_type
+					
+27	Detection Method	1	No	Lookup	Code indicating the method used to detect the presence of a tag on the fish;  If present, must match one of the following:
+	detection_method			’E’	=Electronic; used only when all fish in the sample pass through electronic detection, regardless of clip status
+				’V’	=Visual; used when all fish in the sample are first identified for an adipose fin clip, regardless of the use or timing of electronic detection methods
+					Required if catch_sample_id is present
+					If present, must match the value in corresponding Catch/Sample data file, detection_method
+					
+28	Tag Status	1	Yes	Lookup	Must match one of the following:
+	tag_status			’1’	=Tag read OK  (i.e. tag_code corresponds to a valid CWT release & has no unresolved discrepancies)
+				’2’	=No tag
+				’3’	=Tag lost before read
+				’4’	=Tag not readable
+				’7’	=Unresolved discrepancy (see notes to follow)
+				’8’	=Head not processed
+				‘9’	=Pseudo tag, blank wire
+					If ’1’ or ‘9’, then tag_code is required
+					
+NOTES for tag_status:
+The following instances may warrant a status of “Unresolved discrepancy”:
+1)  If the tag_code has been re-used (contains “*”) and may; therefore, have more than one possible release
+2)  If the tag_code does not match a CWT Release Group in the Release data file
+3)  Species of recovered fish does not match that in Release data file
+4)  Age of fish is illogical (where Age is the difference between brood_year and the year of Recovery)
+5)  tag_code shows up in recovery when Release record has Expected Survival of “D” (Destroyed)
+Records classified as “Unresolved discrepancy” are still subject to all other validation requirements
+					
+29	Tag Code	12	No	Foreign Lookup	Identifier coded on a tag to denote a release group
+	tag_code			AGD1D2D3D4	Required if Tag Status is ‘1’ or ‘9’
+					For tag_status ‘1’:
+					Required for it to be a valid CWT release
+					For tag_status ‘9’:
+					1)   If completely blank wire was used, report verbatim the text:  ’BLANK’  in this field;
+					2)   If agency-only coded wire was used, report verbatim the numeric agency wire prefix (i.e. Data 1) followed by the verbatim text:  ’BLANK’  in this field (e.g. agency 63 wire would be coded  ’63BLANK’)
+					For Sequential Tags Only:  
+					1)  Binary - the Sequential Table column and row information stored in Data 3 and Data 4 is not Reported here but rather in sequential_column_number & sequential_row_number;
+					2)  Decimal - the Decimal Sequential information for Decimal Sequential tags is stored in sequential_number
+					
+30	Tag Type	2	No	Lookup	Code to indicate type of tag wire found in the recovery snout;  If present, must match one of the following:
+	tag_type			’0’	=Standard binary (1mm)
+				’1’	=Half tags (H type)
+				’2’	=Half tags (B type)
+				’3’	=6 word half length tags
+				’4’	=X-ray binary (tag_code must be ’XX0500’)
+				’5’	=Standard color
+				’6’	=Solid color (##)
+				’7’	=Striped color ($$)
+				’8’	=Rare Earth
+				’9’	=Repeating series
+				’10’	=Sequential 6 word binary
+				’11’	=Length & ½ Binary (1.5mm)
+				’12’	=Standard Alphanumeric, includes Decimal (1 mm)
+				’13’	=Length & ½ Alphanumeric, includes Decimal (1.5 mm)
+				’14’	=Sequential Alphanumeric, includes Decimal
+				’15’	=Half length Alphanumeric, includes Decimal (0.5mm)
+				’16’	=Pseudo tag, blank wire
+					Required if tag_status is ’1’ or ‘9’
+					Must be ‘16’ if tag_status is ‘9’
+					
+31	Sequential Number	5	No	Numeric	Value identifying decimal number for this tag code;  Used for decimal tags only
+	sequential_number				If present, then tag_type must be ’10’  or ’14’
+					
+32	Sequential Column 	3	No	Numeric	Value in “Table Column”; Corresponds to column number in Sequential Numbers Table;  Used for sequential tags only
+	Number				If present, must be numeric in the range:  ’0’ through ’127’
+	sequential_column_number				If present, then tag_type must be ’10’
+					
+33	Sequential Row Number	3	No	Numeric	Value in “Table Row”; Corresponds to row number in Sequential Numbers Table;  Used for sequential tags only
+	sequential_row_number				If present, must be numeric in the range:  ’0’ through ’127’
+					If present, then tag_type must be ’10’ 
+					
+34	Catch Sample ID	10	No	Foreign Lookup	Agency assigned ID used to associate recovery records in Recovery data file to corresponding catch/sample record in 
+	catch_sample_id				Catch/Sample data file.
+					Required if sample_type is ‘1’, ’2’, ’4’, or ‘6’
+					If present, must match the value in corresponding Catch/Sample data file, catch_sample_id
+					Must not contain embedded blanks
+					
+35	Sample Type	1	Yes	Lookup	Must match one of the following:
+	sample_type			’1’	=In-sample recoveries from a sampled fishery with known catch;
+					estimated_number must be absent or greater than ‘0’
+				’2’	=Voluntary recoveries from a sampled fishery with known catch; Awareness estimates are available; 
+					estimated_number must be absent or greater than ‘0’  (e.g., Puget Sound Sport)
+				’3’	=Voluntary recoveries from an unsampled fishery.  Awareness approximations may be possible yielding non-zero      
+					estimated_number; otherwise estimated_number should be absent.  (e.g., Hoh River freshwater sport fishery)
+				’4’	=In-sample or voluntary recoveries from a sampled fishery with unknown catch; 
+					estimated_number must be absent.  (e.g., Stream Survey)
+				’5’	=Voluntary or select recoveries from a sampled fishery with known catch and no awareness estimates available; Use of these 
+					recoveries leads to double counting; see also Note #3 to follow
+					estimated_number must be equal to ‘0’.  (e.g., commercial voluntary recoveries);
+				’6’	=Mark Incidence – Indirect Sample:  Voluntary recoveries from indirectly sampled sport fishery; estimated_number are calculated 
+					from sport_mark_inc_sampl_obs_ads in sport_mark_incidence_sampl_size from the corresponding Catch Sample record
+				’7’	=Pass-Through Sample:  Recoveries that are selectively removed from certain in-river sampling programs; The migrant fish are 
+					subject to subsequent destination sampling
+					number_caught must equal number_sampled.    see also Note #3 to follow
+ 
+					
+Notes for sample_type:  (see also notes for Catch/Sample sample_type field #18)
+1) Four keys are used to distinguish the type of sample:
+a)  Sample:	In-sample or Voluntary
+b)  Fishery:	Sampled or Unsampled
+c)  Catch:		Known or Unknown
+d)  Awareness:	Available or Unavailable
+2) Awareness estimates (Sample Type Code 2) are based on current year’s data, while awareness approximations (Sample Type Code 3) are based on extrapolations of data from other periods or locations.
+3) “Pass-through” Sampling (Sample Type Code 7)  In certain sampling programs, some fish are released while selected fish are killed and snouts removed.  The non-sampled fish are subject to subsequent destination sampling and the lack of reporting would result in underestimation of the tag codes.  In this sampling situation, the number of fish pulled out of the pass-through equals the number sampled and generally gives an estimated number of 1.
+4) Any associated Catch/Sample and Recovery records must have the same value of sample type.
+					
+					
+36	Sampled Maturity	1	No	Lookup	Code to indicate maturity class of sample in which this recovery occurred;  If present, must match one of the following;
+	sampled_maturity			‘1’	=Immature(0-Ocean Fish)
+				‘2’	=Jacks (1-Ocean fish)
+				‘3’	=Adults
+				‘4’	=Mixed(adult, jack and immatures)
+					Must match the value in corresponding Catch/Sample data file, sampled_maturity
+					
+37	Sampled Run	2	No	Lookup	Code to indicate run when sample is stratified by entry run timing  (e.g., freshwater sport fisheries where runs can be 
+	sampled_run				identified by morphological differences);  If present, must match one of the following:
+				’1’	=Spring
+				’2’	=Summer
+				’3’	=Fall (includes type S Coho)
+				’4’	=Winter
+				’5’	=Hybrid
+				’6’	=Landlocked
+				’7’	=Late Fall (includes type N Coho)
+				’8’	=Late Fall Upriver Bright Chinook
+					Must match the value in corresponding Catch/Sample data file, sample_run
+					
+38	Sampled Length Range	8	No	Numeric	Length interval range in millimeters (mm);  Example:  800 - 900 mm. length interval coded as 08000900
+	sampled_length_range				If present, must be numeric in the range:  ’00000000’ through ’99999999’
+					The number represented by the first 4 bytes must be less than or equal to the number represented by the last 4 bytes
+ 
+					
+39	Sampled Sex	1	No	Lookup	Code to indicate sex of sample in which this recovery occurred;  If present, must match one of the following:
+	sampled_sex			’F’	=Female
+				’M’	=Male
+					
+40	Sampled Mark	4	No	Lookup	External mark used for differential sampling treatment. Used only if sampling  treatments of returning fish were 
+	sampled_mark				        different based upon the external mark of the fish
+					If present, must contain a code defined in chapter 11
+					Must match the value in corresponding Catch/Sample data file, sampled_mark
+					
+41	Estimated Number	8	No	Numeric	Estimated number of tagged fish in the catch with the same coded wire tag represented by this tag recovery, as estimated
+	estimated_number				         by the reporting agency
+					Must be absent if this recovery is used to adjust the Estimated Number of other recoveries
+					If present and greater than zero, then catch_sample_id should be present and, if present, must match an existing catch_sample_id in
+					the Catch/Sample file
+					If present, must be numeric in the range:  ’0’ through ’99999.99’
+					No implied decimal.  Decimal optional with up to 2 digits after the decimal point
+
+ 
+CHAPTER 4
+Catch/Sample Data
+
+PSC	PSC Common Name	Max	Reqd	Format / Use	Description & Validation Rules...................................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must have the value ’S’:
+	record_code			’S’	=Catch/Sample record
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Must match submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					Must match reporting_agency of corresponding Recovery data file
+					
+5	Sampling Agency	10	No	Lookup	Agency responsible for sampling or collecting and tag recovery; May differ  from reporting_agency
+	sampling_agency				If present, must contain an agency code defined in chapter 8
+					
+6	Catch Sample ID	10	Yes	Primary 	Unique IDs assigned to each sample record by the reporting agency
+	catch_sample_id			Lookup	Must be unique for a given reporting_agency and catch_year
+					Must not contain embedded blanks
+ 
+					
+7	Species	2	Yes	Lookup	Code indicating species of this catch group;  Must match one of the following:
+	species			’1’	=Chinook
+				’2’	=Coho
+				’3’	=Steelhead
+				’4’	=Sockeye
+				’5’	=Chum
+				’6’	=Pink
+				’7’	=Masu
+				’8’	=Cutthroat
+				’9’	=Atlantic Salmon
+					Must match the value in corresponding Recovery data file, species
+					
+8	Catch Year	4	Yes	YYYY	Corresponds to Run Year in Recovery file.  Year when catch was made.  For escapement which crosses year boundaries, use year 
+	catch_year				when majority of run returns
+					Must match run_year of corresponding Recovery data file
+					Must be the same for all records in this dataset
+					
+9	Period Type	2	Yes	Lookup	Code to Indicate the type of time periods in which sampling occurred in the fishery / stratum; Must match one of the following:
+	period_type			’1’	=Escapement period (across years possible)
+				’2’	=Bi-weekly (statistical 2 week)
+				’3’	=Semi-monthly (calendar)
+				’4’	=Statistical month
+				’5’	=Calendar month
+				’6’	=Statistical week (beginning Monday)
+				’7’	=Week (beginning Sunday)
+				’8’	=Seasonal (Use for spring, summer, fall, or winter run periods)
+				’10’	=Weekend (Saturday, Sunday & observed holiday(s))
+				’11’	=Weekday (Monday – Friday excluding observed holiday(s))
+					period_type and period must match that used in Recovery data file for the given stratum
+					
+10	Period	2	Yes	Lookup	Indicates the complete range of time in which sampling occurred in the fishery / stratum;  Possible Range:
+	period			n=’01’	=Escapement period (across years possible)
+				n=’01-26’	=Bi-weekly (statistical 2 week)
+				n=’01-24’	=Semi-monthly (calendar)
+				n=’01-12’	=Statistical month
+				n=’01-12’	=Calendar month
+				n=’01-54’	=Statistical week (beginning Monday)
+				n=’01-54’	=Week (beginning Sunday)
+				n=’01-04’	=Seasonal periods ( 01=Spring, 02=Summer, 03=Fall, 04=Winter)
+				n=’01-54’	=Weekend beginning Saturday (or Friday if on observed holiday)
+				n=’01-54’	=Weekday beginning Monday (or first working day following observed holiday)
+					period_type and period must match that used in Recovery data file for the given stratum
+					 
+11	First Period	2	No	Lookup	Beginning sampling period number for situations where catch data are pooled across time periods
+	first_period				Applies to non-standard estimated number calculations only
+					If present, must define a valid period
+					If present, Must be less than or equal to the value in last_period
+					
+12	Last Period	2	No	Lookup	Ending sampling period number for situations where catch data are pooled across  time periods
+	last_period				Applies to non-standard estimated number calculations only
+					If present, must define a valid period
+					If present, must be greater than or equal to the value in first_period
+					
+13	Fishery	3	Yes	Lookup	Code (standardized PSC fishery code) to indicate the fishery in which this catch occurred
+	fishery				Must match a code in the “Fishery” column from Chapter 9
+					Must match the value in corresponding Recovery data file fishery
+					
+14	Adclip Selective Fishery 	1	No	Boolean	Flag to indicate whether or not this catch and sample were from a fishery where only adipose clipped fish were allowed to be 
+	adclip_selective_fishery				harvested
+					Required if Catch Year (field 8) > 2007
+					Must match one of the following:
+				‘S’	= Yes /adclip selective fishery
+				‘M’	= Yes /mixed selective fishery (ad-clipped plus unclipped fish); see note below
+				‘N’	= Not selective
+					Must have the value ‘S’ or ‘M’ if fishery is selective for ad-clips
+					
+Note for adclip_selective_fishery ‘M’: Refers to ad-clipped and unclipped catch.  For example: a bag limit of 1 unclipped but multiple clipped fish.
+					
+15	Estimation Level	1	No	Lookup	Level of resolution at which estimation is made:
+	estimation_level			’2’	=Level 2 (Sector)
+				’3’	=Level 3 (Region)
+				’4’	=Level 4 (Area)
+				’5’	=Level 5 (Location)
+				’6’	=Level 6 (Sub-Location)
+					Required if number_estimated is greater than ‘0’.
+					Must match the value in corresponding Recovery data file estimation_level
+ 
+					
+16	Catch Location Code	19	Yes	Lookup	Hierarchical and geographical coding scheme to identify area of catch
+	catch_ location_code				All location codes are standardized within a given State or Province, and coordinated by the State/Province
+					Must exactly match the Location Code of Location Type ’2’ in the PSC Location file 
+					Trailing blanks should not be included
+					
+17	Detection Method	1	Yes	Lookup	Code indicating the method used to detect the presence of a tag on the fish;  Must match one of the following:
+	detection_method			’E’	=Electronic
+				’V’	=Visual
+					Must match the value in corresponding Recovery data file, detection_method
+					
+18	Sample Type	1	Yes	Lookup	Must match one of the following:   (See notes to follow)
+	sample_type			’1’	=In-sample recoveries from a sampled fishery with known catch; estimated_number is non-zero.  Also used to report unsampled 
+					catch
+					estimated_number must be absent or greater than ‘0’
+				’2’	=Voluntary recoveries from a sampled fishery with known catch; Awareness estimates are available;
+					estimated_number must be absent or greater than ‘0’ (e.g., Puget Sound Sport)
+				’4’	=In-sample or voluntary recoveries from a sampled fishery with unknown catch; 
+					estimated_number must be absent.  (e.g., Stream Survey with no escapement estimate)
+				’6’	=Mark Incidence – Indirect Sample: Voluntary recoveries from indirectly sampled sport fishery;
+					estimated_number are calculated from sport_mark_inc_sampl_obs_ads in sport_mark_incidence_sampl_size from corresponding Recovery record.
+				‘7’	=Pass-Through Sample: Recoveries that are selectively removed from certain in-river sampling programs; 
+					The migrant fish are subject to subsequent destination sampling;
+					number_caught must equal number_sampled
+					Must match the value in corresponding Recovery data file, sample_type
+See notes for Recovery sample_type field # 35
+					
+19	Sampled Maturity	1	No	Lookup	Code to indicate maturity class of sample;  If present, must match one of the following:
+	sampled_maturity			’1’	=Immature (0-Ocean fish)
+				’2’	=Jack (1-Ocean fish)
+				’3’	=Adult
+				’4’	=Mixed (adult, jack, and immature)
+					Must match the value in corresponding Recovery data file, sampled_maturity
+ 
+					
+20	Sampled Run	2	No	Lookup	Code to indicate run when sample is stratified by entry run timing  (e.g., freshwater sport fisheries where runs can be
+	sampled_run				identified by morphological differences);  
+					If present, must match one of the following:
+				’1’	=Spring
+				’2’	=Summer
+				’3’	=Fall (includes type S Coho)
+				’4’	=Winter
+				’5’	=Hybrid
+				’6’	=Landlocked
+				’7’	=Late Fall (includes type N Coho)
+				’8’	=Late Fall Upriver Bright Chinook
+					Must match the value in corresponding Recovery data file, sampled_run
+					
+21	Sampled Length Range	8	No	Numeric	Length interval range in millimeters (mm);  Example:  800 - 900 mm. length interval coded as 08000900
+	sampled_length_range				If present, must be numeric in the range:  ’0’ through ’99999999’
+					The number represented by the first 4 bytes must be less than or equal to the number represented by the last 4 bytes
+					
+22	Sampled Sex	1	No	Lookup	Code to indicate sex of sample;  Must match one of the following:
+	sampled_sex			’F’	=Female
+				’M’	=Male
+					
+23	Sampled Mark	4	No	Lookup	External mark used for differential sampling treatment. Used only if sampling treatments of returning fish were 
+	sampled_mark				different based upon the external mark of the fish (see note to follow)
+					If present, must contain a code defined in chapter 11
+					Must match the value in corresponding Recovery data file, sampled_mark
+					
+NOTE for sampled_mark:	This field can only be used when the fish reported in number_caught were all examined for marks (for example, at a freshwater trap or hatchery rack).
+					
+24	Number Caught	8	No	Numeric	Total catch of species for this area-period-fishery-age class stratum
+	number_caught				Required if sample_type is ’1’ and number_sampled is absent
+					Must be absent if sample_type is ’4’
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					
+25	Escapement Estimation Method	2	No	Lookup	Identifies the methodology used to estimate the natural spawning escapement (e.g. method used to determine the 
+ “number caught” in spawning ground carcass sampling);  
+	escapement_estimation_me 				If present, must contain a code defined in chapter 12
+	thod				Must be absent if fishery is not ‘54’ (Spawning Ground) or sample_type is not ‘1’ 
+ 
+					
+26	Number Sampled	8	No	Numeric	Number of fish examined for presence of tag wire
+	number_sampled				Required if sample_type is ’1’ and number_caught is absent
+					If present, must be greater than or equal to the sum of:
+					number_recovered_decoded plus
+					number_recovered_no_cwts plus
+					number_recovered_cwts_lost plus
+					number_recovered_unreadable plus
+					number_recovered_unresolved plus
+					number_recovered_not_processed plus
+					number_recovered_pseudotags 
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					
+27	Number Estimated	8	No	Numeric	Estimated number of fish in the catch represented by the individual recovery
+	number_estimated				If present, must be numeric in the range:  ’0’ through ’99999.99’
+					No implied decimal.  Decimal optional with up to 2 digits after the decimal point
+					
+28	Number Recovered Decoded	5	No	Numeric	Number of observed tags recovered and decoded in the sampling stratum; (i.e., Recovery tag_status is ‘1‘)
+	number_recovered_decoded				If present, must be numeric in the range:  ’0’ through ’99999’
+					If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+29	Number Recovered No CWTs	4	No	Numeric	Number of heads lacking CWT in sampling stratum; (i.e., Recovery tag_status is ‘2‘)
+	number_recovered_no_cwts				If present, must be numeric in the range:  ’0’ through ’9999’
+					If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+30	Number Recovered Lost 	3	No	Numeric	Number of lost CWTs in sampling stratum; (i.e., Recovery tag_status is ’3’)
+	CWTs				If present, must be numeric in the range:  ’0’ through ’999’
+	number_recovered_lost_cwts				If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+31	Number Recovered 	3	No	Numeric	Number of unreadable CWTs in sampling stratum;  
+	Unreadable				If present ,must be numeric in the range:  ’0’ through ’999’
+	number_recovered_unreadable				If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+32	Number Recovered 	3	No	Numeric	Number of tag recoveries in sampling stratum which could not be assigned to a tag code (i.e., Recovery tag_status is ’7’)
+	Unresolved				If present, must be numeric in the range:  ’0’ through ’999’
+	number_recovered_unresolved				If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+33	Number Recovered Not 	5	No	Numeric	Number of lost heads or heads not processed (i.e., no data) in sampling stratum; (i.e., Recovery tag_status is ’8’)
+	Pro¬cessed				If present, must be numeric in the range:  ’0’ through ’99999’
+	number_recovered_not_processed				If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+34	Number Recovered 	3	No	Numeric	Number of fish among number_sampled which contained tag type 16 (Pseudo tag, blank wire) as described under Tag Type in 
+	PseudoTags				Chapter 2 Releases.
+	number_recovered_pseudotags				If present, must be numeric in the range:  ’0’ through ’999’
+					If present and sample_type is not equal to ‘2’, must be less than or equal to number_sampled
+					
+35	MR 1st Partition Size	8	Yes	Numeric	Number of fish in first mark rate partition
+	mr_1st_partition_size				Must be numeric in the range:  ’0’ through ’99999999’
+					See Chapter 14 for discussion of the use of this field.
+					
+36	MR 1st Sample Size	8	Yes	Numeric	Number of fish among mr_1st_partition_size which were visually sampled for adipose clips 
+	mr_1st_sample_size				Must be numeric in the range:  ’0’ through ’99999999’
+					Must be less than or equal to mr_1st_partition_size
+					See Chapter 14 for discussion of the use of this field.
+					
+37	MR 1st Sample Known 	8	No	Numeric	Number of fish among mr_1st_sample_size which were found to have an adipose clip or no adipose clip (does not include fish which
+	Ad Status				were found to have an 'undeterminable and therefore unknown' adipose clip)
+	mr_1st_sample_known_ad_stat				Required if mr_1st_sample_size is greater than ‘0’.
+	us				Must be absent if mr_1st_sample_size is equal to ‘0’ and sample_type is not equal to ‘2’.
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					If present and sample_type is not equal to ‘2’, must be less than or equal to mr_1st_sample_size
+					See Chapter 14 for discussion of the use of this field.
+					
+38	MR 1st Sample Obs Adclips	8	No	Numeric	Number of fish among  mr_1st_sample_size which were found to have an adipose clip
+	mr_1st_sample_obs_adclips				Required if mr_1st_sample_size is greater than ‘0’.
+					Must be absent if mr_1st_sample_size is equal to ‘0’ and sample_type is not equal to ‘2’.
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					If present and sample_type is not equal to ‘2’, must be less than or equal to mr_1st_sample_size
+					See Chapter 14 for discussion of the use of this field.
+					
+					
+39	MR 2nd Partition Size	8	No	Numeric	Number of fish in second mark rate partition
+	mr_2nd_partition_size				Required if mr_2nd_sample_size is present 
+					Must be absent if mr_2nd_sample_size is absent
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					See Chapter 14 for discussion of the use of this field.
+					
+40	MR 2nd Sample Size	8	No	Numeric	Number of fish among mr_2nd_partition_size which were visually sampled for adipose clips
+	mr_2nd_sample_size				Required if mr_2nd_partition_size is present
+					Must be absent if mr_2nd_partition_size is absent
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					See Chapter 14 for discussion of the use of this field.
+					
+41	MR 2nd Sample Known Ad 	8	No	Numeric	Number of fish among mr_2nd_sample_size which were found to have an adipose clip or no adipose clip (does not include fish which 
+	Status				were found to have an 'undeterminable and therefore unknown' adipose clip)
+	mr_2nd_sample_known_ad_stat				Required if mr_2nd_sample_size  is greater than ‘0’
+	us				Must be absent if mr_2nd_sample_size is equal to ‘0’ or is absent.
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					If present, must be less than or equal to mr_2nd_sample_size
+					See Chapter 14 for discussion of the use of this field.
+					
+42	MR 2nd Sample Obs Adclips	8	No	Numeric	Number of fish among  mr_2nd_sample_size which were found to have an adipose clip
+	mr_2nd_sample_obs_adclips				Required if mr_2nd_sample_size is greater than ‘0’.
+					Must be absent if mr_2nd_sample_size is equal to ‘0’ or is absent.
+					If present, must be numeric in the range:  ’0’ through ’99999999’
+					If present, must be less than or equal to mr_2nd_sample_size
+					See Chapter 14 for discussion of the use of this field.
+					
+43	Mark Rate	6	No	Numeric	Proportion of fish in the number_sampled that were adipose fin clip marked (expressed as a decimal percentage)
+	mark_rate				If present, must be numeric in the range: '0' through '1'.
+					No implied decimal.   Decimal optional with up to 4 digits after the decimal point
+NOTE for mark_rate:	
+Warning: If detection_method='E' and mr_1st_sample_size not equal to mr_1st partition size or mr_2nd_sample_size not equal to mr_2nd_partition_size, the usefulness of this rate will be dependent upon the subsamples being adequately representative of the partitions.  See chapter 14 for further discussion of the use of this field.
+					
+44	Awareness Factor	5	No	Numeric	Estimation factor used for voluntary recoveries in sport fisheries
+	awareness_factor				If present, must be numeric in the range:  ’0’ through ’9.999’
+					No implied decimal.   Decimal optional with up to 3 digits after the decimal point
+					
+45	Sport Mark Incidence 	5	No	Numeric	Number of fish sampled for marks in sport fishery but heads not taken; Use only if sample_type is ’6’
+	Sampl Size				Must be absent if sample_type is not ‘6’
+	sport_mark_incidence_sampl				If present, must be numeric in the range:  ’0’ through ’99999’ 
+	_size				
+					
+46	Sport Mark Inc Sampl Obs 	4	No	Numeric	Number of observed ad clips in sport fishery but heads not taken; Use only if sample_type is  ’6’
+	Adclips				Must be absent if sample_type is not ‘6’
+	sport_mark_inc_sampl_obs_				If present, must be numeric in the range:  ’0’ through ’9999’
+	adclips				
+ 
+
+CHAPTER 5
+Catch & Effort Data
+
+NOTE:  The presence of ‘C, E’ in the Reqd column indicates that the field is to be used for both Catch and Effort records.  The presence of only a ‘C’ or ‘E’ in the Reqd column indicates the field is to be used for only: Catch records (C) or Effort records (E).
+PSC	PSC Common Name	Max	Reqd	Format / Use	Description & Validation Rules...................................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the data file classification (class) of this individual record.  Must match one of the following:
+	record_code		C, E	’C’	=Catch record
+				’E’	=Effort record
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version		C, E		Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date		C, E		Must have the same value for all records in this data submission
+					Must match the submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange 
+	reporting_agency		C, E		Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Catch Effort Id	10	Yes	Primary 	Unique ID assigned to each catch or effort record by the reporting agency
+	catch_effort_id		C, E	Lookup	Must be unique for a given reporting_agency and catch_year
+					Must not contain embedded blanks
+					
+6	Catch Year	4	Yes	YYYY	Calendar year of landing
+	catch_year		C, E		Must be the same for all records in this dataset
+	(see note, end of chapter)				
+ 
+					
+7	Period Type	2	Yes	Lookup	Code to Indicate the type of time periods in which sampling occurred in the fishery / stratum; Must match one of the following:
+	period_type		C, E	’0’	=Annual (calendar year)
+	(see note, end of chapter)			’4’	=Statistical month
+				’5’	=Calendar month
+				’6’	=Statistical week (beginning Monday)
+				’7’	=Week (beginning Sunday)
+					
+8	Period	2	Yes	Lookup	Indicates the complete range of time in which sampling occurred in the fishery / stratum;  Possible Range:
+	period		C, E	n=’01’	=Annual
+	(see note, end of chapter)			n=’01-12’	=Statistical or calendar month
+				n=’01-54’	=Statistical week (beginning Monday)
+				n=’01-54’	=Week (beginning Sunday)
+					
+9	Landing Status	1	Yes	Lookup	Conditions under which the fish were harvested and landed;  Must match one of the following:
+	landing_status		C, E	’1’	=Standard
+	(see note, end of chapter)			’2’	=Test
+				’3’	=Seized
+				’4’	=Hatchery, cost recovery
+				’5’	=Hatchery, terminal area fishery
+				’6’	=Experimental
+				’9’	=Unspecified
+				’U’	=Unknown
+					
+10	Catch Location Code	19	Yes	Lookup	Hierarchical and geographical coding scheme to identify area of catch
+	catch_location_code		C, E		All location codes are standardized within a given State or Province, and coordinated by the State/Province 
+					Must exactly match the location_code of location_type ’2’ in the PSC Location file
+					Trailing Blanks should not be included
+					
+11	Harvest	1	Yes	Lookup	Type of harvest;  Must match one of the following:
+	harvest		C, E	’1’	=Commercial
+	(see note, end of chapter)			’2’	=Recreational – unspecified
+				’3’	=Recreational – charter
+				’4’	=Recreational – noncharter
+				’5’	=Subsistence, ceremonial, or personal use
+				’U’	=Unknown
+					Catch or effort from codes 2+3+4 equals total known recreational value
+					
+12	Fisher	1	Yes	Lookup	Native and/or treaty status of fish harvester;  Must match one of the following:
+	fisher		C, E	’1’	=Native – treaty
+	(see note, end of chapter)			’2’	=Native – nontreaty
+				’3’	=Native – unspecified
+				’4’	=Non-native
+				’9’	=Unspecified
+				’U’	=Unknown
+					The sum of codes 1+2+3 equals total known native catch or effort
+					
+13	Catch Gear Group	2	Yes	Lookup	Collection of agency gears into major types
+	catch_gear_group		C, E		Must match a code in the ‘Catch Gear Group’ column from Chapter 10
+					
+14	Catch Gear	2	Yes	Lookup	Catch & Effort ‘Catch Gear’ code:  specific to reporting agency
+	catch_gear		C, E		Must match a code in the ‘Catch Gear’ column from Chapter 10
+	(see note, end of chapter)				
+					
+15	Species	2	Yes	Lookup	Code indicating species of this catch group;  If present, must match one of the following:
+	species		C	’1’	=Chinook
+				’2’	=Coho
+				’3’	=Steelhead
+				’4’	=Sockeye
+				’5’	=Chum
+				’6’	=Pink
+				’7’	=Masu
+				’8’	=Cutthroat
+				’9’	=Atlantic Salmon
+					Must be absent if record_code is ‘E’
+					
+16	Grade	1	No	Lookup	Size or flesh-color of Chinook:  If present, must match one of the following:
+	grade		C	’S’	=Small (1 - 3.6 kilograms)
+				’M’	=Medium (3.7 - 5.6 kilograms)
+				’L’	=Large (more than 5.6 kilograms)
+				’J’	=Jack
+				’W’	=White Chinook
+				’9’	=Unspecified
+					Required if record_code is ‘C’ and species is ‘1’
+					Must be absent if record_code is ‘E’
+					
+17	Number Tickets	6	No	Numeric	Number of tickets is absent if catch or effort data is not derived from the reporting agency’s master fish ticket file.
+	number_tickets		C, E		For catch records, this is the count of tickets used to derive the catch data in this record.  For effort records,
+					this is the count of tickets used to derive the effort data in this record
+					If present, must be numeric in the range:  ’0’ through ’999999’
+					
+18	Catch Weight	9	No	Numeric	Total round weight in kilograms.  
+	catch_weight		C		If present, must be numeric in the range  ’1’ through ’999999999’ 
+					Required if record_code is ‘C’ and harvest is ‘1’
+					Must be absent if record_code is ‘E’
+					catch_weight or number_caught must be greater than zero in each catch record
+					
+19	Number Caught	8	No	Numeric	Number of fish harvested;  
+	number_caught		C		If present, must be numeric in the range  ’1’ through ’99999999’
+					Must be absent if record_code is ‘E’
+					
+20	Effort Type	1	No	Lookup	Type of effort corresponding to effort_quantity.  If present, must match one of the following:
+	effort_type		E	’A’	=Angler days
+				’B’	=Boat days or permit days
+				’C’	=Boats (no. of distinct boats participating)
+				’D’	=Fishers (no. of distinct persons participating)
+				’E’	=Net days
+				’F’	=Boat trips
+					Required if record_code is ‘E’ and effort_quantity is greater than zero;
+					Must be absent if record_code is ‘C’
+					
+21	Effort Quantity	6	Yes	Numeric	Number of effort units as defined by effort_type
+	effort_quantity		E		If present, Must be numeric in the range:  ’0’ through ’999999’
+					Must be absent if record_code is ‘C’
+					
+22	Adclip Selective Fishery	1	No	Lookup	Flag to indicate whether this record came from a fishery where only adipose clipped fish were allowed to be harvested
+	Adclip_selective_fishery				Required if Catch Year (field 8) > 2007
+					Must match one of the following:
+				‘S’	=Yes /adclip selective fishery
+				‘M’	=Yes /mixed selective fishery (ad-clipped plus unclipped fish); see note below
+				‘N’	= Not selective
+					Must have the value ‘S’ or ‘M’ if fishery is selective for ad-clips
+					
+NOTE for adclip_selective_fishery ‘M’: Hatchery plus wild catch.  For example: a bag limit of 1 unclipped fish and multiple clipped fish
+ 
+					
+Chapter NOTES:
+For every catch stratum, a corresponding effort record is submitted, even if the optional effort statistics fields are missing.  A catch stratum consists of the following fields: catch_year, period_type, period, landing_status, catch_location_code, harvest, fisher and catch_gear.
+ 
+CHAPTER 6
+Location Data
+
+PSC	PSC Common Name 	Max	Reqd	Format / Use	Description & Validation Rules.......................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must have the value  ’L’:
+	record_code			‘L’	=Location record
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Must match the submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Location Code 	19	Yes	Primary Lookup	19 – character code used to identify hatchery, release location, recovery site, catch area, or stock
+	location_code				Coding based on hierarchical scheme to give multiple levels of resolution (see notes to follow)
+					All location codes are standardized within a given State or Province, and coordinated by the State/Province
+	see notes to follow				Must be unique within a given location_type
+					Trailing Blanks should not be included
+					
+	a.  Level 0	(1)			The first character must match one of the following:
+	State or Province			’1’	=Alaska
+				’2’	=British Columbia / Yukon
+				’3’	=Washington
+				’4’	=Idaho
+				’5’	=Oregon
+				’6’	=California
+				’7’	=High Seas
+ 
+					
+	b.  Level 1; Water Type	(1)			The second character must match one of the following:
+				’M’	=Marine
+				’F’	=Freshwater
+					
+	c.  Level 2;  Sector	(1)		Alpha-Numeric	The third character (Sector) can be agency defined alpha-numeric text (Special case: use of asterisk;  see note 3 to follow)
+					
+	d.  Level 3;  Region	(2)		Alpha-Numeric	Characters 4 and 5 (Region) are agency defined alpha-numeric text
+					
+	e.  Level 4;  Area	(4)		Alpha-Numeric	Characters 6 through 9 (Area) are agency defined alpha-numeric text
+					
+	f.  Level 5;  Location	(7)		Alpha-Numeric	Characters 10 through 16 (Location) are agency defined alpha-numeric text
+					
+	g. Level 6;  Sub-Location	(3)		Alpha-Numeric	Characters 17 through 19 (Sub-Location) are agency defined alpha-numeric text
+					
+Notes for location_code:
+1) General usage of location codes - Standardized location codes are maintained for a State or Province by the State/Province fisheries agency.   These codes must be used by all other agencies within that jurisdiction.
+2) Reporting of location codes - When reporting a Location data set, report only those Location Codes for which your reporting agency is responsible.  Do not report codes maintained by another reporting agency.
+3) Usage of asterisk (’*’) in character 3 (Sector) of location code
+Use of the asterisk (’*’) is restricted to only these situations:
+a)  If a code from the external State/Province cannot be provided due to sampling or timing problems;
+b)  If the location is in a foreign (i.e. non-North American) country—thus cannot be provided.
+Wherever possible, use those codes already provided by the external State/Province.
+If an asterisk is used, then characters 1 and 2 of Description (field 13) must contain a state, province, high seas (HS), or foreign country (FO) code.  See also Description (field 13) below.
+					
+ 6	Location Type	1	Yes	Primary Lookup	Type of geographic location referred to by location file reporting agency;   Must match one of the following:
+	location_type			’1’	=Recovery site
+				’2’	=Catch area or Effort area  (code must match Recovery Site code at Estimation Level)
+				’3’	=Release facility (i.e., Hatchery, etc.)
+				’4’	=Release Location
+				’5’	=Stock
+					
+7	Name	25	Yes	Alpha-Numeric	Concise description of the location
+	name				Must be unique within:
+					1)  	State or Province (i.e. level 0) of location_code.
+					2)	 location_type
+					
+8	Latitude	8	No	Numeric	Decimal global latitude of the location_code
+	latitude				These fields must both have values or must both be absent:
+						Latitude
+						Longitude
+					If present, must be numeric decimal in the range:  ’0’ through ’90’ 
+					No implied decimal.  Decimal optional with up to 4 digits after the decimal point
+					
+9	Longitude	9	No	Numeric	Decimal global longitude of the location_code
+	longitude				Use ’-’ to identify Western hemisphere.  (Ex. ‘-123.557’)
+					These fields must both have values or must both be absent:
+						Latitude
+						Longitude
+					If present, must be numeric decimal in the range:  ’-179.9999’ through ’180’ 
+					No implied decimal.  Decimal optional with up to 4 digits after the decimal point
+					
+10	PSC Basin	5	No	Lookup	The geographic basin or district corresponding to at least one sub-division within the given psc_region which encompasses the 
+	psc_basin				location given by location_code (see note to follow)
+					If present, must contain a code defined in chapter 13
+					
+11	PSC Region	5	No	Lookup	The geographic region or area corresponding to a major river, coastal area, or passage within the State or Province 
+	psc_region				which encompasses the location given by location_code (see note to follow)
+					If present, must contain a code defined in chapter 13
+					
+Note for psc_basin and psc_region:
+PSC Region Code and PSC Basin Code are currently specified only for Hatcheries, Release Locations, and Stocks (i.e. where location_type is ’3’, ’4’, ’5’).  PSC Region Code and PSC Basin Code are defined in chapter 13.
+					
+					
+ 12	EPA Reach	18	No	Alpha-Numeric	For USA Territories (see note to follow);
+	epa_reach				Must not contain embedded blanks
+					
+Note for epa_reach: 
+EPA Reach pertains to any location_codes of any location_type which can be associated with a freshwater transport or shoreline EPA Reach Number.  When provided, epa_reach should be assigned either the complete (17-character) EPA Reach Number or the most specific portion of the EPA Reach Number possible to describe the location.  See explanation in chapter 13.
+ 
+					
+13	Description	100	Yes	Alpha-Numeric	Name of location plus appropriate description as needed
+	description				If  level 2 (column 3) of location_code contains an asterisk (’*’), then this 
+					description must begin with one of the following 2-character abbreviations indicating actual origin.   In such cases, this State or Province must be different than that coded in level 0 of the Location Code
+				’AK’	= Alaska
+				’BC’	= British Columbia
+				’CA’	= California
+				’CO’	= Colorado
+				’FO’	= Foreign
+				’HS’	= High Seas
+				’ID’	= Idaho
+				’OR’	= Oregon
+				’WA’	= Washington
+				’MN’	= Minnesota
+				’MT’	= Montana
+				’ND’	= North Dakota
+				’NE’	= Nebraska
+				’WI’	= Wisconsin
+				’WY’	= Wyoming
+					
+
+ 
+CHAPTER 7
+Description Data
+
+PSC	PSC Common Name	Max	Reqd	Format / Use	Description & Validation Rules.......................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must have the value ‘D’:
+	record_code			’D’	=Description record
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Refers to the date the Reporting Agency submitted the corresponding (or attached) data file or set of records indicated in file_type
+	submission_date				Must have the same value for all rows corresponding to the same file_type
+					Must be greater than submission_date of previously submitted Description file for the given file_type
+					Must not be greater than today
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Submission Status	1	Yes	Lookup	Must match one of the following
+	submission_status			‘N’	=New data file
+				‘R’	=Resubmitted data file
+					
+6	File Type	2	Yes	Primary 	Type of data file to which description pertains;  Must match one of the following:
+	file_type			Lookup	
+				’RL’	=Release (tagged and/or untagged)
+				’RC’	=Recovery
+				’CE’	=Catch & Effort
+				’CS’	=Catch/Sample
+				’LC’	=Location
+					
+7	File Status	1	Yes	Lookup	Must match one of the following
+	file_status			‘I’	=Incomplete data file
+				‘C’	=Complete data file
+					
+8	First Year	4	No	YYYY	If file_type is  ’RC’, ’CE’ or ’CS’, then this field can be used to specify the first year in a range of file years so that one
+	first_year				description can be repeated for several years
+					Required if File Type Code is ’RC’, ’CE’ or ’CS’
+					YYYY must contain run_year if File Type is ’RC’
+					or catch_year if File Type is ’CS’
+					or catch_effort_year if File Type is ’CE’
+					Must be absent if file_type is ’LC’ or ’RL’
+					
+9	Last Year	4	No	YYYY	If file type is  ’RC’, ’CE’ or ‘CS’, then this field can be used to specify the last year in a range of file years so that one
+	last_year				description can be repeated for several years (see note to follow)
+					Used only if:
+					1)  file_type is ‘RC’, ’CE’ or ‘CS’
+					AND  2)  Multiple and consecutive file years are reported with the same description
+					Use same format as first_year
+					Must be absent if file_type is ’LC’ or ’RL’
+					
+Note for file_end_year:
+In order to submit one description pertaining to multiple file years, the file years must be consecutive. If there are any gaps in file years then a new Data Description {set of rows of the given file_type} must be submitted for every non-consecutive file year.
+					
+10	Description	2,000	Yes	Alpha-Numeric	Textual description to further explain meaning of data for a file_type and one consecutive span of file years
+	description				May contain up to 2,000 characters
+					
+
+ 
+CHAPTER 8
+AGENCY CODING
+A.	Release Agency 
+Field:		Release Agency
+File:		Releases
+Current as of:	June, 2014
+Authorized:	PSC Working Group on Data Standards
+Release Agency must match one of these:
+	AAC	American Aquaculture Corporation (AK)
+	AAI	Alaska Aquaculture, Inc
+	ADFG	Alaska Department of Fish and Game
+	AFSP	Aboriginal Fishery Strategy Program (BC)
+	AKI	Armstrong Keta, Inc. (AK)
+	ANAD	Anadromous Inc. (OR)
+	ASLC	Alaska SeaLife Center
+	BCFW	British Columbia Fish and Wildlife
+	BHSR	Burnt Hill Salmon Ranch (now OPSR) (OR)
+	BURR	Burro Creek Hatchery
+	CDFO	Department of Fisheries and Oceans, Canada
+	CDFR	Department of Fisheries and Oceans, Canada - Research
+	CDFW	California Department of Fish and Wildlife
+	CDFWKT	California Department of Fish and Wildlife Klamath/Trinity	
+	CDWR	California Department of Water Resources
+	CEDC	Clatsop Economic Development Council (OR)
+	CERA	Ceratodus Fisheries (OR)
+	CHEH	Chehalis Tribe (WA)
+	CIAA	Cook Inlet Aquaculture Association (AK)
+	COLV	Colville Tribe (WA)
+	COOP	Washington Department of Fisheries – Cooperative
+	CRFC	Columbia River Inter-Tribal Fish Commission
+	CTWS	Confederated Tribes of Warm Springs of Oregon (OR)
+	CVTC 	Chickaloon Village Trad Council (AK)
+	DIPC	Douglas Island Pink and Chum, Inc. (AK)
+	DOMS	Domsea Farms, Inc. (OR-WA)
+	EBMUD	East Bay Municipal Utilities District (CA)
+	EDUC	Educational Facility (excluding UW) (WA)
+	ELWA	Lower Elwha Klallam Tribe (WA)
+	ESRP	Eel River Salmon Restoration Project (CA)	
+	FWS	U.S. Fish and Wildlife Service
+	H&H	Harris & Hugie Company (OR)
+	HECK	C.W. Heckard Company (OR)
+	HFAC	Humbolt Fish Action Council (CA)
+	HOH	Hoh Tribe (WA)
+	HSU	Humboldt State University (CA)
+	HVT	Hoopa Valley Tribe (CA)
+	IDFG	Idaho Department of Fish and Game
+	JAME	Jamestown S’Klallam Tribe (WA)
+	KAKE	Kake Non-Profit Fisheries Corp. (AK)
+	KETA	Keta Company (OR)
+	KRAA	Kodiak Regional Aquaculture Association (AK)
+	KRHI	Klawock River Hatchery, Inc. (AK)
+	KRUK	Karuk Tribe (CA)
+	KTHC	Ketchikan Tribal Hatchery Corporation (AK)
+	LUMM	Lummi Tribe (WA)
+	MAKA	Makah Tribe (WA)
+	MIC	Metlakatla Indian Community (AK)
+	MTSG	Mattole Salmon Group (CA)
+	MUCK	Muckleshoot Tribe (WA)
+	NBS	National Biological Survey
+	NERK	Nerka Incorporated (AK)
+	NEZP	Nez Perce Tribe (ID)
+	NFA	Nome Fishermen’s Association
+	NISQ	Nisqually Tribe (WA)
+	NLNS	Nehalem Land & Salmon (OR)
+	NMFS	National Marine Fisheries Service (AK)
+	NOOK	Nooksack Tribe (WA)
+	NSED	Norton sound Development Corp (AK)
+	NSRA	Northern Southeast Regional Aquaculture Assn. (AK)
+	OAF	Oregon Aquafoods, Inc.
+	ODFW	Oregon Department of Fish and Wildlife
+	OPSR	Oregon-Pacific Salmon Ranch (formerly BHSR)
+	OSU	Oregon State University
+	PGAM	Port Gamble S'Klallam Tribe (WA)
+	PGHC	Port Graham Hatchery Corporation (AK)
+	PLCO	Pacific Lumber Company (CA)
+	PNPT	Point No Point Treaty Council (WA)
+	PPWR	Puget Power (WA)
+	PSE	Puget Sound Energy (WA)
+	PUYA	Puyallup Tribe (WA)
+	PWHA	Prince of Wales Hatchery Association (AK)
+	PWSA	Prince William Sound Aquaculture Corporation (AK)
+	QDNR	Quinault Department of Natural Resources (WA)
+	QUIL	Quileute Tribe (WA)
+	RMPC	Regional Mark Processing Center
+	ROWH	Rowdy Cr. Hatchery (CA)
+	SHOL	Shoalwater Tribe (WA)
+	SIUF	Siuslaw Fisheries (OR)
+	SJ	Sheldon Jackson College (AK)
+	SJRG	San Joaquin River Group (CA)
+	SKOK	Skokomish Tribe (WA)
+	SOF	Silverking Oceanic Farms (CA)
+	SPOK	Spokane Tribe (WA)
+	SQAX	Squaxin Island Tribe (WA)
+	SRKC	Smith River Kiwanis Club
+	SSC	Skagit System Cooperative (WA)
+	SSRA	Southern Southeast Regional Aquaculture Assn. (AK)
+	SSSC	Sitka sound Science Center (AK)
+	STIL	Stillaguamish Tribe (WA)
+	SUQ	Suquamish Tribe (WA)
+	SYCL	South Yuba River Citizens League (CA)
+	THCC	Tlingit-Haida Central Council (AK)
+	TULA	Tulalip Tribe (WA)
+	TYEE	Tyee Foundation (CA)
+	UA	University of Alaska
+	UI	University of Idaho
+	UPSK	Upper Skagit Tribe
+	USACE	U.S. Army Corps of Engineers
+	USFS	U.S. Forest Service
+	UW	College of Fisheries, University of Washington
+	VFDA	Valdez Fisheries Development Association (AK)
+	WDFW	Washington Department of Fish and Wildlife
+	WREG	Washington Regional Enhancement Groups
+	YAKA	Yakama Nation (WA)
+
+
+B.	Reporting Agency
+
+Field:		Reporting Agency
+Files:		Releases, Recoveries & Catch/Sample
+Current as of:	June, 2014
+Authorized:	PSC Working Group on Data Standards
+Reporting Agency must match one of these:
+	ADFG	Alaska Department of Fish and Game
+	CDFO	Department of Fisheries and Oceans, Canada
+	CDFW	California Department of Fish and Wildlife
+	CDFWKT	California Department of Fish and Wildlife Klamath/Trinity
+	COLV	Colville Tribe (WA)	
+	CRFC	Columbia River Inter-Tribal Fish Commission
+	FWS	U.S. Fish and Wildlife Service
+	IDFG	Idaho Department of Fish and Game
+	NEZP	Nez Perce Tribe (ID)
+	NIFC	Northwest Indian Fisheries Commission
+	NMFS	National Marine Fisheries Service (AK)
+	NMFSNWR	National Marine Fisheries Service NW Region (OR, WA)
+	ODFW	Oregon Department of Fish and Wildlife
+	QDNR	Quinault Department of Natural Resources (WA)
+	QUIL	Quileute Tribe (WA)
+	RMPC	Regional Mark Processing Center
+	STIL	Stillaguamish Tribe (WA)
+	WDFW	Washington Department of Fish and Wildlife
+	YAKA	Yakama Nation (WA)
+	YTFP	Yurok Tribe Fisheries Program (CA)
+ 
+
+
+C.	Sampling Agency
+
+Field:		Sampling Agency
+Files:		Recoveries & Catch/Sample
+Current as of:	June, 2014
+Authorized:	PSC Working Group on Data Standards
+Sampling Agency must match one of these:
+	ADFG	Alaska Department of Fish and Game
+	AFSC	Alaska Fisheries Science Center – NMFS (WA, AK)
+	BCFW	British Columbia Fish and Wildlife
+	CDFO	Department of Fisheries and Oceans, Canada
+	CDFW	California Department of Fish and Wildlife
+	CDFWKT	California Department of Fish and Wildlife Klamath/Trinity	
+	CDWR	California Department of Water Resources
+	COLV	Colville Tribe (WA)
+	EBMUD	East Bay Municipal Utilities District (CA)
+	ELWA	Lower Elwha Klallam Tribe (WA)
+	FWS	U.S. Fish and Wildlife Service
+	HOH	Hoh Tribe (WA)
+	HVT	Hoopa Valley Tribe (CA)
+	IDFG	Idaho Department of Fish and Game
+	LUMM	Lummi Tribe (WA)
+	MAKA	Makah Tribe (WA)
+	MUCK	Muckleshoot Tribe (WA)
+	NEZP 	Nez Perce Tribe (ID)
+	NIFC	Northwest Indian Fisheries Commission
+	NISQ	Nisqually Tribe (WA)
+	NMFS	National Marine Fisheries Service (AK)
+	NMFSNWR	National Marine Fisheries Service NW Region (OR, WA)
+	NWFSC	NMFS NW Fisheries Science Center (WA)
+	NWR	NMFS NW Region (OR)
+	ODFW	Oregon Department of Fish and Wildlife
+	PGAM	Port Gamble S'Klallam Tribe (WA)
+	PNPT	Point No Point Treaty Council  (WA)
+	PUYA	Puyallup Tribe (WA)
+	QDNR	Quinault Department of Natural Resources (WA)
+	QUIL	Quileute Tribe (WA)
+	RMPC	Regional Mark Processing Center
+	SBT	Shoshone Bannock Tribes (ID)
+	SHOL	Shoalwater Tribe (WA)
+	SKOK	Skokomish Tribe (WA)
+	SPOK	Spokane Tribe (WA)
+	SQAX	Squaxin Island Tribe (WA)
+	SSC	Skagit System Cooperative (WA)
+	SSSC	Sitka Sound Science Center (AK)
+	STIL	Stillaguamish Tribe (WA)
+	SUQ	Suquamish Tribe (WA)
+	TULA	Tulalip Tribe (WA)
+	UW	College of Fisheries, University of Washington
+	WDFW	Washington Department of Fish and Wildlife
+	YAKA	Yakama Nation (WA)
+	YCWA	Yuba County Water Agency (CA)
+	YTFP	Yurok Tribe Fisheries Program (CA)
+
+ 
+CHAPTER 9
+FISHERY CODING
+A.	Overview
+
+	Fishery Groups	Gear
+	10-19	Troll
+	20-29	Net and Seine
+	30-39	Aboriginal
+	40-49	Sport
+	50-59	Escapement
+	60-69	Test Fisheries
+	70-79	Juvenile Sampling
+	80-89	High Seas
+	90-99	Miscellaneous
+B.	Detailed Coding
+
+’10’ Series: Troll
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	10	Ocean Troll (Non-treaty)	ADFG	11_5	Traditional Troll
+			CDFW	00	Commercial Troll
+			CDFO	30	Troll General
+31	Troll – Freezer Boat
+32	Troll – Day Boat
+33	Troll –  Ice Boat
+			ODFW	10	Ocean Troll
+			WDFW	41	Troll (Non-treaty)
+	11	Ocean Troll - Day Boat	ADFG	13_5	Spring Troll Fishery
+			CDFO	32	Troll - Day Boat
+			WDFW	41	Troll (Non-treaty)
+
+	12	Ocean Troll - Trip	WDFW	41	Troll (Non-treaty)
+	13	Ocean Troll - Freezer Boat	CDFO	31	Troll – Freezer Boat
+	14	Ocean Troll - Ice Boat	CDFO	33	Troll – Ice Boat
+	15	Treaty Troll	WDFW	10	Hook & Line
+				40	Treaty Troll
+	16	Terminal Troll	ADFG	12_5	Terminal Area Troll
+			NMFS (AK)	73	Terminal Troll
+	17	Non-treaty / Treaty Troll	WDFW	40	Treaty Troll
+				41	Troll (Non-treaty)
+	18	Aboriginal Troll	ADFG	17_5	M.I.C. Troll
+			CDFO	30	Troll – General
+				31	Troll – Freezer Boat
+				32	Troll – Day Boat
+				33	Troll – Ice Boat
+	19	Other
+
+’20’ Series: Net and Seine
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	20	Ocean Gillnet (Non-treaty)	ADFG	11_3	Traditional Drift Gillnet
+			CDFO	10	Gillnet
+				13	Drift Net
+				15	Mixed Net
+	21	Columbia River Gillnet	ODFW	13	Columbia River Gillnet
+			WDFW	11	Dip Bag Net
+				14	Non-treaty Drift Gillnet
+				16	Set Gillnet
+				17	Treaty Drift Gillnet
+				49	Mixed Gillnet
+	22	Coastal Gillnet	ADFG	12_3	Terminal Area Drift Gillnet						FWS	16	Coastal Net
+			QDNR	16	Coastal Net
+			WDFW	14	Non-treaty Drift Gillnet
+				16	Set Gillnet
+				17	Treaty Drift Gillnet
+				49	Mixed Gillnet
+	23	Mixed Net and Seine	ADFG	11_2	Traditional Beach Seine
+			CDFO	10	Gillnet
+				11	Set Net
+				12	Dip Net
+				13	Drift Net	
+15	Mixed Net
+20	Seine
+70	Beach Seine				
+			ODFW	38	Columbia Commercial Beach Seine
+			WDFW	10	Hook & Line
+				11	Dip Bag Net
+				12	Beach Seine
+14	Non-treaty Drift  Gillnet
+15	Round Haul Net
+				16	Set Gillnet
+				17	Treaty Drift Gillnet
+				19	Non-treaty Purse Seine				
+				20	Reef  Net
+				29	Treaty Purse Seine
+				49	Mixed Gillnet
+				51	Treaty Trap
+				52	Mixed Net
+	24	Freshwater Net	ADFG	11_8	Traditional Fish Wheel
+			CDFO	45	Freshwater Net (mixed)
+			NIFC	16	Set Gillnet
+			QUIL	16	Set Gillnet
+			QUIL	24	Freshwater Net (mixed)
+			WDFW	10	Hook & Line
+				11	Dip Bag Net
+				12	Beach Seine
+				14	Non-treaty Drift Gillnet
+				16	Set Gillnet
+				17	Treaty Drift Gillnet
+				19	Non-treaty Purse Seine
+				29	Treaty Purse Seine
+				52	Mixed Net
+			YTFP	YS	Yurok Set Net	
+	25	Commercial Seine	ADFG	11_1	Traditional Purse Seine
+			CDFO	20	Seine
+			NMFS	11_1	Traditional Purse Seine
+	26	Terminal Seine	ADFG	12_1	Terminal Area Purse Seine
+			NMFS (AK)	77	Terminal Seine
+	27	Freshwater Seine	ODFW	36	River Seine (non-Columbia)
+	28	Other Net	ADFG	11_4	Traditional Set Gillnet
+	29	Other Seine	ODFW	29	Willamette Falls Fishway Jack Sampling
+
+’30’ Series: Aboriginal
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	30	Aboriginal Seine	ADFG	17_1	M.I.C. Purse Seine
+	31	Aboriginal Gillnet	ADFG	17_3	M.I.C. Drift Gillnet
+			CDFO	10	Gillnet
+
+	32	Aboriginal Mixed Net	CDFO	00	Unspecified Net
+				10	Gillnet
+				11	Set Net
+				13	Drift Net
+				15	Mixed Net
+				70	Beach Seine
+
+	33	Aboriginal Subsistence Net   	YTFP	YD	Yurok Drift Gillnet
+				YP	Yurok Dip Net	
+				YS	Yurok Set Net
+
+	34	Aboriginal Angler	YTFP	YA	Yurok Angler
+
+	39	Other Aboriginal	CDFO	00	Unspecified Gear
+				07	Rod and Reel
+				10	Gillnet
+				11	Set Net
+				70	Beach Seine
+				85	Spear
+			YTFP	YA	Yurok Angler
+			YTFP	YD	Yurok Drift Gillnet
+			YTFP	YO	Yurok Other/Unknown
+			YTFP	YP	Yurok Dip Net
+			YTFP	YS	Yurok Set Net
+’40’ Series: Sport
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	40	Ocean Sport	ADFG	S1_N	Marine Sport (DE,DT,MB,MR,MS)
+			CDFO	07	Rod and Reel
+			CDFW	03	Sport			
+			NMFS	S1_N	Marine Sport
+			ODFW	11	Ocean Sport
+			WDFW	95	Marine Sport
+	41	Sport (Charter)	CDFW	01	Sport - Charter
+			WDFW	95	Marine Sport
+	42	Sport (Private)	CDFW	02	Sport - Skiff
+			WDFW	95	Marine Sport
+	43	Sport (Jetty)	WDFW	95	Marine Sport
+	44	Columbia River Sport	ODFW	12	Columbia River Sport
+	45	Estuary Sport	ODFW	32	Estuary Sport
+			WDFW	95	Marine Sport
+	46	Freshwater Sport	ADFG	S2_N	Freshwater Sport (FF)
+			CDFO	07	Rod and Reel
+				47	Freshwater Sport
+			FWS	51	Creel Survey
+			ODFW	14	Spring Sport
+				26	Deschutes River Sport
+				27	Freshwater Sport
+40	Mid-Columbia River Sport
+41	Salmon River Sport
+44		Multnomah Channel Sport
+47	Elk River Sport
+48	Chetco River Sport
+49	Siuslaw River Sport
+			WDFW	96	Freshwater Sport
+			
+	47	Freshwater Sport Snag	WDFW	97	Freshwater Sport Snagging
+	48	Terminal Sport	ADFG	S3_N	Terminal Sport (TF)
+			NMFS (AK)	76	Terminal Sport
+	
+	49	Other	ADFG	P_N	Personal Use
+
+’50’ Series: Escapement
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	50	Hatchery	ADFG	H_N	Hatchery Returns
+				R_N	Rack Returns
+			CDFO	40	Hatchery Rack
+			CDFW	50	Hatchery			
+			FWS	50	Hatchery Returns
+			NEZP	50	Escapement
+			NIFC	50	Escapement
+			NMFS	50	Hatchery Returns
+			ODFW	21	ODFW Hatcheries
+				22	Other Oregon Hatcheries
+				23	Oregon Private hatcheries
+			WDFW	01	Hatchery
+				04	Fish Trap
+	51	Fish Screens	CDFG	51	Fish Screen
+	52	Fish Trap (Freshwater)	CDFO	42	Trap
+			CDFW	52	Fish Trap
+			NIFC	52	Fish Trap
+			NMFS	52	Fish Trap
+			ODFW	24	Fish Trap
+			WDFW	03	Spawning Ground
+				04	Fish Trap
+	53	Wild Broodstock Collection (formerly Gaff)	CDFO	43	Wild Broodstock Collection
+			NIFC	53	Brood Stocking
+			QUIL	53	Brood Stocking
+			STIL	53	Brood Stocking
+			WDFW	02	Wild Broodstock Collection
+	54	Spawning Ground	ADFG	E_N	Escapement Survey
+			CDFO	41	Spawning Ground
+			CDFW	54	Spawning Ground			
+			FWS	54	Spawning Ground
+			NEZP	54	Spawning Ground
+			NIFC	54	Spawning Ground
+			NMFS	54	Spawning Ground
+			ODFW	18	Spawning Ground Survey
+			QUIL	54	Spawning Ground
+			STIL	54	Spawning Ground
+			WDFW	02	Wild Broodstock Collection
+				03	Spawning Ground
+				04	Fish Trap
+				
+	55	Treaty Ceremonial	ODFW	16	Ceremonial
+			STIL	55	Treaty Drift Gillnet
+	56	Treaty Subsistence	ADFG	U_N	Subsistence
+			ODFW	20	Subsistence
+			
+			WDFW	17	Treaty Drift Gillnet
+	57	Mixed Wild Broodstock and Hatchery Returns	WDFW	02	Wild Broodstock Collection
+	59	Other	ODFW	39	Salmon River Combined Escapement
+
+’60’ Series: Test Fisheries
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	60	Test Fishery Troll
+
+	61	Test Fishery Net	ODFW	15	Columbia River Test
+			WDFW	14	Non-treaty Drift Gillnet
+			WDFW	16	Set Gillnet
+	62	Test Fishery Seine	WDFW	19	Non-treaty Purse Seine
+				29	Treaty Purse Seine
+	63	Test Fishery Trap
+	64	Test Fishery Unknown Multiple Gear	ADFG	41_N	Test Fish Run Strength
+				42_N	Test Fish Special Study
+				43_N	Test Fish Long Term Assessment
+			ODFW	45	Test Fishery Unknown
+	65	Dead Fish Survey	ODFW	46	Dead Fish Survey (Lower Willamette Spawn)
+				65	Dead Fish Survey				
+	69	Other	ODFW	37	Test Fishery Recreational Bay
+
+’70’ Series: Juvenile Sampling
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	70	Juvenile Sampling - Troll (Marine)	NMFS (AK)	05	Juvenile Sampling - Troll
+	71	Juvenile Sampling - Gillnet (Marine)	NMFS (AK)	04	Juvenile Sampling - Gillnet
+	72	Juvenile Sampling - Seine (Marine)	NMFS (AK)	12	Juvenile Sampling - Seine
+			NMFS (CR)	O 	Out-migrant Sampling - Ocean
+			ODFW	19	OSU Experimental Ocean Purse Seine
+			WDFW	12	Juvenile Sampling - Seine
+	73	Juvenile Sampling - Seine (Freshwater)	NMFS (CR)	C 	Out-migrant Sampling - Columbia River
+				S 	Out-migrant Sampling - Snake river
+			ODFW	28	Juvenile Sampling – Freshwater
+
+	74	Juvenile Sampling –Trawl (Marine)	NMFS (AK)	74	Juvenile Sampling – Trawl
+
+	79	Other	ADFG	J_N	Juvenile
+			WDFW	32	Otter Trawl
+
+’80’ Series: High Seas
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	80	Hake Trawl Fishery, At Sea component	NMFS (AK)	802	At Sea Midwater Trawl Bycatch
+		(CA/OR/WA)	ODFW	34	NMFS High Seas Trawl Bycatch			
+
+	800	Hake Trawl Fishery, Shoreside component	NMFS	800	Shoreside Midwater Trawl Bycatch
+		(OR/WA)	
+	802	Limited-Entry Rockfish Trawl (CA/OR/WA)	NMFS (AK)	802	At-Sea Midwater Trawl Bycatch
+803	Limited-Entry Non-Hake Groundfish Trawl	NMFS (AK)	803	At-Sea Bottom Trawl Bycatch
+(CA/OR/WA)	
+	804	Limited-Entry Sablefish Fixed Gear (CA/OR/WA)	NMFS (AK)	804	Sablefish Fixed Gear Bycatch
+	805	State-Permitted Nearshore Groundfish Fishery	NMFS (AK)	805	Nearshore Groundfish Fixed Gear Bycatch
+		(CA/OR)		806	Nearshore Groundfish Trawl Bycatch
+	81	Groundfish Observer (Gulf of Alaska)	NMFS (AK)	801	Trawl Bycatch
+				813	Salmon Excluder Device Trawl Bycatch
+
+	812	Rockfish Fishery (Gulf of Alaska)	NMFS (AK)	801	Trawl Bycatch
+	
+	82	Groundfish Observer (Bering Sea/Aleutians)	NMFS (AK)	801	At-Sea Trawl Bycatch
+	83	Foreign Research Vessels	NMFS (AK)	831	Research Gillnet
+832	Research Longline
+833	Research Trawl
+834	Research Squid Driftnet
+835	Research Squid Gillnet
+	84	Foreign Mothership Vessels	NMFS (AK)	841	Salmon Gillnet
+				842		Research Gillnet
+	85	Ocean Trawl By-Catch	ODFW	30	Ocean Trawl Bycatch
+				33	Pacific High Seas
+				34	Pacific Hake Bycatch
+			WDFW	32	Ocean Trawl
+	87	Squid Gillnet By-Catch	NMFS (AK)	87	Squid Gillnet Bycatch
+	88	Juvenile Sampling	NMFS (AK)	74	Juvenile Sampling - Trawl
+	89	Other
+
+
+
+’90’ Series: Miscellaneous
+	Fishery	Fishery Name	Agency	Fishery or Gear	Fishery or Gear Name
+	90	Multiple Gear	ADFG	1_N	Multiple Fisheries
+				1_1	Multiple Fisheries Seine
+				1_3	Multiple Fisheries Gillnet
+				1_5	Multiple Fisheries Troll
+				3_N	Miscellaneous Multiple Fisheries
+				4_N	Test Fishery
+				11_N	Traditional Multiple/Unknown Gear
+				12_N	Terminal Area Multiple/Unknown Gear
+				17_N	Aboriginal Multiple/Unknown Gear
+			CDFO	15	Mixed Net
+				30	Troll
+				33	Troll – Ice Boat
+
+	91	PNP Cost Recovery	ADFG	2_N	Hatchery Miscellaneous
+				21_N	PNP Hatchery Cost Recovery
+				22_N	PNP Hatchery Carcasses
+				23_N	State Hatchery Cost Recovery
+				24_N	State Hatchery Carcasses
+				27_N	PNP Hatchery Donated
+				28_N	State Hatchery Donated
+			NMFS	21_N	Hatchery Miscellaneous
+	92	Columbia River Shad	ODFW	17	Columbia River Shad
+	93	Set-Line (Sturgeon)	ODFW	31	Columbia River Set Line (Sturgeon)
+	94	Fish Trap (Marine)	ADFG	11_0	Traditional Trap
+				17_0	M.I.C. Trap
+	95	Confiscated	ADFG	18_1	Confiscated Purse Seine
+				18_3	Confiscated Drift Gillnet
+				18_4	Confiscated Set Gillnet
+				18_5	Confiscated Troll
+				18_8	Confiscated Fish Wheel
+	99	Other	ADFG	31_N	Derby Sale
+				33_N	Discarded Catch
+				34_N	Oil Spill Victim
+				35_N	Education Permit
+				36_N	NMFS Foodbank
+				37_N	Donated Catch
+				O_N	Other
+			CDFO	07	Sport
+		
+
+
+ 
+CHAPTER 10
+CATCH  EFFORT GEAR CODES
+	
+	Catch Gear Group	Catch Gear Group Name	Agency	Catch Gear	Catch Gear Name
+	10	Troll	ADFG	05	Hand Troll
+			CDFO	30	Salmon Troll
+				31	Salmon Troll Freezer
+			NMFS (AK)	73	Terminal Troll
+			ODFW	12	Ocean Troll
+			WDFW	10	Hook & Line (Juan de Fuca only)
+				41	Troll
+
+
+	20	Gill Net	ADFG	03	Drift Gill Net
+				04	Set Gill Net
+			CDFO	10	Gill Net
+				11	Other Net
+				13	Drift Net
+			ODFW	21	Columbia River Gill Net
+				23	Columbia River Set Net
+			WDFW	14	Drift Gill Net
+				16	Set Gill Net
+
+
+	25	Seine	ADFG	01	Purse Seine
+				02	Beach Seine
+			CDFO	20	Purse Seine
+				70	Beach Seine
+			NMFS (AK)	77	Terminal Seine
+			WDFW	12	Beach Seine
+				19	Purse Seine
+
+
+	28	Other Net	ADFG	13	Dip Net
+			CDFO	14	Drag Net/Bag Net (Indian)
+		16	Mixed or Unspecified
+			ODFW	24	Dip Net
+			WDFW	05	Pole Net
+				11	Dip Bag Net
+				15	Round Haul Net
+				20	Reef Net
+			
+
+	40	Sport	ADFG	20	Sport
+			CDFO	07	Ocean Sport
+				47	Freshwater Sport
+			NMFS (AK)	76	Terminal Sport
+			ODFW	11	Ocean Sport
+				27	Freshwater Sport (for recreational catch)
+				32	Estuary Sport
+			WDFW	95	Marine Sport
+				96	Freshwater Sport
+				97	Freshwater Sport Snag
+
+
+	85	Trawl	NMFS (AK)	80	Groundfish Observer (CA/OR/WA)
+				81	Groundfish Observer (Gulf of Alaska)
+				82	Groundfish Observer (Bering Sea/Aleutians)
+				86	Land Based Salmon
+				87	Squid Gill Net By-Catch
+				90	Japanese Research Vessel
+				91	Japanese Mother Ship
+			ODFW	30	Ocean Trawl By-Catch
+				33	Pacific High Seas
+			WDFW	32	Otter Trawl
+				34	Midwater Trawl
+
+
+	94	Trap	ADFG	00	Trap
+			WDFW	51	Treaty Trap
+
+
+	95	Hand Held	ADFG	12	Hand Picked/Diving
+			CDFO	41	Jigging (Indian)
+				83	Gaff
+				85	Spear/Arrow/Harpoon
+			ODFW	27	Hook & Line
+			WDFW	02	Gaff
+				10	Hook & Line (Outside Juan de Fuca)
+				42	Handline
+			
+
+	99	Other	ADFG	99	Unknown
+			CDFO	00	Unknown 
+ 
+CHAPTER 11
+MARK CODING
+	Mark Codes for Special Cases
+
+	0000	No Adclip + No other external marks
+	0009	No Adclip + Unknown or unspecified other marks
+
+	5000	Adclip + No other external marks
+	5009	Adclip + Unknown or unspecified other marks
+
+	9000	Adipose Clip Unknown + No other external marks
+	9009	Adipose Clip Unknown + Totally Unknown other external marks
+	9205	Adipose Clip Unknown + Elastomer Injection Left Eye Red
+	9nnn	Adipose Clip Unknown but other external marks present 
+		(nnn – appropriate 3 digit code indicating other marks)
+	Non-Adipose		Adipose
+	Mark Code   	Mark Description	Mark Code	Mark Description
+	0001	No Adclip + Left Ventral 	5001	Adclip + Left Ventral
+	0002	No Adclip + Right Ventral	5002	Adclip + Right Ventral
+	0050	No Adclip + Left Ventral Right Ventral	5050	Adclip + Left Ventral Right Ventral
+	0051	No Adclip + Left Ventral Left Pectoral	5051	Adclip + Left Ventral Left Pectoral
+	0052	No Adclip + Left Ventral Right Pectoral	5052	Adclip + Left Ventral Right Pectoral
+	0053	No Adclip + Left Ventral Left Maxillary	5053	Adclip + Left Ventral Left Maxillary
+	0054	No Adclip + Left Ventral Right Ventral Left Maxillary	5054	Adclip + Left Ventral Right Ventral  Left Maxillary
+	0055	No Adclip + Left Ventral Right Ventral Right Maxillary	5055	Adclip + Left Ventral Right Ventral  Right Maxillary
+	0056	No Adclip + Left Ventral Right Maxillary	5056	Adclip + Left Ventral Right Maxillary
+	0057	No Adclip + Left Ventral Dorsal	5057	Adclip + Left Ventral Dorsal
+	0058	No Adclip + Left Ventral Anal 	5058	Adclip + Left Ventral Anal
+	0059	No Adclip + Left Ventral Caudal	5059	Adclip + Left Ventral Caudal
+	0060	No Adclip + Left Ventral Freeze Brand	5060	Adclip + Left Ventral Freeze Brand
+	0061	No Adclip + Left Ventral + Elastomer Injection Left Eye	5061	Adclip + Left Ventral + Elastomer Injection Left Eye
+	0070	No Adclip + Right Ventral Left Pectoral	5070	Adclip + Right Ventral Left Pectoral
+	0071	No Adclip + Right Ventral Right Pectoral	5071	Adclip + Right Ventral Right Pectoral
+	0072	No Adclip + Right Ventral Left Maxillary	5072	Adclip + Right Ventral Left Maxillary
+	0073	No Adclip + Right Ventral Right Maxillary	5073	Adclip + Right Ventral Right Maxillary
+	0074	No Adclip + Right Ventral Dorsal	5074	Adclip + Right Ventral Dorsal
+	0075	No Adclip + Right Ventral Anal 	5075	Adclip + Right Ventral Anal
+	0076	No Adclip + Right Ventral Caudal	5076	Adclip + Right Ventral Caudal
+	0077	No Adclip + Right Ventral Freeze Brand	5077	Adclip + Right Ventral Freeze Brand
+	0090	No Adclip + Left Pectoral	5090	Adclip + Left Pectoral
+	0091	No Adclip + Left Pectoral Left Maxillary	5091	Adclip + Left Pectoral Left Maxillary
+	0092	No Adclip + Left Pectoral Right Maxillary	5092	Adclip + Left Pectoral Right Maxillary
+	0093	No Adclip + Left Pectoral Right Maxillary Anal 	5093	Adclip + Left Pectoral Right Maxillary Anal
+	0094	No Adclip + Left Pectoral Dorsal	5094	Adclip + Left Pectoral Dorsal
+	0095	No Adclip + Left Pectoral Anal 	5095	Adclip + Left Pectoral Anal
+	0100	No Adclip + Right Pectoral	5100	Adclip + Right Pectoral
+	0101	No Adclip + Right Pectoral Left Maxillary	5101	Adclip + Right Pectoral Left Maxillary
+	0102	No Adclip + Right Pectoral Right Maxillary	5102	Adclip + Right Pectoral Right Maxillary
+	0103	No Adclip + Right Pectoral Right Maxillary Anal 	5103	Adclip + Right Pectoral Right Maxillary Anal
+	0104	No Adclip + Right Pectoral Dorsal	5104	Adclip + Right Pectoral Dorsal
+	0105	No Adclip + Right Pectoral Anal 	5105	Adclip + Right Pectoral Anal
+	0110	No Adclip + Left Maxillary	5110	Adclip + Left Maxillary
+	0111	No Adclip + Left Maxillary Right Maxillary	5111	Adclip + Left Maxillary Right Maxillary
+	0112	No Adclip + Left Maxillary Dorsal	5112	Adclip + Left Maxillary Dorsal
+	0113	No Adclip + Left Maxillary Anal 	5113	Adclip + Left Maxillary Anal
+	0120	No Adclip + Right Maxillary	5120	Adclip + Right Maxillary
+	0121	No Adclip + Right Maxillary Dorsal	5121	Adclip + Right Maxillary Dorsal
+	0122	No Adclip + Right Maxillary Anal 	5122	Adclip + Right Maxillary Anal
+	0130	No Adclip + Dorsal	5130	Adclip + Dorsal
+	0132	No Adclip + Dorsal + Elastomer Injection Right Eye Green	5132	Adclip + Dorsal + Elastomer Injection Right Eye Green
+	0140	No Adclip + Anal	5140	Adclip + Anal
+	0150	No Adclip + Caudal	5150	Adclip + Caudal
+	0151	No Adclip + Caudal + Elastomer Injection Left Eye Red	5151	Adclip + Caudal + Elastomer Injection Left Eye Red
+	0152	No Adclip + Caudal + Elastomer Injection Right Eye Red	5152	Adclip + Caudal + Elastomer Injection Right Eye Red
+	0190	No Adclip + Jet	5190	Adclip + Jet
+	0200	No Adclip + Visual Implant Alpha-numeric	5200	Adclip + Visual Implant Alpha-numeric
+	0201	No Adclip + Visual Implant Elastomer Injection	5201	Adclip + Visual Implant Elastomer Injection
+	0202	No Adclip + Visual Implant Fluorescent Filament	5202	Adclip + Visual Implant Fluorescent Filament	
+	0203	No Adclip + Elastomer Injection Left Eye Blue	5203	Adclip + Elastomer Injection Left Eye Blue	
+	0204	No Adclip + Elastomer Injection Right Eye Blue	5204	Adclip + Elastomer Injection Right Eye Blue
+	0205	No Adclip + Elastomer Injection Left Eye Red	5205	Adclip + Elastomer Injection Left Eye Red
+	0206	No Adclip + Elastomer Injection Right Eye Red	5206	Adclip + Elastomer Injection Right Eye Red
+	0207	No Adclip + Elastomer Injection Left Eye Green	5207	Adclip + Elastomer Injection Left Eye Green
+	0208	No Adclip + Elastomer Injection Right Eye Green	5208	Adclip + Elastomer Injection Right Eye Green
+	0209	No Adclip + Elastomer Injection Left Eye Orange	5209	Adclip + Elastomer Injection Left Eye Orange
+	0210	No Adclip + Elastomer Injection Right Eye Orange	5210	Adclip + Elastomer Injection Right Eye Orange
+	0211	No Adclip + Jet Left Ventral	5211	Adclip + Jet Left Ventral
+	0212	No Adclip + Jet Left Pectoral	5212	Adclip + Jet Left Pectoral
+	0213	No Adclip + Jet Anal	5213	Adclip + Jet Anal
+	0214	No Adclip + Elastomer Injection Left Eye Yellow	5214	Adclip + Elastomer Injection Left Eye Yellow
+	0215	No Adclip + Elastomer Injection Right Eye Yellow	5215	Adclip + Elastomer Injection Right Eye Yellow
+	0216	No Adclip + Elastomer Injection Left Jaw Green	5216	Adclip + Elastomer Injection Left Jaw Green
+	0218	No Adclip + Elastomer Injection Left Eye Pink	5218	Adclip + Elastomer Injection Left Eye Pink
+	0219	No Adclip + Elastomer Injection Right Eye Pink	5219	Adclip + Elastomer Injection Right Eye Pink
+	0300	No Adclip + Freeze Brand	5300	Adclip + Freeze Brand
+	0350	No Adclip + PIT Tag	5350	Adclip + PIT Tag
+			5351	Adclip + Left Ventral + PIT Tag
+	0400	No Adclip + Floy Tag	5400	Adclip + Floy Tag
+	0500	No Adclip + Otolith	5500	Adclip + Otolith
+	0501	No Adclip + Otolith + Left Ventral	5501	Adclip + Otolith + Left Ventral
+	0502	No Adclip + Otolith + Right Ventral	5502	Adclip + Otolith +  Right Ventral
+	0520	No Adclip + Otolith + Right Maxillary	5520	Adclip + Otolith + Right Maxillary
+	0600	No Adclip + Wire Tag in Area Other Than Snout	5600	Adclip + Wire Tag in Area Other Than Snout
+	
+	 
+CHAPTER 12
+CODING FOR ESCAPEMENT EST METHOD
+A.	Overview  
+
+	Codes	Method
+	10-19	Passage Counts
+	20-29	Live Counts
+	30-39	Carcass Counts
+	40-49	Live and Dead Counts Combined
+	50-59	Redd Counts
+	60-69	Mark-Recapture Counts
+	70-79	Electronic Counts
+90-99	Miscellaneous
+
+B.	Detailed Coding
+
+’10’ Series:  Passage Counts
+	Code	Method
+10	Total direct count of run passed through weir/trap/ladder
+11	Partial direct count of run with extrapolation for unsampled periods
+12	Partial direct count of run with no extrapolation for unsampled periods
+13	Total count past dam with passage adjustments (e.g. boat locks, fall-backs)
+14	Extrapolation from differences in counts between dams (minus other escapement and harvest)
+
+’20’ Series:  Live Counts (fish on spawning grounds)
+Code	Method
+20	Counts with extrapolation for entire period (e.g. ’area under the curve’ derived from fish days/stream life)
+21	Peak count
+22	Index area peak count with expansion factors from a baseline year study
+23	Index area peak count with expansion factors from another index stream or baseline year
+
+
+’30’ Series:  Carcass Counts
+	Code	Method
+30	Cumulative count
+31	Peak count
+32	Index area peak count with expansion factors from a baseline year study
+33	Index area peak count with expansion factors from another index stream
+
+’40’ Series:  Live and Dead Counts
+	Code	Method
+40	Cumulative count (cumulative carcasses plus live fish from last survey)
+41	Peak count
+42	Index area peak count with expansion factors from a baseline year study
+43	Index area peak count with expansion factors from another index stream
+
+’50’ Series:  Redd Counts
+	Code	Method
+50	Cumulative redd count for entire area
+51	Index area cumulative counts with supplemental area counts
+52	Index area cumulative counts with supplemental areas and expansions for unsurveyed areas
+53	Counts of visible redds with extrapolation for entire period (e.g. ’area under the curve’ derived from total redd days/visible redd life)
+54	Counts of visible redds/date with expansion factors from a baseline year study
+
+’60’ Series:  Mark/Recapture Estimates
+	Code	Method
+60	Lower river marking with upstream recapture
+61	Carcass mark/recapture
+
+’70’ Series:  Electronic Counts
+	Code	Method
+70	Conductivity sensing counter
+71	Sonar counter
+72	Radar counter
+73	Hydroacoustic estimate
+
+’90’ Series:  Miscellaneous
+	Code	Method
+90	Estimate based on past hatchery/natural escapement rations
+91	Estimate based on hatchery/natural ratio from harvest or test fishery
+92	Estimate based on estimated harvest rate in a terminal fishery
+99	Other (method not described by codes)
+ 
+CHAPTER 13
+GEOGRAPHIC CODING
+
+A.	Overview
+Domains for Region Code and Basin Code
+	1  Alaska		AK	within the state of Alaska and jurisdictional waters
+		2  Yukon River		YR	within the drainage of the Yukon River consisting of the jurisdictions:
+•	Yukon  Territory
+•	State of Alaska
+		3  British Columbia	BC	within the province of British Columbia and jurisdictional waters
+		4  Washington		WA	within the state of Washington and jurisdictional waters
+		5  Columbia River	CR	all Columbia River drainages consisting of the jurisdictions:
+•	province of British Columbia (upper tribs and headwaters)
+•	state of Washington (mainstem, tribs, and estuary)
+•	state of Idaho (upper Snake R and tribs)
+•	state of Oregon (mainstem, tribs, and estuary)
+6  Oregon		OR	within the state of Oregon and jurisdictional waters
+	7  California		CA	within the state of California and jurisdictional waters
+	8  Transboundary Rivers	TR	river systems that cross international boundary between the U.S.A. (Alaska) and Canada
+
+ 
+B.	Domain/ Region/ Basin Coding
+	Domain AK:  Alaska
+
+Region Code	Region Name	Basin Code	Basin Name
+SEAK	Southeastern Alaska 	SEAK	Alaska, Southeast (excluding transboundary rivers)
+		SENE	Alaska, Southeast; Northeastern quadrant
+		SENW	Alaska, Southeast; Northwestern quadrant
+		SESE	Alaska, Southeast; Southeastern quadrant
+		SESW	Alaska, Southeast; Southwestern quadrant
+		SEYA	Alaska, Southeast; Cross Sound to Cape Suckling
+		SEAKG	SEAK general basin: unmapped locations (general, combined, or unknown)
+			
+NOAK	Northern Alaska	ARC	Arctic Ocean; including rivers and shoreline
+		KOTZ	Kotzebue Sound
+		KUSK	Kuskokwim River
+		NORT	Norton Sound
+		NOAKG	NOAK general basin: unmapped locations (general, combined, or unknown)
+			
+CEAK	Central Alaska	BRIS	Bristol Bay
+		COPR	Copper River
+		LCI	Lower Cook Inlet; S of Anchor Bay/Lat 59.779; S shore Kenai Peninsula to Cape Fairfield 
+		PWS	Prince William Sound
+		UCI	Upper Cook Inlet; areas North of Anchor Bay/ Lat 59.779
+		CEAKG	CNAK general basin: unmapped locations (general, combined, or unknown)
+			
+WEAK	Western Alaska	ALEU	Aleutian Islands; Alaska Peninsula to Kilokak Rocks on South shore
+		BERI	Bering Sea
+		KODI	Kodiak Island; Alaska Peninsula / Sheilkof strait from Kilokak Rocks to Cook Inlet
+		WEAKG	WEAK  general basin: unmapped locations (general, combined, or unknown)
+			
+AKGN	AK general region	AKGNG	AKGN general basin: unmapped locations (general, combined, or unknown)
+
+ 
+	Domain YR:  Yukon River
+
+Region Code	Region Name	Basin Code	Basin Name
+LOYR	Lower Yukon River (mouth to international boundary)	LOYRG	Lower Yukon River; general
+UPYR	Upper Yukon River (above the international boundary)	UPYRG	Upper Yukon River; general
+YRGN	Yukon General Region	YRGNG	YRGN general basin: unmapped locations (general, combined, or unknown)
+
+
+	Domain TR:  Transboundary Rivers
+
+Region Code	Region Name	Basin Code	Basin Name
+ALSR	Alsek River	ALSRG	Alsek River; general
+CHIL	Chilkat River	CHILG	Chilkat River; general
+STUN	Stikine River - Unuk River	STUNG	Stikine River - Unuk River; general
+TAWH	Taku River – Whiting River	TAWHG	Taku River – Whiting River; general
+TRGN	Transboundary Rivers, general	TRGNG	TRGN general basin: unmapped locations (general, combined, or unknown)
+
+	Domain BC:  British Columbia 
+
+Region Code	Region Name	Basin Code	Basin Name
+FRTH	Fraser River – Thompson River	LWFR	Lower Fraser River (below Hope + tributaries)
+		UPFR	Upper Fraser River (above Hope + tribs; excluding Thompson R)
+		TOMM	Thompson River Mainstem
+		TOMF	Thompson River (North & South forks)
+		FRTHG	FRTH general basin: unmapped locations (general, combined, or unknown)
+			
+NASK	Nass River – Skeena River	SKNA	Skeena River
+		NASS	Nass River
+		NASKG	NASK general basin: unmapped locations (general, combined, or unknown)
+			
+GST	Georgia Strait	GSVI	Georgia Strait – Vancouver Island
+		GSMN	Georgia Strait – Mainland North
+		GSMS	Georgia Strait – Mainland South
+		GSTG	GST  general basin: unmapped locations (general, combined, or unknown)
+			
+WCVI	Western Vancouver Island	SWVI	SW Vancouver Island
+		NWVI	NW Vancouver Island
+		WCVIG	WCVI general basin: unmapped locations (general, combined, or unknown)
+			
+JNST	Johnstone Strait	JNSTG	JNST general basin: unmapped locations (general, combined, or unknown)
+			
+COBC	Coastal British Columbia	RIVR	Rivers & Smith Inlets
+		CCST	Coastal British Columbia; Central
+		NCST	Coastal British Columbia; North
+		COBCG	COBC general basin: unmapped locations (general, combined, or unknown)
+			
+QCI	Queen Charlotte Islands	QCIG	QCIG general basin: unmapped locations (general, combined, or unknown)
+			
+TRAN	Transboundary Rivers in Canada	ALSE	Alsek River / BC, Yukon
+		CHIL	Chilkat River / BC
+		STIK	Stikine River / BC
+		TAKU	Taku River / BC
+		UNUK	Unuk River / BC
+		WHIT	Whiting River / BC
+		TRANG	TRAN  general basin: unmapped locations (general, combined, or unknown)
+			
+BCGN	British Columbia General Region	BCGNG	BCGN general basin: unmapped locations (general, combined, or unknown)
+
+
+	Domain WA:  Washington
+
+Region Code	Region Name	Basin Code	Basin Name
+GRAY	Grays Harbor	GHLC	Grays Harbor, Lower Chehalis River
+		UPCH	Upper Chehalis River
+		GRAYG	GRAY general basin: unmapped locations (general, combined, or unknown)
+			
+HOOD	Hood Canal	LUDA	Port Ludlow; Dabob Bay; shoreline: Snake Rock – mouth Dosewallips River
+		SKDO	Skokomish River, Dosewallips River, Great Bend
+		WKIT	Western Kitsap Peninsula
+		HOODG	HOOD general basin: unmapped locations (general, combined, or unknown)
+			
+JUAN	Strait of Juan De Fuca	ELDU	Elwha River, Dungeness River, Discovery Bay; shoreline: Elwha River delta – Mats Mats Bay
+		LYHO	Neah Bay, Hoko River, Lyre River, Coville Creek; shoreline: Flattery Creek – Elwha River
+		JUANG	JUAN general basin: unmapped locations (general, combined, or unknown)
+			
+MPS	Mid Puget Sound	DUWA	Duwamish River, Green River; shoreline: West Point / Seattle - Adelaide
+		EKPN	Eastern Kitsap Peninsula, North of Narrows; Bainbridge Is, Blake Is, Vashon Is
+		LAKW	Lake Washington – greater area; shoreline: Elliot Point – West Point / Seattle
+		PUYA	Puyallup River; shoreline: Adelaide – Point Defiance
+		MPSG	MPS general basin: unmapped locations (general, combined, or unknown)
+			
+NOWA	Northern Washington	NOOK	Nooksack River; Point Roberts; Drayton Harbor; Birch Bay; California Bay
+		BESA	Bellingham Bay; Samish River; Padilla Bay; Lummi, Guemes, Cypress, Sinclair Islands
+		SJUA	San Juan Islands
+		NOWAG	NOWA general basin: unmapped locations (general, combined, or unknown)
+			
+NWC	Northern Washington Coast	QEQU	Queets River; Quinault River; shoreline: Kalalock Creek – Oyhut State Park
+		QUHO	Sooes River; Quillayute River; Hoh River; shoreline: Flattery Creek – Kalalock Creek
+		NWCG	NWC general basin: unmapped locations (general, combined, or unknown)
+			
+SKAG	Skagit River	LOSK	Lower Skagit River below Mill Creek; Skagit Bay
+		UPSK	Upper Skagit River above Mill Creek
+		SKAGG	SKAG general basin: unmapped locations (general, combined, or unknown)
+			
+SPS	Southern Puget Sound	CHAM	Chambers Creek; Ketron Island; shoreline: Point Defiance – breakwater at Old Fort Lake
+		DES	Deschutes River; Woodland Creek; Budd Inlet; shoreline: Nisqually Head – McLane Creek
+		EKPS	Eastern Kitsap Peninsula, south of the Narrows; Squaxin, Anderson, McNeil, Fox Islands
+		KENN	Kennedy Creek; Goldsborough Creek; Skookum Creek; Perry Creek
+		NISQ	Nisqually River
+		SPSG	SPS general basin: unmapped locations (general, combined, or unknown)
+			
+NPS	Northern Puget Sound	STIL	Stillaguamish River
+		SNOH	Snohomish River; Tulalip Bay; shoreline: McKees Beach – Elliot Point
+		WICI	Whidbey Island; Camano Islands
+		NPSG	NPS general basin: unmapped locations (general, combined, or unknown)
+			
+WILP	Willapa Bay	NASE	Naselle River; Palix River; Bear River
+		NOSM	North River; Smith Creek
+		WILR	Willapa River
+		WILPG	WILP general basin: unmapped locations (general, combined, or unknown)
+			
+WAGN	Washington General Region	CWG	Coastal Washington basin: unmapped locations (general, combined, or unknown)
+		PSG	Puget Sound basin: unmapped locations (general, combined, or unknown)
+		WAGNG	WAGN general basin: unmapped locations (general, combined, or unknown)
+
+Domain CR:  Columbia River
+
+Region Code	Region Name	Basin Code	Basin Name
+LOCR	Lower Columbia River (mouth to Bonneville Dam)	GREL	Grays River; Elokomin River; Baker Bay; estuary / WA
+		COWL	Cowlitz River / WA
+		LEWI	Lewis River; Kalama River / WA
+		SAWA	Salmon River; Washougal River; Lake River; Hamilton Creek / WA
+		WILL	Willamette River; Multnomah Channel; Milton Creek / OR
+		YOCL	Youngs Bay; Clatskanie River; Multnomah Channel to estuary / OR
+		SAND	Sandy River; Tanner Creek; Sandy River to Bonneville Dam / OR
+		LOCRG	LOCR general basin: unmapped locations (general, combined, or unknown)
+			
+CECR	Central Columbia River (Bonneville Dam to McNary Dam)	WIND	Wind River; White Salmon River; Major Creek / WA
+		KLIC	Klickitat River; includes below John Day Dam / WA
+		ROCK	Rock Creek; Glade Creek, Alder Creek; includes below McNary Dam / WA
+		HOO	Hood River; Fifteenmile Creek; Eagle Creek / OR
+		DESC	Deschutes River; includes below John Day Dam / OR
+		JOHN	John Day River; includes above John Day Dam; Willow Creek / OR
+		UMAT	Umatilla River; includes above confluence Glade Creek/WA to below McNary Dam / OR
+		CECRG	CECR general basin: unmapped locations (general, combined, or unknown)
+			
+UPCR	Upper Columbia R (above McNary Dam; excludes Snake River)	MNPR	McNary Dam to Priest Rapids Dam; Walla Walla River / OR, WA
+		YAKI	Yakima River / WA
+		PRGC	Priest Rapids Dam to Grand Coulee; Lower Crab Creek; Banks Lake / WA
+		WECH	Wenatchee River;  Lake Chelan / WA
+		MEOK	Methow River; Okanogan River / WA
+		HEAD	Headwaters above Grand Coulee / WA, BC, ID
+		UPCRG	UPCR general basin: unmapped locations (general, combined, or unknown)
+			
+SNAK	Snake River	LOSN	Lower Snake River / WA, ID; below conf. Clearwater River; Palouse River; Tucannon River
+		CLEA	Clearwater River (only) / ID
+		GRIA	Grande Ronde River; Imnaha River; Asotin Creek / OR, WA
+		SALM	Salmon River (only) / ID
+		UPSN	Headwaters above the Clearwater River; excluding the Salmon R / ID
+		SNAKG	SNAK general basin: unmapped locations (general, combined, or unknown)
+			
+CRGN	Columbia River General Region	CRGNG	CRGN general basin: unmapped locations (general, combined, or unknown)
+
+
+Domain OR:  Oregon
+
+Region Code	Region Name	Basin Code	Basin Name
+NOOR	Northern Oregon Coast	NEHA	Nehalem River; Necanicum River; including shoreline
+		TILN	Tillamook Bay; Nestucca R; including shoreline
+		SIYA	Salmon River; Siletz River; Yaquina River; including shoreline
+		ALSE	Alsea River; Beaver Creek; Yachats River; including shoreline to Cape Perpetua
+		SIUS	Siuslaw River; Siltcoos River; Tahkenitch Creek; including shoreline to Cape Perpetua
+		NOORG	NOOR general basin: unmapped locations (general, combined, or unknown)
+			
+SOOR	Southern Oregon Coast	UMPQ	Umpqua River
+		COOS	Coos River; Coos Bay; includes shoreline from South Jetty Umpqua River to Fivemile Point
+		COQU	Coquille River; includes shoreline from Fivemile Point to Coquille River
+		SIXE	Sixes River; Elk R; Floras Creek; including shoreline
+		ROGU	Rogue River
+		CHET	Pistol River; Chetco River; Winchuck River
+		SOORG	SOOR general basin: unmapped locations (general, combined, or unknown)
+			
+ORGN	Oregon General Region	ORGNG	ORGN general basin: unmapped locations (general, combined, or unknown)
+	
+
+Domain CA:  California
+
+Region Code	Region Name	Basin Code	Basin Name
+NOCA	Northern California Coast	MAEL	Mad River, Eel River, Mattole River; incl. shoreline: from Klamath River estuary to Whale Gulch
+		SMIT	Smith River; Incl shoreline: Camel Rock, OR to Klamath River estuary
+		NOCAG	NOCA general basin: unmapped locations (general, combined, or unknown)
+			
+CECA	Central California Coast	NORU	Noyo River, Russian River; Drakes Bay; incl shoreline: from Whale gulch to Pt. Bonita
+		SFBA	San Pablo Bay, San Francisco Bay; incl shoreline: from Golden Gate to Butano Creek
+		SAMO	Salinas River, Monterey Bay; incl shoreline: Pescadero Pt. to Oso Flaco Creek
+		CECAG	CECA general basin: unmapped locations (general, combined, or unknown)
+			
+SOCA	Southern California Coast	SOCAG	SOCA general basin: unmapped locations (general, combined, or unknown)
+			
+KLTR	Klamath River – Trinity River	KLAM	Klamath River
+		TRIN	Trinity River
+		KLTRG	KLTR general basin: unmapped locations (general, combined, or unknown)
+			
+SAFA	Sacramento River	SACR	Sacramento River
+		FEA	Feather River
+		AMER	American River
+		SAFAG	SACR general basin: unmapped locations (general, combined, or unknown)
+			
+SJOA	San Joaquin River	SJR	San Joaquin River
+		MERC	Merced River
+		TUST	Tuolomne River; Stanislaus River
+		MOKE	Mokelumne River
+		SJOAG	SJOA general basin: unmapped locations (general, combined, or unknown)
+			
+CAGN	California General Region	CAGNG	CAGN general basin: unmapped locations (general, combined, or unknown)
+
+
+Domain IN:  Other / International
+
+Region Code	Region Name	Basin Code	Basin Name
+JAPN	Japan	HOKK	Hokkaido Island, Japan
+		JAPNG	JAPN general basin: unmapped locations (general, combined, or unknown)
+			
+CISR	Commonwealth of Independent States / Russia	SAHK	Sahkalin, Russia
+		CISRG	CISR general basin: unmapped locations (general, combined, or unknown)
+			
+INGN	Other / International General Region	INGNG	INGN general basin: unmapped locations (general, combined, or unknown)
+
+ 
+C.	EPA Reach Coding (USA Only)
+The EPA Reach Number refers to the U.S. Environmental Protection Agency’s “reach file,” a national data base of surface water features.  The full EPA Reach Number is 17 characters in length.  It is based on the U.S. Geological Survey’s (USGS) nationwide system of 8 digit Hydrologic-Unit Codes (HUC)s and can be used to identify stream reaches.  These reaches can identify  locations down to the level of stream intervals and coastal shoreline intervals.  EPA Reach is provided to facilitate the mapping of Location Codes pertaining to freshwater and shoreline locations.  Mapping of most marine locations may not be possible at this time.
+To assist with mapping these locations, the following items are available on request from the Mark Center:
+	Document:	EPA Reach File Manual
+	Maps:	USGS Hydrologic Unit Maps (by State)
+	Maps:	EPA River Reach File Hydrologic Segment Plots (by State)
+The parts (components) of the EPA Reach Number that are permissible in the EPA Reach field are as follows  (See Figures 1 & 2 below): 
+1.	Full EPA Reach Number (17 - char)
+If possible, place the entire EPA Reach Number into the EPA Reach field.  This will be possible only for certain types of locations that refer to point locations such as hatchery / facilities, or known release locations.  Specific values can be obtained by referring to the maps:  EPA River Reach File Hydrologic Segment Plots (by State).  
+2.	Hydrologic Unit Code (HUC) portion only (8 - char)
+In many cases it will not be possible to map a CWT Location Code to a 17-character EPA Reach Number.  This situation arises when the Location Code refers to an entire river, bay, lake, or other general area.  For example, the release location Newaukum R [3F21802  230882 R  ] encompasses many stream reaches within the EPA Reach-coded HUC:  [17100103].  In these cases, the solution is to use only part of the EPA Reach Number in the Reach field—the 8 character HUC.  HUC values may be obtained by referring to either of these maps:  USGS Hydrologic Unit Maps (by State);  EPA River Reach File Hydrologic Segment Plots (by State).
+3.	Accounting Unit Code portion only (6 - char)
+If the Location Code encompasses more than one HUC, then use the Accounting Unit Code portion of the HUC.  Accounting Unit Code values may be obtained by refer¬ring to either of these maps:  USGS Hydrologic Unit Maps (by State);  EPA River Reach File Hydrologic Segment Plots (by State).
+4.	Sub-region Unit Code portion only (4 - char)
+	If the Location Code encompasses more than one Accounting Unit Code, then use the Sub-region Unit Code portion of the Accounting Unit Code.  All permissible val¬ues are listed here. (for assistance, refer to the either of these maps:  USGS Hydrologic Unit Maps (by State);  EPA River Reach File Hydrologic Segment Plots (by State).)   EPA Reach must contain one of these:
+
+
+1701		Kootenai / Pend Oreille / Spokane sub-region
+1702		Upper Columbia sub-region
+1703		Yakima sub-region
+1704		Upper Snake sub-region
+1705		Middle Snake sub-region
+1706		Lower Snake sub-region
+1707		Middle Columbia sub-region
+1708		Lower Columbia sub-region
+1709		Willamette sub-region
+1710		Oregon-Washington Coastal sub-region
+1711		Puget sub-region
+1712		Oregon-Closed Basins sub-region
+1801		Klamath-North California Coast sub-region
+1802		Sacramento sub-region
+1901		Alaska-Southeast sub-region
+1902		Alaska-Central sub-region
+1903		Alaska-Kuskokwim sub-region
+1904		Alaska-Yukon sub-region
+1905		Alaska-Northwestern sub-region
+1906		Alaska-Arctic sub-region
+5.	Region Unit Code portion only (2 - char)
+If the Location Code encompasses more than one Sub-region Unit Code, then use the Region Unit Code portion of the Sub-region Unit Code.  All permissible values are listed here. (for assistance, refer to the either of these maps:  USGS Hydrologic Unit Maps (by State);  EPA River Reach File Hydrologic Segment Plots (by State).)  EPA Reach must contain one of these:
+17	Pacific Northwest region
+18	California region
+19	Alaska region
+ 
+
+Figure 1:   Illustration of EPA Reach Number for mapping of CWT Location Codes into EPA Reach 
+
+
+
+ 
+Figure 2:  Map of EPA Reach Numbers corresponding to illustration in Figure 1 (i.e. Umatilla, N Fk, Headwaters Reach)
+
+
+
+ 
+CHAPTER 14
+MARK (Adclip) SAMPLING
+A.	Mark (Adclip) Sampling - General 
+The method to mark sample to calculate an unbiased mark (adclip) rate will depend upon whether the tag detection method is visual or electronic.
+a.	When the tag detection method is visual, all fish in the sample are examined for an adipose clip.  All adipose-clipped fish are presumed to have a cwt and are included in the recovery file.  Mark sampling occurs as part of the process of cwt sampling.  (See Figure 1 below).
+b.	When the tag detection method is electronic, all fish in the sample are electronically wanded or tubed. All positive-signal ('beep') fish are presumed to have a cwt and are included in the recovery file. Mark sampling can occur as follows:
+1)	Mark sampling can be dependent on the electronic signal.  The sample is divided into a 'signal' partition and a 'no-signal' partition.  All fish in each partition, all fish in one partition and a random sub-sample of all fish in the other partition,  or a random sub-sample of all fish in each partition must be examined for an adipose clip. (see Figure 2 below). Typically, the 'Signal' partition is not sub-sampled since all fish will be processed as cwt recoveries.
+An unbiased mark rate can only be calculated if both partitions are examined for adclips.  For example, if the 'signal' partition is examined for adclips but the 'no-signal' partition is not examined for adclips, a mark rate for the SAMPLE cannot be calculated, even though it is possible to calculate a mark rate for the 'signal' partition.
+2)	Mark sampling can be independent of the electronic signal.  All fish in the sample or a random sub-sample of all fish in the sample must be examined for an adipose clip (see Figure 3 below).
+If a sample is examined for adclips apart from electronic detection or as fish are wanded, the mark sampling is independent of the electronic detection. If fish are separated into two partitions as a result of the electronic wand or tube signal, and each partition is examined for adclips, the mark sampling is dependent on the electronic signal.
+Whether or not mark sampling is dependent or independent of the electronic detection, as in Figures 2 and 3, any subsampling of fish in each partition or in the sample will affect the usefulness of the mark rate and should be examined to ensure the subsampling adequately represents the fish in the partition or sample.  The mark rate calculation assumes that the subsampling is random and adequately representative of all fish.   For example, if all fish in the 'signal' partition are examined for adclips, but only 2 out of 500 fish in the 'no-signal' partition are examined, it is possible to calculate a mark rate for the SAMPLE using the formula but its usefulness should be questioned since 2 fish out of 500 does not adequately represent the 'no-signal' fish in the sample.
+ 
+Figure 1:   Illustration of Mark Sampling when Tag Detection Method is Visual	Figure 2:   Illustration of Mark Sampling Dependent  on Electronic Signal, when Tag Detection Method is Electronic	Figure 3:   Illustration of Mark Sampling Independent of Electronic Signal, when Tag Detection Method is Electronic
+ 	 	 
+ 
+B.	Mark (Adclip) Sampling - PSC Catch/Sample Fields used for Data Exchange
+The usage of the PSC Catch Sample fields depends upon the tag detection method and whether mark sampling was dependent upon electronic partitioning or is independent of the electronic signal.
+c.	When the tag detection method is visual, only the 1st set of 'mr_' fields (mr_1st_xxx) should be used.  The  2nd set of mr_ fields (mr_2nd_xxx) must be absent.  (See Figure 4 below). 
+d.	When the tag detection method is electronic, the usage of the 1st set of 'mr_' fields (mr_1st_xxx) and the 2nd set of mr_ fields (mr_2nd_xxx) depends upon whether mark sampling is dependent or independent of the electronic signal.
+1)	When the tag detection method is electronic and mark sampling is dependent on the electronic partitioning, both sets of mr_ fields should be used.  The first set (mr_1st_xxx) represents the 'Signal' partition.  The second set (mr_2nd_xxx) represents the 'No Signal' partition. (See Figure 5,6 and 7 below).
+2)	When the tag detection method is electronic and mark sampling is independent of the electronic signal, only the 1st set of mr_ fields (mr_1st_xxx) should be used.  The  2nd set of mr_ fields (mr_2nd_xxx) must be absent.  (see Figure 8 and 9 below).
+Figure 4: Illustration of PSC data fields used when tag detection method is visual
+ 	All fish in the sample are treated as one partition so P1 = number of fish in the sample 
+Sample is not subsampled so S1=number of fish in the sample
+Since all fish in Sample were visually sampled, all fish in Sample have 'determinable and therefore known' adclip status so K1=number of fish in the sample
+All recoveries have adclips so A1 = number of fish in the sample with an adclip = total fish in corresponding recovery file
+mr_1st_partition_size (P1)	P1 = num_sampled 
+mr_1st_sample_size (S1)	S1 = num_sampled
+mr_1st_sample_known_ad_status (K1)	K1 = num_sampled
+mr_1st_sample_obs_adclips (A1)	A1 = number_recovered_decoded + number_recovered_no_cwts + number_recovered_lost_cwts + number_recovered_unreadable + number_recovered_unresolved + number_recovered_not_processed + number_recovered_pseudotags
+mark_rate (MR)	MR = A1/K1
+Figure 5: Illustration of PSC data fields used when tag detection method is electronic, mark sampling is dependent on electronic signal, and all fish in each partition are examined for adipose clips.
+ 	-	P1 = number of fish in the SIGNAL partition of the sample = number of fish in the sample with a 'positive' signal = total fish in corresponding recovery file
+-	SIGNAL partition is not subsampled so S1 = number of fish in the SIGNAL partition 
+-	P2 = number of fish in the NO SIGNAL partition of the sample = number of fish in the sample with a 'negative' signal = number of fish in the sample - (minus) total fish in corresponding recovery file
+-	NO SIGNAL partition is not subsampled so S2 = number of fish in the NO SIGNAL partition
+mr_1st_partition_size (P1)	P1 = number_recovered_decoded + number_recovered_no_cwts + number_recovered_lost_cwts + number_recovered_unreadable + number_recovered_unresolved + number_recovered_not_processed + number_recovered_pseudotags
+mr_1st_sample_size (S1)	S1 = P1
+mr_1st_sample_known_ad_status (K1)	K1 = Number of fish in P1 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_1st_sample_obs_adclips (A1)	A1 = Number of fish in P1 which were found to have an adipose clip
+mr_2nd_partition_size (P2)	P2 = number_sampled - P1
+mr_2nd _sample_size (S2)	S2 = P2
+mr_2nd _sample_known_ad_status (K2)	K2 = Number of fish in P2 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_2nd _sample_obs_adclips (A2)	A2 = Number of fish in P2 which were found to have an adipose clip
+mark_rate (MR)	MR = [estimated marks in P1 + estimated marks in P2] / (total fish in P1 and P2)
+       = [(P1 * A1/K1) + (P2 * A2/K2)] / (P1 + P2)
+If K1 or K2 is ‘0’ absent, then mark_rate cannot be calculated and must remain blank.
+
+ 
+Figure 6: Illustration of PSC data fields used when tag detection method is electronic, mark sampling is dependent on electronic signal, all fish in the 'Signal' partition are sampled for adipose clips, and a random sub-sample of all fish in the 'No Signal' partition is examined for adipose clips.
+ 	-	P1 = number of fish in the SIGNAL partition of the sample = number of fish in the sample with a 'positive' signal = total fish in corresponding recovery file
+-	SIGNAL partition is not subsampled so S1 = number of fish in the SIGNAL partition
+-	P2 = number of fish in the NO SIGNAL partition of the sample = number of fish in the sample with a 'negative' signal = number of fish in the sample - (minus) total fish in corresponding recovery file
+-	NO SIGNAL partition is subsampled
+mr_1st_partition_size (P1)	P1 = number_recovered_decoded + number_recovered_no_cwts + number_recovered_lost_cwts + number_recovered_unreadable + number_recovered_unresolved + number_recovered_not_processed + number_recovered_pseudotags
+mr_1st_sample_size (S1)	S1 = P1
+mr_1st_sample_known_ad_status (K1)	K1 = Number of fish in P1 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_1st_sample_obs_adclips (A1)	A1 = Number of fish in P1 which were found to have an adipose clip
+mr_2nd_partition_size (P2)	P2 = number_sampled - P1
+mr_2nd _sample_size (S2)	S2 = Number of fish in P2 which were visually sampled for adipose clips
+mr_2nd _sample_known_ad_status (K2)	K2 = Number of fish in S2 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_2nd _sample_obs_adclips (A2)	A2 = Number of fish in S2 which were found to have an adipose clip
+mark_rate (MR)	MR = [estimated marks in P1 + estimated marks in P2] / (total fish in P1 and P2)
+       = [(P1 * A1/K1) + (P2 * A2/K2)] / (P1 + P2)
+If K1 or K2 is ‘0’ or absent, then mark_rate cannot be calculated and must remain blank.
+The usefulness of mark_rate is dependent upon S2 adequately representing P2
+
+ 
+Figure 7: Illustration of PSC data fields used when tag detection method is electronic, Mark Sampling is dependent on electronic signal, and a random sub-sample of all fish in each partition is examined for adipose clips.
+ 	-	P1 = number of fish in the SIGNAL partition of the sample = number of fish in the sample with an adclip = total fish in corresponding recovery file 
+-	SIGNAL partition is subsampled
+-	P2 = number of fish in the NO SIGNAL partition of the sample = number of fish in the sample with a 'negative' signal = number of fish in the sample - (minus) total fish in corresponding recovery file
+-	NO SIGNAL partition is subsampled
+mr_1st_partition_size (P1)	P1 = number_recovered_decoded + number_recovered_no_cwts + number_recovered_lost_cwts + number_recovered_unreadable + number_recovered_unresolved + number_recovered_not_processed + number_recovered_pseudotags
+mr_1st_sample_size (S1)	S1 = Number of fish in P1 which were visually sampled for adipose clips
+mr_1st_sample_known_ad_status (K1)	K1 = Number of fish in S1 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_1st_sample_obs_adclips (A1)	A1 = Number of fish in S1 which were found to have an adipose clip
+mr_2nd_partition_size (P2)	P2 = number_sampled - P1
+mr_2nd _sample_size (S2)	S2 = Number of fish in P2 which were visually sampled for adipose clips
+mr_2nd _sample_known_ad_status (K2)	K2 = Number of fish in S2 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_2nd _sample_obs_adclips (A2)	A2 = Number of fish in S2 which were visually sampled for adipose clips which were found to have an adipose clip
+mark_rate (MR)	MR = [estimated marks in P1 + estimated marks in P2] / (total fish in P1 and P2)
+       = [(P1 * A1/K1) + (P2 * A2/K2)] / (P1 + P2)
+If K1 or K2 is ‘0’ or absent, then mark_rate cannot be calculated and must remain blank.
+The usefulness of mark_rate is dependent upon S1 adequately representing P1, and S2 adequately representing P2
+Figure 8: Illustration of PSC data fields used when tag detection method is electronic, mark sampling is independent of electronic signal, and all fish in Sample are examined for adipose clips.
+ 	-	All fish in the sample are treated as one partition so P1 = number of fish in the sample 
+-	Sample is not subsampled so S1=number of fish in the sample
+mr_1st_partition_size (P1)	P1 = number_sampled
+mr_1st_sample_size (S1)	S1 = number_sampled
+mr_1st_sample_known_ad_status (K1)	K1 = Number of fish in P1 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+mr_1st_sample_obs_adclips (A1)	A1 = Number of fish in P1 which were found to have an adipose clip
+mark_rate (MR)	MR = A1/K1
+
+ 
+Figure 9: Illustration of PSC data fields used when tag detection method is electronic, mark sampling is independent of electronic signal, and a subsample of fish in Sample is examined for adipose clips.
+ 	-	All fish in the sample are treated as one partition so P1 = number of fish in the sample 
+-	Sample is subsampled
+mr_1st_partition_size (P1)	P1 = number_sampled
+mr_1st_sample_size (S1)	S1 = number of fish in P1 which were visually sampled for adipose clips
+mr_1st_sample_known_ad_status (K1)	K1 = Number of fish in S1 which were found to have an adipose clip or no adipose clip (does not include fish which were found to have an 'undeterminable and therefore unknown' adipose clip)
+ mr_1st_sample_obs_adclips (A1)	A1 = Number of fish in S1 which were found to have an adipose clip
+mark_rate (MR)	MR = A1/K1
+The usefulness of mark_rate is dependent upon S1 adequately representing P1.
+
+
+
+ 
+
+CHAPTER 15
+Release Count and Mark Code Fields
+
+A.	Version 4.1 Release Count and Mark Code Fields
+The intention of the version 4.1 count and mark code fields is to provide a physical view of release counts and marks. Changes to the method of reporting release counts and marks were necessary due to the desequestering of the adipose clip to indicate a coded-wire tagged fish.  The changes enable the user to calculate the number of adipose clipped fish in a release group, whether or not they are coded-wire tagged.  The changes also permit the reporting of up to two different marks for CWT or Non-CWT (fish that do not contain a CWT) fish in a release. 
+Each  Reporting Agency may have a different usage for each release count and mark code field.  The agency may determine the particular order of usage of count and mark code fields; therefore no information is implied by the ordering of values in count and mark code fields.
+Under version 4.1 specifications, the following fields are used to report release counts and mark codes (Figure 1):
+Figure 1: Illustration of Version 4.1 Mark & Count Fields
+Field No.	PSC Common Name	Description
+		CWT Release Group	Unassociated Release Group
+F28	CWT 1st Mark	Mark(s)  on CWT fish corresponding to count value in CWT 1st Mark Count (F29)	not applicable
+F29	CWT 1st Mark Count	Number of CWT fish corrected for tag loss and mortality with CWT 1st Mark (F28)	not applicable
+F30	CWT 2nd Mark	Mark(s) on CWT fish corresponding to count value in CWT 2nd Mark Count (F31) 
+(only used if CWT tagged fish have 2 different mark codes)	not applicable
+F31	CWT 2nd Mark Count	Number of CWT fish corrected for tag loss and mortality with CWT 2nd Mark (F30) 
+(only used if CWT tagged fish have 2 different mark codes)	not applicable
+F32	Non-CWT 1st Mark	Mark(s) on non-CWT fish corresponding to count value in Non CWT 1st  Mark Count (F33)	Mark(s) on fish corresponding to count value in Non CWT 1st  Mark Count (F33)
+F33	Non-CWT 1st Mark Count	Number of fish with No CWT with Non-CWT 1st Mark (F32)	Number of fish with Non-CWT 1st Mark (F32)
+F34	Non-CWT 2nd Mark	Mark(s) on non-CWT fish corresponding to count value in Non CWT 2nd  Mark Count (F35) 
+(only used if fish with No CWT have 2 different mark codes)	Mark(s) on fish corresponding to count value in Non CWT 2nd  Mark Count (F35)
+(only used if fish with No CWT have 2 different mark codes)
+F35	Non-CWT 2nd Mark Count	Number of fish with No CWT with Non-CWT 2nd  Mark (F34)
+(only used if fish with No CWT have 2 different mark codes)	Number of fish with Non-CWT 2nd  Mark (F34) 
+(only used if fish with No CWT have 2  different mark codes)
+F37	Tag Loss Rate	Proportion of fish which shed the CWT from the tag loss sample (expressed as a decimal percentage)	not applicable
+ 
+
+ 
+The use of the release mark and count fields depends upon whether the release group is reported as a CWT release group (Record_Code [Field 1] = 'T' -- release group contains any number of coded wire tagged fish) or a Unassociated (to CWTs) release group (Record_Code [Field 11] = 'N' -- release group contains no coded wire tagged fish).
+a.	For CWT Release Records, CWT 1st Mark (F28), CWT 2nd Mark (F30), Non-CWT 1st Mark (F32), and Non-CWT 2nd Mark (F34) are used to report marks.  CWT 1st Mark Count (F29), CWT 2nd Mark Count (F31), Non-CWT 1st Mark Count (F33) and Non-CWT 2nd Mark Count (F35) are used to report counts. Tag Loss Rate (F37) is used to report the rate of CWT loss.   
+If cwt fish all have the same mark, only CWT 1st Mark (F28) and CWT 1st Mark Count (F29) are used.  If cwt fish have 2 different marks, CWT 1st Mark (F28), CWT 1st Mark Count (F29), CWT 2nd Mark (F30), and CWT 2nd Mark Count (F31) are used.  No specific information is implied by using the 1st or 2nd set of CWT mark/count fields, when both sets of fields are used.
+
+If fish that did not contain a CWT when released (including fish that were tagged and shed cwt) all have the same mark, only Non-CWT 1st Mark (F32) and non-CWT 1st Mark Count (F33) are used.  
+
+If fish that did not contain a CWT when released have 2 different marks, Non-CWT 1st Mark (F32), Non-CWT 1st Mark Count (F33), Non-CWT 2nd Mark (F34) and Non-CWT 2nd Mark Count (F35) are used. No specific information is implied by using the 1st or 2nd set of Non-CWT mark/count fields when both sets of fields are used.  (i.e. The number of fish that were tagged and shed CWT may be reported in the 1st set of Non-CWT mark/count fields or the 2nd set of Non-CWT mark/count fields.)
+
+The number of fish released with a CWT is the sum of CWT 1st Mark Count (F29) + CWT 2nd Mark Count (F31).  
+The number of fish released without a CWT is the sum of Non-CWT 1st Mark Count (F33) + Non-CWT 2nd Mark Count (F35). 
+The number of fish released with an adipose clip is the sum of the Mark Counts where the related mark begins with a '5'.
+The number of fish released without an adipose clip is the sum of the Mark Counts where the related Mark begins with a '0'.
+The number of CWT fish released with an adipose clip is the sum of the CWT Mark Counts where the related CWT Mark begins with a '5'. 
+The number of CWT fish released without an adipose clip is the sum of the CWT Mark Counts where the related CWT Mark begins with a '0'. 
+The number of Non-CWT fish released with an adipose clip is the sum of the Non-CWT Mark Counts where the related CWT Mark begins with a '5'. 
+The number of Non-CWT fish released without an adipose clip is the sum of the Non-CWT Mark Counts where the related CWT Mark begins with a '0'. The total number of fish released can be calculated by summing the Mark Counts (1st Mark Count (F29) + CWT 2nd Mark Count (F31) + Non-CWT 1st Mark Count (F33) + Non-CWT 2nd Mark Count (F35)).  
+
+The number of fish that were tagged and shed CWT must be calculated from the Tag Loss Rate (F37) and the number of fish released with a CWT (CWT 1st Mark Count (F29) + CWT 2nd Mark Count (F31) ).  The formula is:
+= Tag Loss Rate (F37) * (CWT 1st Mark Count (F29) + CWT 2nd Mark Count (F31) / (1 - Tag Loss Rate (F37))
+b.	For Unassociated Release Records,  Non-CWT 1st Mark (F32) and Non-CWT 2nd Mark (F34) are used to report the marks.  Non-CWT 1st Mark Count and Non-CWT 2nd Mark Count are used to report the counts. Other fields (CWT 1st Mark (F28), CWT 1st Mark Count (F29), CWT 2nd Mark (F30), CWT 2nd Mark Count (F31), Tag Loss Rate (F37)) are required to be blank for unassociated releases.
+If all fish have the same mark, only Non-CWT 1st Mark (F32) and Non-CWT 1st Mark Count (F33) are used.  If fish have 2 different marks, Non-CWT 1st Mark (F32), Non-CWT 1st Mark Count (F33), Non-CWT 2nd Mark (F34) and Non-CWT 2nd Mark Count (F35) are used. No specific information is implied by using the 1st or 2nd set of Non-CWT mark/count fields when both sets of fields are used.
+ 
+The number of fish released with an adipose clip is the sum of the Mark Counts where the related Mark begins with a '5'.
+The number of fish released without an adipose clip is the sum of the Mark Counts where the related Mark begins with a '0'. 
+The total number of fish released can be calculated by summing the Mark Counts.
+
+B.	Version 4.1 Mark and Count Fields  - Examples
+	
+Table 1: Examples of Version 4.1 Release Mark & Count Fields
+#	Example	CWT 1st Mark	CWT 1st Mark Count	CWT 2nd Mark	CWT 2nd Mark Count	Non-CWT 1st Mark 	Non-CWT 1st Mark Count	Non-CWT 2nd Mark	Non-CWT 2nd Mark Count	Tag Loss Rate	Calculated Number Shed CWT
+		(F28)	(F29)	(F30)	(F31)	(F32)	(F33)	(F34)	(F35)	(F37)	= (F29 + F30) * F37 / (1 - F37)
+1	Typical (pre mass-marking)  CWT Release where CWT fish have ADclip,  Shed CWT fish have ADclip, and Associated fish are not marked.
+e.g., 1,000 CWT fish with ADclip, 90,000 associated (Non-CWT) fish with no mark, and 25 Shed CWT (Non-CWT) fish with ADclip.	5000	1,000	 	 	0000	90,000	5000	25	0.0244	= 1000 * 0.0244 / (1-.0244)
+= 25
+2	Typical (pre mass-marking)  CWT Release as above but 50 of the 1000 CWT fish have bad Adclips.	5000	950	0000	50	0000	90,000	5000	25	0.0244	= (950+50) * 0.0244 / (1-.0244)
+= 25
+3	Double Index Tagging / Mass Marking where all fish have Adclip.
+e.g., 1,000 CWT fish with ADclip, 90,025 Non-CWT fish with ADclip (25 shed CWT fish +  90,000 associated fish).	5000	1,000	 	 	5000	90,025	 	 	0.0244	= 1000 * 0.0244 / (1-.0244)
+= 25
+4	Double Index Tagging where no fish have ADclip: 
+e.g., 1,000 CWT fish with no mark, 90,025 Non-CWT fish with no mark (25 shed CWT fish +  90,000 associated fish). 	0000	1,000	 	 	0000	90,025	 	 	0.0244	= 1000 * 0.0244 / (1-.0244)
+= 25
+5	Unassociated Release where all fish have one mark  code. e.g., 90,000 LV.	not applicable	not applicable	not applicable	not applicable	0001	90,000	 	 	not applicable	not 
+applicable
+6	Unassociated Release where fish have two mark codes. e.g., 60,000 LV, 30,000 no mark.	not applicable	not applicable	not applicable	not applicable	0001	60,000	0000	30,000	not applicable	not 
+applicable
+
+ 
+
+CHAPTER 16
+Pseudo Tags (Blank or Agency-Only Wire)
+Blank wire tags and agency-only wire tags are not coded wire tags (CWTs).   They physically look like CWTs, are injected in the same manner as CWTs and have similar magnetic properties enabling them to trigger automatic diversion gates and electronic CWT detectors;  However, blank wire and agency-only wire tags do not possess a specific etched binary or decimal code and, upon recovery, cannot be resolved to a specific tag code.  Throughout this document, the term "pseudo tag" is used for blank wire tags and agency-only wire tags.
+Pseudo tags placed in the head or snout region  must be reported due to the desequestering of the adipose clip and the advent of electronic tag detection. Body-placed pseudo tags have not been reported before version 4.1 but may now be reported.
+A.	How to report Pseudo Tag Releases 
+All release groups possessing pseudo tags must be tagged entirely with the same type of wire.  Mixing of blank wire and agency-only wire, pseudo tags and CWTs, or pseudo tags and non-tagged fish in the same release group is not permitted.
+A release group containing pseudo tags is reported as a non-associated release record (Figure 1).  It is not a CWT release group.  All CWT release fields (CWT 1st Mark Count, CWT 1st Mark, CWT 2nd Mark Count, CWT 2nd Mark, Tag Loss Rate, Tag Loss Days, Tag Loss Sample Size, Tag Reused) must be blank.  
+Figure 1: Version 4.1 Release Fields Used to Report Pseudo Tags
+Field No.	PSC Format Name	Description	Required Value
+F1	Record Code	Code to indicate the CWT data file classification (class) of the individual record.	'N' - non-associated release record
+F7	Tag Code or Release ID	Unique Release ID to identify the release group.	Column 1 must be '!'
+Columns 2 and 3 must match one of the valid coordinator codes for the Releases Coordinator field
+F8	Tag Type	Code to indicate type of tag used for release group	'16' - Pseudo tag, blank wire
+F32	Non-CWT 1st Mark	Mark(s) on fish corresponding to count value in Non CWT 1st  Mark Count (F33)	
+F33	Non-CWT 1st Mark Count	Number of fish with Non-CWT 1st Mark (F32)	
+F34	Non-CWT 2nd Mark	Mark(s) on fish corresponding to count value in Non CWT 2nd  Mark Count (F35)	(only used if fish have 2 different mark codes)
+F35	Non-CWT 2nd Mark Count	Number of fish with Non-CWT 2nd  Mark (F34) 	(only used if fish have two different mark codes)
+Table 1: Examples of Version 4.1 Release Fields Used to Report Pseudo Tags
+Example 	Record Code	Tag Code or Release ID	Tag Type	Non-CWT 1st Mark	Non-CWT 1st Mark Count	Non-CWT 2nd Mark	Non-CWT 2nd Mark Count
+	(F1)	(F7)	(F8)	(F32)	(F33)	(F34)	(F35)
+All fish in release group are tagged with blank wire and have one mark.  
+e.g., 9000 fish tagged with blank wire and LV marked.	N	!ccxxxxxxxxx, where 'cc' is a valid coordinator code and 'xxxxxxxxx' is unique,
+e.g., !040001, for WDFW blank wire release	16	0001	9,000	 	 
+All fish in release group are tagged with agency-only  wire and have one mark.
+e.g., 9000 fish tagged with agency-only wire and LV marked.	N	!ccxxxxxxxxx,  
+e.g., !040002, for WDFW blank wire release	16	0001	9,000	 	 
+All fish in release group are tagged with blank wire.  Fish have two mark codes.
+e.g., All fish tagged with blank wire:  6000 LV, 3000 no mark.	N	!ccxxxxxxxxx, 
+e.g., !040003, for WDFW agency-only wire 	16	5001	6,000	0000	3,000
+All fish in release group are tagged with agency-only wire.  Fish have two mark codes.
+e.g., All fish tagged with blank wire:  6000 LV, 3000 no mark.	N	!ccxxxxxxxxx, 
+e.g., !040004, for WDFW agency-only wire 	16	5001	6,000	0000	3,000
+Fish in release group are tagged with agency-only wire  and blank wire.	This cannot be reported in one release record -- The release group must be separated into two non-associated release records.  The relationship can be reported using the Related Group Type (F11) and Related Group ID (F12) fields.
+Fish in release group are tagged with pseudo tags and CWTs	This cannot be reported in one release record -- The release group must be separated into a CWT release record and a non-associated release record.  The relationship can be reported using the Related Group Type (F11) and Related Group ID (F12) fields.
+Some fish in release group are tagged with pseudo tags.  Other fish are not tagged.	This cannot be reported in one release record -- The release group must be separated into two non-associated release records.  The relationship can be reported using the Related Group Type (F11) and Related Group ID (F12) fields.
+
+ 
+B.	How to Report Pseudo Tag Recoveries 
+Pseudo tag recoveries are reported using three Recovery fields (Figure 2).
+Figure 2: Version 4.1 Recovery Fields Used to Report Pseudo Tags
+Field No.	PSC Format Name	Description	Required Value
+F28	Tag Status	Code to indicate status of the tag recovery	'9' - Pseudo tag, blank wire
+F29	Tag Code	Identifier coded on a tag to denote a release group	'BLANK' - for blank wire tag
+'D1BLANK', where 'D1' is the numeric agency wire prefix (i.e. Data 1)  - for agency-only wire tag
+F30	Tag Type	Code to indicate type of tag wire found in the recovery snout	'16' - Pseudo tag, blank wire
+Table 2: Examples of Version 4.1 Recovery Fields Used to Report Pseudo Tags
+Example 	Tag Status	Tag Code 	Tag Type
+	(F28)	(F29)	(F30)
+Blank wire recovery	9	BLANK	16
+Agency only wire recovery	9	D1BLANK, where 'D1' is the numeric agency wire prefix (i.e. Data 1) 
+e.g., 63BLANK, for WDFW agency-only wire	16
+
+Pseudo tag recoveries in sampled fisheries are reported using only one Catch Sample field (Figure 3).
+Figure 3: Version 4.1 Catch Sample Fields Used to Report Pseudo Tags
+Field No.	PSC Format Name	Description
+F34	Number Recovered Pseudo Tags	Number of pseudo tag recoveries in sampling stratum ( # of recoveries in sample with tag_status = '9' )
+
+ 
+ADDENDUM A
+CHANGE LOG 
+Note:  Referenced page numbers are valid only for the version with the corresponding date of the changes or additions listed below because page numbers change among updated versions.
+10-16-09 	 Updated names and descriptions of the Regions and Basins in the California Domain,  Chapter 13 – Geographic Coding, pages 74 and 75.
+1-4-10  	Added Required if study_integrity is not ‘D’ to Release Data field #18,  Chapter 2 – Release Data, page 11.  								Added new ODFW gear codes: Fishery 29, Gear 29; Fishery 46, Gears 44, 48, 49; Fishery 59, Gear 39; Fishery 64, Gear 45; Fishery 69, Gear 37,  Chapter 9 – Fishery Coding, pages 52, 	53 and 55.
+3-1-10  	Added clarification language to section B.2.f, “Description”, Chapter 1 – Introduction, Definitions and Rules, page 2.  									Added new section H. “Methods of Removing Records of Data (for one Reporting Agency)”, Chapter 1– Introduction, Definitions and Rules, page 7.						Added sampling agencies AFSC, NWFSC and NWR, Chapter 8, pages 48 and 49.   												Added new CDFO Gear codes:  Fishery 31, Gears 10, 13, 15;  added new NMFS Fishery and Gear codes: Fishery 800, Gear 800, Chapter 9 – Fishery Gear Coding, pages 53 and 57.
+3-1-11 	Added section D.10. Chapter 1 – Introduction, Definitions and Rules, page 3.  												Added new Coordinator Code ‘16’ Chapter 2 – Release Data, page 9.													Added clarification language to Field 41, Estimated Number, Chapter 3 – Recovery Data, page 25.											Added new mark codes, Chapter 11 – Mark coding, page 63.														Edited geographic codings for Alaska, Yukon and Transboundary domains,  Chapter 13 – Geographic Coding, pages 70 and 71. 
+3-1-12  	Added new Coordinator values ’17’ and ‘18’ to Data field #6, Chapter 2 – Release Data, page 9.
+Renamed Release Agency Code EBMD to EBMUD, Chapter 8–Agency Coding, page 45
+Added Sampling Agency EBMUD; SBT, YCWA, Chapter 8–Agency Coding, page 49
+Added new WDFW Gear code: Fishery 24 Gear 29; added new CDFO Gear codes: Fishery 32, Gears 00, 11, 70, Fishery 39, Gears 00, 07, 85; changed Gear definition: Fishery codes 40 & 46, Gear 07; added NMFS Gear code: Fishery 40, Gear S1_N, Chapter 9 – Fishery Gear Coding, pages 53, 54 and 55.
+
+7-1-13	Deleted Agency Code “SSLC – Seward Sealife Center, Chapter 8 – Agency Coding, page 47.
+	Added new Reporting Agency and Sampling Agency: NMFSNWR – National Marine Fisheries Service NW Region (OR, WA), Chapter 8 – Agency Coding, pages 48 & 49.
+Added new Gear Codes: Fishery Code 18, CDFO Gears 30, 31, 32, 33; Fishery 20, CDFO Gear 13; Fishery 24, WDFW Gears 10 and 19; Fishery 39, CDFO Gears 10 and 11; Fishery 53, STIL Gear 53; Fishery 54, STIL Gear 54; Fishery 55, STIL Gear 55; Fishery 90, CDFO Gears 15, 30, 33, Chapter 9 – Fishery Coding.
+
+7-1-14	Added new Releasing Agency Code “SSSC Sitka Sound Science Center (AK)” Chapter 8-Agency Coding, page 47.
+	Added new Reporting Agency Code COLC Colville Tribe (WA) Chapter 8-Agency Coding, page 48.
+	Deleted Sampling Agency Code  “MIC Metlakatla Indian Community”, Chapter 8-Agency Coding, page 49.
+	Added new Sampling Agency Code “HVT Hoopa Valley Trive (CA), Chapter 8-Agency Coding, page 49.
+	Added new Fishery Code 812 Rockfish Fishery (Gulf of Alaska), Chapter 9-Fishery Coding, page 51.
+Added new Gear Codes: Fishery 20, Gear Code 15; Fishery 23, Gear Code 38; Fishery 24, Gear Codes 14, 24; Fishery 50, Gear Code H_N; Fishery 54, Gear Code 54; Fishery 81, Gear Code 813 and Fishery 812, Gear Code 801, Fishery 90 Gear Code 3_N, Chapter 9-Fishery Coding, page 51.
+Changed ‘CDFG’ to ‘CDFW’ and ‘California Department of Fish and Game’ was changed to ‘California Department of Fish and Wildlife’ throughout the document.

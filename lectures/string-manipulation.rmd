@@ -1,0 +1,386 @@
+---
+title: String Manipulation
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# String manipulation with R {#string-manipulation} 
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.width=10,
+               fig.height=7,
+               out.width = "600px",
+               out.height = "420px",
+               fig.path = "lecture_figs/ggplot-more-")
+library(stringr)
+library(zoo)
+```
+
+## Intro {#ggplot-2-intro}
+
+R comes with some fairly well-developed tools for string manipulation and the application
+of _regular expressions_.  If you are a fan of Perl or Python, or you have a penchant for 
+Unix utilities like _sed_ and _awk_, then you might find that you prefer those languages/workflows
+for doing your text processing.  However, you can do quite a lot with R, and if all of your other
+analyses are done in R, there is some advantage to also doing your text processing within R.
+
+If you are not yet familiar with any other text-processing systems and R is your first real programming
+language, then you might as well learn string manipulation in R!
+
+If you are used to a "line-by-line" loop-based processing paradigm like that used in _awk_, then R's focus on vectors
+of strings can take some getting used to.  However, once you get comfortable with it and the sorts of operations
+that are useful within that framework, it can be quite powerful.
+
+The base R package comes with a full set of string manipulation functions that are quite versatile.  However,
+they don't have consistent interfaces and they come with a lot of options that most people will never need
+to learn.  So, while we are learning this stuff, we will focus on using the functions in Hadley Wickham's 
+package `stringr` which preserves about 95% of the functionality of the base R string functions, but don't
+carry around a lot of extra function-parameter shrubbery that will trip up a lot of users.  For a quick intro
+to `stringr` check out [this](http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Wickham.pdf)
+
+To illustrate these ideas we will use a real example from my own work: processing a text file containing
+data specifications for the coded wire tag data base.  
+
+
+### Prerequisites {#ggplot-prereq}
+* To work through the examples you will the `stringr` package.
+* Please download/install this before coming to class:
+    1. install necessary packages:
+        ```{r, eval = FALSE}
+        install.packages(c("stringr", "zoo"))
+        ```
+    2. Pull the most recent version of the rep-res-course repo just before coming to class.
+
+### Goals for this half-hour:
+
+* Present example text-processing problem
+* Briefly cover the idea of _regular expressions_
+* Show how to use functions in `stringr` to solve the problem
+
+## Example problem {#rmis-example-problem}
+
+### RMIS 
+* The Regional Mark Processing Center (RMPC) maintains data bases having to do with catch, sampling, release and
+recovery of salmon and coded wire tags.   These data bases are known collectively as the Regional Mark
+Information System (RMIS). 
+* You can query the data bases and get information from http://www.rmpc.org
+* Many of the fields in the data base use codes to denote certain values.  For example, in the _species_ column
+in each data base, a 1 = Chinook salmon and a 2 = Coho, a 3 = Steelhead, etc.  
+* If you are going to be analyzing these data in R, or plotting them, or just looking at them, it might be
+nice to recode such columns as _factors_  with levels that are the actual species names.  (This beats trying to
+remember all sorts of codes).
+
+### The PSC data specification
+
+* First, the good news:
+    + A comprehensive list of codes and values is available at http://www.rmpc.org/files/PSC_V41_Specification.pdf
+* Now the bad news:
+    + The RMPC does not maintain a listing of these codes in an easily parseable (i.e. reproducible!) format.  
+    + This means that you have to extract all the codes from a friggin' PDF file, which is a _very_ ugly proposition.
+* To be honest, I find this to be mind-boggling and discouraging.  Why on earth would they expect people to
+hand-extract all these codes? ...Dreadful!
+* The folks who run the RMPC are pretty cool, though, and were able to supply me with a Microsoft Word (__yack!!__) 
+document from whence the PDF file was created.  
+* MS Word, as we've all learned in this course is not a reproducible are easily parseable format, but we are
+going to do our best with it.
+
+### PSC Spec in text
+
+* I was able to copy and paste the specification, change some line endings and save it. 
+* A copy is in the course repo at: `data/PSC-Specification-ver-4.1_7-1-14.txt`
+* Go ahead and have a look at it in a suitably good text editor.  If you are using TextWrangler on your Mac
+then you can have it View -> Text Display -> Show Invisibles to see what are tabs and what are spaces, etc.
+* Here is a little section of the 2,855 lines in the file:
+
+```{r, eval=FALSE}
+CHAPTER 2
+Release Data
+
+PSC   PSC Common Name	Max	Reqd	Format /Use	Description & Validation Rules.......................................................................................................................................
+Fld #	and Data Field Name	Cols			
+1	Record Code	1	Yes	Lookup	Code to indicate the CWT data file classification (class) of this individual record.  Must match one of the following:
+	record_code			’T’	=Tagged Release record
+				’N’	=Non-Associated Release record
+					See chapter 16 for further discussion of the use of this field.
+					
+2	Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Should match submission_date in corresponding Description file
+					
+4	Reporting Agency	10	Yes	Lookup	Abbreviation for reporting agency of this dataset for this data exchange
+	reporting_agency				Must contain an agency code defined in chapter 8
+					Must be the same for all records
+					
+5	Release Agency	10	Yes	Lookup	Abbreviations for tagging agencies
+	release_agency				Must contain an agency code defined in chapter 8
+					
+6	Coordinator	2	Yes	Lookup	Reporting coordinator for the release group of this individual record
+	coordinator				Must match one of the following:
+				’01’	=ADFG (S.E. Alaska)
+				’02’	=NMFS – Alaska
+				’03’	=CDFO
+				’04’	=WDFW
+				’05’	=ODFW
+				’06’	=NMFS – Columbia River
+				’07’	=USFWS
+				’08’	=CDFG
+				’09’	=BCFW
+				’10’	=IDFG
+				’11’	=YAKA
+				’12’	=ADFG (S. Central AK)
+				’13’	=MIC (Metlakatla, AK)
+				’14’	=NWIFC
+				’15’	=CRITFC
+				‘16’	          =NEZP
+				‘17’	          =QDNR
+				‘18’	          =STIL				
+```
+
+* What a freakshow!  I can't believe that we have to do this! (But on the other hand it is kind of fun...)
+
+
+### A closer look at the format
+
+* The specification is organized into a series of chapters that start with lines that look like:
+    ```{r, eval=FALSE}
+    CHAPTER 2
+    ```
+    Chapters 2 through 6 have information about the five data bases I'll be working with:
+    ```{r, eval=FALSE}
+    Chapter 2 – Release Data
+    Chapter 3 – Recovery Data
+    Chapter 4 – Catch/Sample Data
+    Chapter 5 – Catch & Effort Data
+    Chapter 6 – Location Data
+    ```
+
+* Within every chapter there are multiple entries that give the names of the fields (columns). For example:
+    ```{r, eval=FALSE}
+    4   Reporting Agency    10  Yes Lookup  Abbreviation for reporting agency of this dataset for this data exchange
+        reporting_agency                Must contain an agency code defined in chapter 8
+                    Must be the same for all records
+                    
+    5   Release Agency  10  Yes Lookup  Abbreviations for tagging agencies
+        release_agency              Must contain an agency code defined in chapter 8
+    ```
+    Shows that field 4 is `reporting_agency`, etc.
+* Some of the fields have lists of codes that look like this:
+    ```{r, eval=FALSE}
+    6  Coordinator	2	Yes	Lookup	Reporting coordinator for the release group of this individual record
+	      coordinator				Must match one of the following:
+				’01’	=ADFG (S.E. Alaska)
+				’02’	=NMFS – Alaska
+				’03’	=CDFO
+				’04’	=WDFW
+				’05’	=ODFW
+				’06’	=NMFS – Columbia River
+				’07’	=USFWS
+				’08’	=CDFG
+				’09’	=BCFW
+				’10’	=IDFG
+				’11’	=YAKA
+				’12’	=ADFG (S. Central AK)
+				’13’	=MIC (Metlakatla, AK)
+				’14’	=NWIFC
+				’15’	=CRITFC
+				‘16’	          =NEZP
+				‘17’	          =QDNR
+				‘18’	          =STIL				
+    ```
+    These codes take the form of string (usually a single character or a number) that is quoted in some
+    special quotes that are sometimes upside down and sometimes right side up; then a TAB, then an equals
+    sign followed by another string with no space.  
+    
+### Our mission
+
+* For every field (in each of the five data bases) that has specialized codes, we want to know what the
+code is and what it means. 
+* In the end we will want to have a tidy data frame of these that looks like this:
+
+chapter  |  field    |    code    |  value
+-------- |  ------   |    -----   |  ------
+Release Data |  coordinator  | "01"  | ADFG (S.E. Alaska)
+Release Data |  coordinator  | "02"	 | NMFS – Alaska
+Release Data |  coordinator  | "03"  | CDFO
+Release Data |  coordinator  | "04"	 | WDFW
+
+* If we wanted to be old school about it we could just spend two weeks copying and pasting everything, and hope
+that the spec doesn't change any time soon, because we wouldn't want to waste a full two weeks doing that
+again (even if our wrists were not totally trashed after that.)
+* But we are going to try to automate this.
+
+## Regular expressions {#reg-exp}
+
+Before we can get rolling on this we are going to have to cover some _regular expressions_.
+
+### What is a regular expression?
+
+* You can think of a regular expression as a "fuzzy find" pattern that let's you match text strings while
+including "wildcards" and "character classes", and maybe even capturing text that matches in certain ways
+to your pattern.
+* Here is a simple example.
+```{r}
+library(stringr)  # load the package
+
+# now make a character vector
+vec <- c("fred", "foo", "food", "bed", "reefed")
+
+# see if any matches "fred"
+str_detect(vec, "fred")
+
+# see if any have an "f" followed by a "d"
+str_detect(vec, "f.*d")
+
+# see if any start with an "f"
+str_detect(vec, "^f")
+
+# see if any end with an "o"
+str_detect(vec, "o$")
+```
+
+### Holy cow! That looks funky
+
+* Yes, there is a whole pantheon of regular expression "metacharacters" that you will want to
+get familiar with.  
+* Entire books have been written on regular expressions, so I won't attempt to teach you all of it now, but I will
+point out some things that you will want to know
+    ```{r, eval=FALSE}
+    # special meaning is given to these characters:
+     . \ | ( ) [ ] { } ^ $ * + ?
+                   
+    .  # the dot matches any character (or number or punctuation, etc)
+    
+    \  # backslash is often used to "escape" metacharacters
+    
+    ( )  # these guys are used to capture the parts of a string that match subpatterns
+    
+    [ ]  # you can specify character classes (like "any lower case letter" inside these)
+    
+    ?    # The preceding item is optional and will be matched at most once.
+
+    *    # The preceding item will be matched zero or more times.
+
+    +    # The preceding item will be matched one or more times.
+
+    {n}  # The preceding item is matched exactly n times.
+
+    {n,} # The preceding item is matched n or more times.
+
+    {n,m} # The preceding item is matched at least n times, but not more than m times.
+
+    ```
+    For a more complete description do `?regex` and see the "Extended Regular Expressions" section.
+
+
+## Getting down to business
+
+Quick note on `stringr` functions.  Most of them have the syntax of:
+```{r, eval=FALSE}
+str_something( string,  pattern )
+```
+where _something_ is like "detect" or "match" or "replace", and _pattern_ is a 
+regular expression passed in as a quoted string (or even a character vector)
+
+### Step 1: read the strings in!
+
+The delightful `readLines()` function will let us read each line of `PSC-Specification-ver-4.1_7-1-14.txt` into
+a character vector:
+```{r}
+spec <- readLines("data/PSC-Specification-ver-4.1_7-1-14.txt")
+length(spec)
+head(spec)
+```
+
+### Step 2: figure out which chapter we are in
+
+Here is what our strategy is going to be for dealing with this
+
+1. Start with a vector of NA's of length(spec)
+2. Put values in where each "CHAPTER" is found
+3. Propagate those values forward, overwriting any NAs with the value that
+came before.  
+
+In this way we get a vector, of, for example, what chapter we are in.
+
+Let's do it for the chapter names:
+```{r}
+chapter <- rep(NA, length(spec))
+chap_positions <- which(str_detect(spec, "^CHAPTER"))
+
+# see what that looks like:
+chap_positions
+
+# now, the titles of the chapters are on the line following "^CHAPTER"
+# so let's get those and put them in and then roll them forward
+chapter[chap_positions] <- spec[chap_positions + 1]
+chapter_names <- na.locf(chapter) # from the zoo package.  It rolls the last value forward over NAs
+
+# if you are following along, do this to see what we have done:
+#   cbind(chapter_names)
+```
+
+### Step 2.5: Let's get the chapter numbers while we are at it
+
+Now, we want to extract the number of each chapter.  We can use a regular expression that
+finds strings in spec that
+
+1. first have to match "^CHAPTER"
+2. but then also have at least one space 
+3. and then one or more digits
+
+__AND__ we can use the `str_match` function to pull out the part that matches the 3rd part of the expression
+(i.e. the one or more digits). Check out `?str_match`
+
+Here we go!
+```{r}
+# grab them
+chap_nums <- str_match(spec, "^CHAPTER +([[:digit:]]+)")
+
+# note that str_match returns a matrix:
+head(chap_nums)
+
+# roll them forward
+chapter_numbers <- na.locf(chap_nums[,2])
+
+# see what we have done so far looks like
+head(cbind(chapter_numbers, chapter_names))
+```
+
+### Step 3: Figure out which field each line of the file is in
+
+Our main concern is going to be extracting codes that have to do with fields that we can identify
+according to which chapter they are in (which corresponds to the data base) and then which field
+name we are in.
+
+Happily, it is easy to find the beginnings of field heading sections. They are the only lines in the file
+I see that start with one or two digits, followed immediately by a TAB.  (At least that is the case for the
+five chapters we are interested in.)
+
+Recall that these things look like:
+```{r, eval=FALSE}
+2  Format Version	4	Yes	’4.1’	Format version used to report data
+	format_version				Must have the value:   ’4.1’
+					
+3	Submission Date	8	Yes	YYYYMMDD	Date of submission for this set of records.  Date should be close to actual date when this row is sent to the Mark Center
+	submission_date				Must have the same value for all records in this data submission
+					Should match submission_date in corresponding Description file
+```
+
+So, we are going to get those positions, and then try to extract the field names, which appear on the following
+lines, stuck between TABS:
+```{r}
+field_starts <- which(str_detect(spec, "^[[:digit:]]{1,2}\t"))
+field_names <- str_match(spec[field_starts + 1], "^\t([_[:alnum:]]+)\t")
+field_names
+```
