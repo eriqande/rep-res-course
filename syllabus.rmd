@@ -219,20 +219,24 @@ _String Manipulation and Text Processing in R_
 ### `r  course_day("Th", 9)`
 _A more formal look at functions. lapply()_
 
+* __Lecture:__
+    + [Functions and lapply](#functions-and-lapply)
 
 ## Week 10 {#syl-week-10}
 
 ### `r  course_day("Tu", 10)`
-_apply-like functions. the plyr package_
+_Plotting on top of maps in R_
 
 ### `r  course_day("Th", 10)`
-
+_NO CLASS. NMFS LAB PARTY_
 
 
 
 ## Week 11 {#syl-week-10}
 
 ### `r  course_day("Tu", 10)`
+_LAST CLASS MEETING_
+_dply intro_
 
-### `r  course_day("Th", 10)`
+
 

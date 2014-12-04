@@ -59,7 +59,7 @@ data specifications for the coded wire tag data base.
         ```
     2. Pull the most recent version of the rep-res-course repo just before coming to class.
 
-### Goals for this half-hour:
+### Goals for this hour:
 
 * Present example text-processing problem
 * Briefly cover the idea of _regular expressions_
@@ -84,17 +84,15 @@ remember all sorts of codes).
     + A comprehensive list of codes and values is available at http://www.rmpc.org/files/PSC_V41_Specification.pdf
 * Now the bad news:
     + The RMPC does not maintain a listing of these codes in an easily parseable (i.e. reproducible!) format.  
-    + This means that you have to extract all the codes from a friggin' PDF file, which is a _very_ ugly proposition.
-* To be honest, I find this to be mind-boggling and discouraging.  Why on earth would they expect people to
-hand-extract all these codes? ...Dreadful!
-* The folks who run the RMPC are pretty cool, though, and were able to supply me with a Microsoft Word (__yack!!__) 
+    + This means that you have to extract all the codes from a PDF file, which is a rather ugly proposition.
+* The folks who run the RMPC are pretty cool, though, and were able to supply me with a Microsoft Word 
 document from whence the PDF file was created.  
-* MS Word, as we've all learned in this course is not a reproducible or easily parseable format, but we are
+* MS Word, as we've all learned in this course is not a reproducible or easily-parseable format, but we are
 going to do our best with it.
 
 ### PSC Spec in text
 
-* I was able to copy and paste the specification, change some line endings and save it. 
+* I was able to copy and paste the specification, make sure it had Unix, instead of Mac line endings, and save it. 
 * A copy is in the course repo at: `data/PSC-Specification-ver-4.1_7-1-14.txt`
 * Go ahead and have a look at it in a suitably good text editor.  If you are using TextWrangler on your Mac
 then you can have it View -> Text Display -> Show Invisibles to see what are tabs and what are spaces, etc.
@@ -412,13 +410,16 @@ line numbers and look at the original file:
 linenos_to_investigate <- field_starts[which(is.na(field_names[,2]) | str_detect(field_names[,2], "[[:upper:]]"))] + 1 
 linenos_to_investigate
 ```
-When we take a look at all those linenumbers we see in one case a typo in the specification, and in
-a lot of other places you find the sort of inconsistent formatting that is __unavoidable when you put
-this type of critical data in a PDF file or a Word file and expect people to scrape it out.__  
+When we take a look at all those linenumbers in the original file we see in one case a typo in the specification, and in
+a lot of other places you find the problem is due to lines being broken where they probably weren't
+supposed to be, etc.  In other words, the  sort of inconsistent formatting that is probably an unavoidable
+consequence of trying to scrape _data_ out of a medium (i.e. an MS Word doc) that is unsuited to actually
+storing data.
 
-I will repeat one of the themes of this course:   You can't be putting your stuff in a Word file or an Excel
-file and expect to have your research be reproducible.  Those data specifications should live in their own 
-separate tidy SQL table within the RMIS data base.
+This mirrors one of the themes of this course that we've seen a few times:  If your stuff is in a Word file
+or an Excel file, you should not expect your research to be reproducible.  
+It would be preferable if those PSC data specifications lived in their own 
+SQL table within the RMIS data base.
 
 But anyway, from the looks of it, we can safely ignore those inconsistent spots, because those fields don't
 actually have codes that we are going to be scraping out in the next step.  
@@ -455,7 +456,7 @@ not consistent.
 3. All we can really do is plan to grab the value all the way out to the end of the line.
 4. Sometimes they do have a space after the equals sign.
 
-Here is what our basic regex to capture each of those things looks like in the `str_detect`function:
+Here is what our basic regex to capture each of those things looks like in the `str_detect` function:
 ```{r}
 gotem <- str_detect(spec, "\t[‘’].+[‘’]\t=.*$")
 
@@ -476,7 +477,7 @@ codes_and_values <- str_match(spec, "\t[‘’](.+)[‘’]\t=(.*)$")
 ```
 The above grabs the "1 or more occurrences of any character" between the quotes and also all the characters
 after the equals sign.  `str_match` returns a matrix.  The first column is the whole match, and each 
-successive column is a successive grouping (ordered by opening parenthesis, I believe.)
+successive column is a successive grouping (a different set of parentheses.)
 
 If there isn't a match then you get NAs.
 

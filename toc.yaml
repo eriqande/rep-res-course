@@ -50,6 +50,13 @@
 - same-on-factors
 - factor-issues
 - factor-utility
+./lectures/functions_and_lapply.rmd:
+- functions-and-lapply
+- functions-intro-stuff
+- user-defd-funcs
+- s3-overloading
+- applying-over-lists
+- function-wrap-up
 ./lectures/ggplot_1_pole_vault_example.rmd:
 - ggplot2-intro-lecture
 - ggplot-prereq

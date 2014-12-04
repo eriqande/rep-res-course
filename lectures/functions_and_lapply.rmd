@@ -1,0 +1,540 @@
+---
+title: Functions and lapply
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# Functions and lapply {#functions-and-lapply} 
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.width=10,
+               fig.height=7,
+               out.width = "600px",
+               out.height = "420px",
+               fig.path = "lecture_figs/functions-lapply-")
+library(stringr)
+```
+
+## Intro {#functions-intro-stuff}
+
+R is known as a "functional" language in the sense that every operation it does can be be thought of a function
+that operates on arguments and returns a value.  For the casual user of R, it is not clear whether thinking
+about this is helpful.  BUT what is helpful to any user of R is the ability to understand how functions in R:
+
+1. Are called,
+2. Parse their arguments,
+3. Can be defined by the user (yes! you can make your own functions in R),
+4. Can be applied iteratively over elements of lists or vectors.
+
+Once you  get comfortable writing your own functions, you can save yourself a lot of time by:
+
+* recognizing what parts of your code essesntially do the same things
+* wrapping those into a function
+* calling that function with different arguments.
+
+This can be particularly useful if you want to apply the same analysis to multiple different data sets.  You can
+write a function that will perform the analysis on a single, "generic" data set like one that you have, and then 
+you can apply that function to multiple data sets that you might have.
+
+### Specific goals
+
+1. Show how  you define functions
+2. Discuss parameters and arguments, and R's system for default values and parsing of argument lists.
+3. Take a brief sojourn into the world of overloaded functions and R's S3 object system.
+4. Show how you can apply a function to every member of a list with `lapply()`, and give an actual example.
+
+
+
+## User defined functions  {#user-defd-funcs}
+
+We could start off talking about functions, generally, but it will be more fun, and
+more accessible to just start writing our own functions. In the process we will learn a
+lot about function conventions.
+
+### the function function
+
+* There is a function in R called `function()` whose job is to _return a function_.
+* Let's use it, and then talk about it.
+* Here we make a function called evensum that adds up the elements in positions 2, 4, 6, ... of a vector:
+```{r}
+    # define it 
+    evensum <- function(x) sum(x[seq(2, length(x), by = 2)])
+
+    # use it!
+    evensum(x = 10:20)
+    
+    ```
+* Wow! that was  easy!  How did that work?
+
+### The anatomy of function()
+
+* The syntax of the `function()` function is relatively straightforward:
+    1. It takes arguments which are the names of the variables that act as placeholders for the values that you
+    will pass into the function.  These are called parameters.
+        + In the case of `evensum()` there is one parameter, `x`.  
+        + In the body of the function, which is the expression that comes after `function(x)` we say what we want to
+          do to `x` (namely add up every other element of it, starting with the second element).
+    2. When  we call the function, that value that we "pass in for `x`" (which was the vector `10:20` in our example)
+    gets substituted for every occurrence of `x` in the body of the function.
+    3. When the function is exectuted it returns whatever value the expression that is its body returns.
+    
+### Compound expressions
+
+* Most functions are going to be more complex than just a single statement like `sum(x[seq(2, length(x), by = 2)])`, so how do we execute muliple statements in the body of a function and return the value that we want?
+* Answer: Use a _compound expression_ which is merely a bunch of expressions wrapped up in curly braces.
+* Here is an example of how we could have written `evensum` with multiple expressions and intermediate
+value assignments:
+```{r}
+    # define it
+    evensum <- function(x) {
+      idx <- seq(2, length(x), by = 2)
+      y <- x[idx]
+      sum(y)
+    }
+
+    # use it!
+    evensum(10:20)
+
+    # hooray! we got the same thing as last time
+    ```
+
+### The value of a compound expression
+
+* It is important to understand that if you have a compound expression like:
+    ```{r, eval = FALSE}
+    {
+     statement_1
+     statement_2
+     statement_3
+    }
+    ```
+then the _value_ of this expression will be the value returned by the last expression inside the compound expression
+(in the above case, the value returned by `statement_3`)
+* Thus, when the body of a function is a compound expression, the value that the function returns will just
+be the value of the last expression in the body of the function.
+* You can also be explicit about it and wrap it in `return()`:
+```{r}
+    # define it using return
+    evensum <- function(x) {
+      idx <- seq(2, length(x), by = 2)
+      y <- x[idx]
+      return(sum(y))
+    }
+    
+    # use it
+    evensum(10:20)
+    ```
+
+### Multiple parameters
+
+* Having multiple parameters that your function understands is straightforward.  You just put them in the
+argument list of `function()`!
+* Imagine that we wanted to make a more general function of which `evensum` was a special case.  Perhaps
+we want to be able to easily take any vector, start on the Start-th element and then sum it and every other
+element in steps of Step.  Here goes:
+```{r}
+    skip_sum <- function(x, Start, Step) sum(x[seq(Start, length(x), by = Step)])
+    ```
+* Now, we can call that with values for `x`, `Start` and `Step`.  
+```{r}
+    # Try this:
+    skip_sum(x = 10:20, Start = 4, Step = 3)
+
+    # this will give us the same results as evensum:
+    skip_sum(x = 10:20, Start = 2, Step = 2)
+    ```
+* Notice that in the two invocations of `skip_sum` above, we are using _named parameters_.  i.e., we are saying
+`x = 10:20` and `Start = 2`, etc.  We are being very explicit about which arguments belong to which parameters.
+
+
+### In class exercise
+
+OK, everyone, you have 5 minutes to write your own function called `addmult` that takes two vectors, `a` and `b` and
+returns a named list in which the first component named "Add" is equal to a+b and the second component named "Mult" is equal to
+a*b.
+
+
+
+
+### Positional parameters and named parameters
+
+* R is rather interesting in that you don't have to give it named parameters.  It can figure out what you mean
+as long as the order of arguments you give it is in the order of the parameters in the function definition:
+```{r}
+    # this:
+    skip_sum(10:20, 4, 3)
+  
+    # will be the same as this:
+    skip_sum(x = 10:20, Start = 4, Step = 3)
+    ```
+* But, if the argument list is long, it is often easier to read (and less error-prone) to use named parameters.
+* Note that named arguments don't have to be in any particular order, if they are named!
+```{r}
+    # these will all be the same
+    skip_sum(x = 10:20, Start = 4, Step = 3)
+    skip_sum(Start = 4, Step = 3, x = 10:20)
+    skip_sum(Start = 4, x = 10:20, Step = 3)
+    ```
+    
+    
+### Mixing named and positional parameters
+
+This is far out.  You can mix named and positional parameters.  R's rule is this:
+
+1. First match all the named parameters to named arguments and then move them off the argument list _and_ the
+parameter list.
+2. Then match the remaining arguments to the remaining parameters positionally.
+```{r}
+    # for example these will all be the same
+    skip_sum(x = 10:20, Start = 4, Step = 3)
+    skip_sum(10:20, Start = 4, Step = 3)
+    skip_sum(Start = 4, Step = 3, 10:20)
+    skip_sum(Start=4, 10:20, 3)
+    ```
+
+### Defining default parameter values
+
+* What if we realized that most the time we are using `skip_sum` we just want it set with `Start = 2` and `Step = 2`
+so that it behaves like `evensum`.  
+* This is a job for defaults!
+* You can set default values for parameters by using an `=` sign in the function definition.  If no arguments
+are passed in for those parameters, then the defaults are applied.
+```{r}
+    # new definition with defaults
+    skip_sum <- function(x, Start = 2, Step = 2) sum(x[seq(Start, length(x), by = Step)])
+
+    # now see how it behaves:
+    skip_sum(10:20)
+
+    skip_sum(10:20, 2, 2)
+
+    skip_sum(10:20, Step = 2)
+
+    skip_sum(10:20, 4, 5)  # this overrides the defaults
+    ```
+
+
+### The Curious "..."" parameter
+
+* Sometimes, it would be nice to be able to pass other _named_ parameters to a function that is
+called from inside your own function.  This is what the `...` parameter is for. 
+* You have probably seen `...` in the help files for certain functions.  It just means "any other named
+parameters that make sense".
+* Of course, they only make sense if your function takes whatever else was passed in and does something
+appropriate with them.
+* Example:  our `skip_sum` function won't do so well with NAs:
+```{r}
+    vec <- 10:20
+    vec[c(3,5,8,9)] <- NA
+    
+    # here is what vec looks like
+    vec
+
+    # try it:
+    skip_sum(vec)
+
+    # Wait, I want it to treat NAs as zeroes
+    ```
+* If you want it to treat NAs as zeroes you can redefine `skip_sum` like this:
+```{r}
+    skip_sum <- function(x, Start = 2, Step = 2, ...) sum(x[seq(Start, length(x), by = Step)], ...)
+    ```
+* Note the "..." in the argument list and in the body.  It is being passed in as an argument to the `sum` function.
+* Try it:
+```{r}
+    skip_sum(vec, na.rm = TRUE)  # we pass in a named argument that does not match Start, or Step.
+    
+    # that gave us the same as:
+    skip_sum({vec[is.na(vec)]<-0; vec})  # note use of compound expression...
+    
+    # If we don't pass in na.rm = TRUE then it doesn't get passed to sum:
+    skip_sum(vec)
+    ```
+    
+    
+### Listing a function
+
+* If you type a function name, without the parentheses, R will list the code that went into the function definition
+* Try it:
+```{r}
+    # list evensum
+    evensum
+
+    # list skip_sum
+    skip_sum
+
+    # have a look at read.csv, which is just read.table with some defaults:
+    read.csv
+    ```
+
+
+## A Brief Journey into S3 function overloading {#s3-overloading}
+
+### What's this UseMethod stuff?
+
+* Sometimes, when you list a function, like `print` for example, you get something like this:
+```{r}
+    print
+    ```
+
+* Hey! I don't see any code listing there! What is going on!
+* The `UseMethod` call in there actually _is_ the function inside the `print` function.
+* `UseMethod` is the (somewhat klugie and limited) way that R _overloads_ its functions.
+* What is overloading?  It means that if you pass something to the `print` function, it will
+behave differently depending on what the class of the first argument is.  
+* Aha! This is why data frames print out differently than lists, etc.  
+
+
+### How this works
+
+* The print function has been defined so that when it is called it looks to see what _class_ the first argument
+(corresponding to the named parameter `x`).  let's say that argument is of class `weird`.  In that case, the print
+function looks for another function called `print.weird()`.  If it finds it, it will execute that function on the 
+argument.
+
+
+### How many class-specific print functions are there?
+
+You can list them with `methods()`
+```{r}
+methods(print)
+```
+OK! That is a bunch.  But notice that there is not a `print.weird` function.
+
+### Make a new print function
+
+I am going to make a print function that will be invoked on objects of class weird:
+```{r}
+print.weird <- function(x) {
+  print("Object of class weird")
+  print(paste("Length:", length(x)))
+  print(head(x))
+}
+```
+Our print.weird function doesn't do much, it just shows the length and the first few lines, and lets the
+user know the object is of class weird.
+
+Let's watch it in action:
+```{r}
+boing <- 1:100
+
+print(boing) # does what we expect
+
+# make boing an object of class weird
+class(boing) <- "weird"
+
+print(boing)
+```
+It is good keep in mind that R is full of overloaded functions --- that is functions that behave differently
+depending on the class of their arguments.
+
+
+## Applying functions to list elements {#applying-over-lists}
+
+One of the great things about understanding how to define your own functions is that it lets
+you harness the power of the `lapply()` function which takes two main arguments:
+
+* a list (really any vector...)
+* a function
+
+And it cycles over the list and applies the function to each of the list's components, and returns the results
+in a list!
+
+Here is its usage from its help file: `lapply(X, FUN, ...)`
+
+### An example: baby rockfish
+
+To motivate our discussion of `lapply()` I have a simple example.  In the directory `data/rockfish_larvae` there are 7 files, each with the genotypes of 96 larval rockfish that are the offspring of a single female.  Here is what one
+file looks like:
+```{r}
+cat(readLines("data/rockfish_larvae/K17larvae.txt")[1:10], sep = "\n")
+```
+
+Each pair of columns are the genotypes at a single location (a locus) in the genome.  The numbers refer to different
+alleles.  0's denote missing data.
+
+One quick and dirty way of detecting whether a rockfish mother has mated with more than one male is to see
+if any loci have more than 4 alleles amongst the female's offspring.
+
+So, our goal is to cycle over the 7 files, read them in, cycle over the loci, and for each locus, count the number of each allele observed, and ultimately count up the number of alleles.
+
+Here goes...
+
+### Step 1: Get a named vector of file names
+
+* We can use the `dir()` function to get the paths to the files we want.
+* We will throw some regex foo in there to name the elements of the vector the way we want:
+```{r}
+    library(stringr)
+    fpaths <- dir("data/rockfish_larvae", full.names = TRUE)
+    
+    # they look like this
+    fpaths
+
+    # grab the "nice" part to be their names
+    names(fpaths) <- str_match(fpaths, "data.*/(K[12][0-9]larvae)")[,2]
+
+    # here is what we now have:
+    fpaths
+    ```
+
+### Step 2: Read the files into a list of 7 data frames
+Here we can use `lapply()`. 
+
+Here is one way to do it:
+```{r}
+# note we are lapplying over a character vector. But the result
+# still comes back as a list!
+dframes <- lapply(fpaths, function(x) read.table(x, header = TRUE, na.strings = "0")) 
+```
+
+And this is another way we could do it, using the ... to pass the extra named parameters to `read.table`
+```{r}
+dframes <- lapply(fpaths, read.table, header = TRUE, na.strings = "0")
+```
+
+Two important points to make:
+
+1. `function(x) read.table(x, header = TRUE, na.strings = "0")` returns a function which is used 
+as `lapply()`'s `FUN` argument.  That expression is as good as passing in the name of a function.
+Pretty cool...
+    + You might see this sort of construction where a function is defined but not returned into a variable
+    called an _anonymous function_.
+2. Defining a function and being explicit about passing the argument in is more flexible than
+passing the name of a function and extra named parameters.  
+
+
+### Step 3: Make sure we have what we want
+
+Note that `dframes` is a list of length 7, and it has names that are appropriate:
+```{r}
+length(dframes)
+names(dframes)
+```
+This shows that `lapply()` propagates names to the list that it returns.
+
+It would be nice to make sure that every component of it was a data frame of the correct size.
+
+__Class exercise:__ Use lapply to quickly compute the dimensions of every data frame that was just 
+read in.
+
+I want to pause for a moment and reiterate that each component of the list `dframes` is a data frame! 
+Remember that a list can store any object of any class or structure. It is easy to forget that....But when
+you remember it, you can have fun throwing all manner of objects into lists if need be.
+
+### Step 4: Prepare to count alleles of different types
+
+* These data frames are not particularly _tidy_.  It is particularly annoying that data for each locus
+are in two separate columns.
+* There are lots of ways we could deal with this.  One would be to _reshape_ the data into one big tidy data
+frame with five colums (Mother, Larva, Locus, GeneCopy (a or b), Allele).
+* But since we are working with lapply, we will do it differently.
+* We are just counting up the alleles, so we can just stack the first and second columns for each 
+locus on top of each other.  Then all the alleles are in a single vector. Here we will do this.
+* We can experiment with a single component first.  It is convenient to call it `x`.
+```{r}
+    x <- dframes[[1]]
+    first_cols <- x[, c(T,F)]  # pick out the first columns of each locus
+    second_cols <- x[, c(F,T)] # second columns of each locus
+
+    # now, name the colums so they are the same, and just refer to locus
+    # this involves a stringr function
+    names(first_cols) <- str_replace(names(first_cols), "_a", "")
+    names(second_cols) <- str_replace(names(second_cols), "_b", "")
+
+    # now, stack those up:
+    tmp <- rbind(first_cols, second_cols)
+
+    # see how big it is and what it looks like
+    dim(tmp)
+
+    head(tmp)
+    ```
+* OK! That works, but it was only for a single component that we had named `x`.  We want to 
+apply the same series of operations to every single component of `dframes`.  
+    + This is a job for `lapply` and a function!
+* Here we define a function and apply it:
+```{r}
+    # define a function of x (see how useful it was to call that thing x when we were experimenting?)
+    stack_em <- function(x) {
+      first_cols <- x[, c(T,F)]
+      second_cols <- x[, c(F,T)]
+      names(first_cols) <- str_replace(names(first_cols), "_a", "")
+      names(second_cols) <- str_replace(names(second_cols), "_b", "")
+      rbind(first_cols, second_cols)
+    }
+
+    # now, lapply that function over dframes:
+    dframes_stacked <- lapply(dframes, stack_em)
+
+    # note that we also could have done:
+    dframes_stacked <- lapply(dframes, function(x) {
+      first_cols <- x[, c(T,F)]
+      second_cols <- x[, c(F,T)]
+      names(first_cols) <- str_replace(names(first_cols), "_a", "")
+      names(second_cols) <- str_replace(names(second_cols), "_b", "")
+      rbind(first_cols, second_cols)
+      }
+    )
+
+    ```
+
+
+### Step 5: Count up the occurrences of each allele in each column of dframes_stacked
+
+* Recall that a data frame is just a special kind of a list.  The columns of the data frame
+are the components of the list.  So you can lapply over them.
+* We will apply the table function to each column of each component of dframes_stacked.
+* Far out! That requires nested lapply()'s:
+```{r}
+    alle_counts <- lapply(dframes_stacked, function(x) lapply(x, table))
+
+    # see what the first component of the result looks like:
+    alle_counts[1]
+    ```
+
+### Step 6: Count up the total number of alleles at each locus
+
+* The above result shows clear evidence of having more than four alleles, at least among some loci.
+* But it is hard to look at.  Can we summarize it further? Yes!
+* We can take the length of each component to see how many distinct alleles there were:
+```{r}
+    list_result <- lapply(alle_counts, function(x) lapply(x, length))
+
+    # what does it look like?
+    list_result[1]
+    ```
+* OK, that is nice, but it is hard to look at as a list.
+
+### Step 6 do-over: using sapply
+
+* Because each locus yields just a single number, and there are exactly 7 loci per mother, we could
+simplify all these results into a table that is easier to look at.
+* A nice function for this is `sapply()` which does this:
+    1. Run `lapply`
+    2. Pass the result through the `simplify2array` function
+* `simplify2array()` looks at a list, and if it could be simply expressed as an array (like a matrix) without
+losing any information, then it does that, whilst preserving the names in a sensible fashion.  
+* Check this out:
+```{r}
+    array_result <- sapply(alle_counts, function(x) sapply(x, length))
+  
+    array_result
+    ```
+
+## Wrap up {#function-wrap-up}
+
+* we've just scratched the surface of a whole family of `apply`-like functions that are present in R.
+* If you want to get more into them, I recommend Hadley Wickham's `plyr` package.
+* If you are careful about keeping your data in a tidy format, then you can probably just use Hadley's `dplyr` package
+which is phenomenally cool.
+* What you've learned here about functions will be useful all over the R world.
+
