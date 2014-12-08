@@ -1,0 +1,316 @@
+---
+title: Making Maps With R
+author: "Eric C. Anderson"
+output:
+  html_document:
+    toc: yes
+  bookdown::html_chapter:
+    toc: no
+layout: default_with_disqus
+---
+
+
+
+# Making Maps with R {#map-making-in-R} 
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.width=10,
+               fig.height=7,
+               out.width = "600px",
+               out.height = "420px",
+               fig.path = "lecture_figs/making-maps-")
+```
+
+## Intro {#map-making-intro}
+
+For a long time, R has had a relatively simple mechanism, via the `maps` package, for making simple outlines
+of maps and plotting lat-long points and paths on them.
+
+More recently, with the advent of packages like `sp`, `rgdal`, and `rgeos`, R has been acquiring much of the
+functionality of traditional GIS packages (like ArcGIS, etc).  This is an exciting development, but not
+always easily accessible for the beginner, as it requires installation of specialized external libraries
+(that may, on some platforms, not be straightforward) and considerable familiarity with GIS concepts.
+
+More recently, a third approach to convenient mapping, using `ggmap` has been developed that allows the tiling of 
+detailed base maps from Google Earth or Open Street Maps, upon which spatial data may be plotted.
+Today, we are going to focus on mapping using base maps from R's tried and true `maps` package and also using the
+`ggmap` package.  We won't cover the more advanced GIS-related topics nor using `rgdal`, or `sp` to plot
+maps with different projections, etc.  However, we will talk briefly about the somewhat more simplified
+approach using the `mapproj` package.
+
+As in our previous explorations in this course, when it comes to plotting, we are going to completely
+skip over R's base graphics system and head directly to Hadley Wickham's `ggplot2` package.  Hadley has
+included a few functions that make it relatively easy to interact with the data in R's `maps` package, and
+of course, once a map layer is laid down, you have all the power of ggplot at your fingertips to overlay
+whatever you may want to over the map.  `ggmap` is a package that goes out to different map servers and
+grabs base maps to plot things on, then it sets up the coordinate system and writes it out as the base layer
+for further ggplotting.  It is pretty sweet, but does not support different projections.
+
+### Today's Goals
+
+1. Introduce readers to the map outlines available in the `maps` package
+    + Show how to convert those data into data frames that `ggplot2` can deal with
+    + Discuss some `ggplot2` related issues about plotting things.
+2. Look at how one might do a small number of different projections using the `mapproj` package.
+3. Use `ggmap` to make some pretty decent looking maps
+
+I feel that the above three topics should cover a large part of what people will need for making
+useful maps of field sites, or sampling locations, or fishing track lines, etc. 
+
+For today we will be skipping how to read in traditional GIS "shapefiles" so as to minimize
+the number of packages that need installation, but keep in mind that it isn't too hard to do that
+in R, too.
+
+
+
+### Prerequisites
+You are going to need to install a few extra packages to follow along with this lecture.
+```{r, eval=FALSE}
+# these are packages you will need, but probably already have.
+# Don't bother installing if you already have them
+install.packages(c("ggplot2", "devtools"))
+
+# some standard map packages.
+install.packages(c("maps", "mapdata"))
+
+# the github version of ggmap, which recently pulled in a small fix I had
+# for a bug 
+devtools::install_github("dkahle/ggmap")
+```
+
+
+
+
+### Load up a few of the libraries we will use
+
+```{r}
+library(ggplot2)
+library(ggmap)
+library(maps)
+library(mapdata)
+```
+
+
+## Plotting maps-package maps with ggplot
+
+### The main players:
+
+* The `maps` package contains a lot of outlines of continents, countries, states, and counties that have
+been with R for a long time.  
+* The `mapdata` package contains a few more, higher-resolution outlines.
+* The `maps` package comes with a plotting function, but, we will opt to use `ggplot2` to plot the 
+maps in the `maps` package.  
+* Recall that `ggplot2` operates on data frames.  Therefore we need some way to
+translate the `maps` data into a data frame format the `ggplot` can use.
+
+### Maps in the maps package
+
+* Package `maps` provides lots of different map outlines and points for cities, etc.  
+* Some examples: `usa`, `nz`, `state`, `world`, etc.
+
+
+
+### Makin' data frames from map outlines
+
+* `ggplot2` provides the `map_data()` function.
+    + Think of it as a function that turns a series of points along an outline into a data frame
+    of those points.
+    + Syntax:  `map_data("name")` where "name" is a quoted string of the name of a map in the `maps` or `mapdata`
+    package
+* Here we get a USA map from `maps`:
+    ```{r}
+    usa <- map_data("usa")
+
+    dim(usa)
+    
+    head(usa)
+    
+    tail(usa)
+    ```
+* Here is the high-res world map centered on the Pacific Ocean from `mapdata`
+    ```{r}
+    w2hr <- map_data("world2Hires")
+
+    dim(w2hr)
+
+    head(w2hr)
+
+    tail(w2hr)
+    ```
+
+### The structure of those data frames
+These are pretty straightforward:
+
+* `long` is longitude.  Things to the west of the prime meridian are negative.
+* `lat` is latitude.
+* `order`. This just shows in which order `ggplot` should "connect the dots"
+* `region` and `subregion` tell what region or subregion a set of points surrounds.
+* `group`.  This is _very important_!  `ggplot2`'s functions can take a group argument which 
+controls (amongst other things) whether adjacent points should be connected by lines.  If they are
+in the same group, then they get connected, but if they are in different groups then they don't.
+    + Essentially, having to points in different groups means that `ggplot` "lifts the pen" when going between
+    them.
+    
+
+### Plot the USA map
+
+* Maps in this format can be plotted with the polygon geom.  i.e. using `geom_polygon()`.
+* `geom_polygon()` drawn lines between points and "closes them up" (i.e. draws a line from the last
+point back to the first point)
+* You have to map the `group` aesthetic to the `group` column
+* Of course, `x = long` and `y = lat` are the other aesthetics.
+
+#### Simple black map
+By default, `geom_polygon()` draws with no line color, but with a black fill:
+```{r}
+usa <- map_data("usa") # we already did this, but we can do it again
+ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group)) + 
+  coord_fixed(1.3)
+```
+
+#### What is this coord_fixed()?
+
+* This is very important when drawing maps.
+* It fixes the relationship between one unit in the $y$ direction and one unit in the $x$ direction.
+* Then, even if you change the outer dimensions of the plot (i.e. by changing the window size or the size
+of the pdf file you are saving it to (in `ggsave` for example)), the _aspect ratio_ remains unchanged.
+* In the above case, I decided that if every $y$ unit was 1.3 times longer than an $x$ unit, then  the
+plot came out looking good.
+    + A different value might be needed closer to the poles.
+    
+#### Mess with line and fill colors
+
+* Here is no fill, with a red line.  Remember, fixed value of aesthetics go _outside_ the `aes` function.
+    ```{r}
+    ggplot() + 
+      geom_polygon(data = usa, aes(x=long, y = lat, group = group), fill = NA, color = "red") + 
+      coord_fixed(1.3)
+    ```
+    
+* Here is violet fill, with a blue line.
+    ```{r}
+    gg1 <- ggplot() + 
+      geom_polygon(data = usa, aes(x=long, y = lat, group = group), fill = "violet", color = "blue") + 
+      coord_fixed(1.3)
+    gg1
+    ```
+    
+#### Adding points to the map
+
+* Let's add black and yellow points at our lab and at the NWFSC in Seattle.
+    ```{r}
+    labs <- data.frame(
+      long = c(-122.064873, -122.306417),
+      lat = c(36.951968, 47.644855),
+      names = c("SWFSC-FED", "NWFSC"),
+      stringsAsFactors = FALSE
+      )  
+
+    gg1 + 
+      geom_point(data = labs, aes(x = long, y = lat), color = "black", size = 5) +
+      geom_point(data = labs, aes(x = long, y = lat), color = "yellow", size = 4)
+    ```
+
+#### See how important the group aesthetic is
+
+Here we plot that map without using the group aesthetic:
+```{r}
+ggplot() + 
+      geom_polygon(data = usa, aes(x=long, y = lat), fill = "violet", color = "blue") + 
+      geom_point(data = labs, aes(x = long, y = lat), color = "black", size = 5) +
+      geom_point(data = labs, aes(x = long, y = lat), color = "yellow", size = 4) +
+      coord_fixed(1.3)
+```
+
+That is no bueno!  The lines are connecting points that should not be connected!
+
+
+
+
+
+
+
+
+### State maps
+We can also get a data frame of polygons that tell us above state boundaries:
+```{r}
+states <- map_data("state")
+dim(states)
+
+head(states)
+
+tail(states)
+```
+
+#### Plot all the states, all colored a little differently
+
+This is just like it is above, but we can map fill to `region` and 
+make sure the the lines of state borders are white.
+```{r}
+ggplot(data = states) + 
+  geom_polygon(aes(x = long, y = lat, fill = region, group = group), color = "white") + 
+  coord_fixed(1.3) +
+  guides(fill=FALSE)  # do this to leave off the color legend
+```
+
+Boom! That is easy.
+
+#### Plot just a subset of states in the contiguous 48:
+
+* Read about the `subset` command.  It provides another way of 
+subsetting data frames (sort of like using the `[ ]` operator with
+a logical vector).
+* We can use it to grab just CA, OR, and WA:
+    ```{r}
+    west_coast <- subset(states, region %in% c("california", "oregon", "washington"))
+    
+    ggplot(data = west_coast) + 
+      geom_polygon(aes(x = long, y = lat), fill = "palegreen", color = "black") 
+    ```
+
+#### Man that is ugly!! 
+
+* I am just keeping people on their toes. What have we forgotten here?
+    + `group`
+    + `coord_fixed()`
+* Let's put those back in there:
+    ```{r}
+    ggplot(data = west_coast) + 
+      geom_polygon(aes(x = long, y = lat, group = group), fill = "palegreen", color = "black") + 
+      coord_fixed(1.3)
+    ```
+
+Phew! That is a little better!
+
+
+Now, can we add some county lines on there?
+```{r}
+counties <- map_data("county")
+ca_county <- subset(counties, region == "california")
+wc2 + geom_polygon(data = ca_county, aes(x = long, y = lat, group = group), color = "black", fill = NA )
+```
+That is rad.  Now I can go to wikipedia or http://www.california-demographics.com/counties_by_population
+and grab population data for each county.
+
+I can also get the square miles from wikipedia so I can do full on population density.
+
+
+
+
+### zoom in?
+Note that the scale of these maps kinda sucks!
+
+```{r}
+wc3 <- wc2 + xlim(-123, -121.5) + ylim(36, 38)
+wc3
+```
+
+That is an epic fail because it clips the data and tries to complete the polygon with that ridiculous line
+
+Better to chop it off using `coord_cartesian()`:
+```{r}
+wc4 <- wc2 + coord_cartesian(xlim = c(-123, -121.5),  ylim = c(36, 38))
+wc4
+```
+    
