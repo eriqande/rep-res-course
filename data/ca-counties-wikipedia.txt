@@ -1,0 +1,230 @@
+Alameda County	001	Oakland	1853	Contra Costa and Santa Clara	Spanish for "avenue shaded by trees" or "cottonwood grove."	1,578,891	738 sq mi
+(1,911 km2)	State map highlighting Alameda County
+
+
+Alpine County	003	Markleeville	1864	Amador, El Dorado, Calaveras, Mono and Tuolumne	Location high in the Sierra Nevada.	1,159	739 sq mi
+(1,914 km2)	State map highlighting Alpine County
+
+
+Amador County	005	Jackson	1854	Calaveras	Jose Maria Amador (1794–1883), a soldier, rancher, and miner who, along with several Native Americans, established a successful gold mining camp near present-day Amador City in 1848.	36,519	593 sq mi
+(1,536 km2)	State map highlighting Amador County
+
+
+Butte County	007	Oroville	1850	Original	Sutter Buttes, which was mistakenly thought to be in the county during the county's establishment.	222,090	1,640 sq mi
+(4,248 km2)	State map highlighting Butte County
+
+
+Calaveras County	009	San Andreas	1850	Original	Calaveras River; Calaveras itself is the Spanish for "skulls".	44,515	1,020 sq mi
+(2,642 km2)	State map highlighting Calaveras County
+
+
+Colusa County	011	Colusa	1850	Original	Rancho Colus land grant from Mexico.	21,358	1,151 sq mi
+(2,981 km2)	State map highlighting Colusa County
+
+
+Contra Costa County	013	Martinez	1850	Original	Spanish for "opposite coast", from its location across San Francisco Bay from San Francisco.	1,094,205	720 sq mi
+(1,865 km2)	State map highlighting Contra Costa County
+
+
+Del Norte County	015	Crescent City	1857	Klamath	Spanish for "northern", from its far northern location.	27,873	1,008 sq mi
+(2,611 km2)	State map highlighting Del Norte County
+
+
+El Dorado County	017	Placerville	1850	Original	El Dorado, a mythical city of gold, owing to the area's significance in the California Gold Rush.	181,737	1,712 sq mi
+(4,434 km2)	State map highlighting El Dorado County
+
+
+Fresno County	019	Fresno	1856	Mariposa, Merced and Tulare	The city of Fresno, itself Spanish for "ash tree."	955,272	5,963 sq mi
+(15,444 km2)	State map highlighting Fresno County
+
+
+Glenn County	021	Willows	1891	Colusa	Dr. Hugh J. Glenn, a California businessman and politician.	27,940	1,315 sq mi
+(3,406 km2)	State map highlighting Glenn County
+
+
+Humboldt County	023	Eureka	1853	Trinity	Alexander von Humboldt, a German naturalist and explorer.	134,493	3,573 sq mi
+(9,254 km2)	State map highlighting Humboldt County
+
+
+Imperial County	025	El Centro	1907	San Diego	Imperial Valley, named after the Imperial Land Company.	176,584	4,175 sq mi
+(10,813 km2)	State map highlighting Imperial County
+
+
+Inyo County	027	Independence	1866	Mono and Tulare	exact etymology disputed; early settlers believed Inyo to be the native name for area mountains, but this term may be the name of a Mono Indian leader	18,467	10,192 sq mi
+(26,397 km2)	State map highlighting Inyo County
+
+
+Kern County	029	Bakersfield	1866	Los Angeles and Tulare	Edward Kern, cartographer for John C. Fremont's 1845 expedition.	864,124	8,142 sq mi
+(21,088 km2)	State map highlighting Kern County
+
+
+Kings County	031	Hanford	1893	Tulare	Kings River, original Spanish name Rio de los Santos Reyes ("River of the Holy Kings").	150,960	1,390 sq mi
+(3,600 km2)	State map highlighting Kings County
+
+
+Lake County	033	Lakeport	1861	Napa	Clear Lake	63,860	1,258 sq mi
+(3,258 km2)	State map highlighting Lake County
+
+
+Lassen County	035	Susanville	1864	Plumas and Shasta, and now defunct Lake County, Nevada	Peter Lassen, a Danish naturalist and explorer.	32,163	4,558 sq mi
+(11,805 km2)	State map highlighting Lassen County
+
+
+Los Angeles County	037	Los Angeles	1850	Original	The city of Los Angeles, itself Spanish for "The Angels", abbreviated from El Pueblo de Nuestra Señora la Reina de los Angeles del Río de Porciúncula (The Village of Our Lady, the Queen of the Angels of the river of Porziuncola).	10,017,068	4,060 sq mi
+(10,515 km2)	State map highlighting Los Angeles County
+
+
+Madera County	039	Madera	1893	Mariposa	The city of Madera, itself Spanish for "wood", in reference to the forested area of the landscape	152,389	2,138 sq mi
+(5,537 km2)	State map highlighting Madera County
+
+
+Marin County	041	San Rafael	1850	Original	Exact etymology disputed; probably a corrupted abbreviation of Bahía de Nuestra Señora del Rosario la Marina, the Spanish name for area headlands along San Francisco Bay.	258,365	520 sq mi
+(1,347 km2)	State map highlighting Marin County
+
+
+Mariposa County	043	Mariposa	1850	Original	The city of Mariposa, itself Spanish for "butterfly".	17,755	1,451 sq mi
+(3,758 km2)	State map highlighting Mariposa County
+
+
+Mendocino County	045	Ukiah	1850	Original	Antonio de Mendoza, first viceroy of New Spain.	87,192	3,509 sq mi
+(9,088 km2)	State map highlighting Mendocino County
+
+
+Merced County	047	Merced	1855	Mariposa	The city of Merced, itself derived from the original Spanish name El Río de Nuestra Señora de la Merced ("River of Our Lady of Mercy").	263,228	1,929 sq mi
+(4,996 km2)	State map highlighting Merced County
+
+
+Modoc County	049	Alturas	1874	Siskiyou	The Modoc people	9,147	3,944 sq mi
+(10,215 km2)	State map highlighting Modoc County
+
+
+Mono County	051	Bridgeport	1861	Calaveras, Fresno and Mariposa	Mono Lake; name derived from Monachi, a Yokut name for native peoples of the Sierra Nevada.	14,074	3,044 sq mi
+(7,884 km2)	State map highlighting Mono County
+
+
+Monterey County	053	Salinas	1850	Original	Monterey Bay, itself a Spanish portmanteau of monte ("hill") and rey ("king").	428,826	3,322 sq mi
+(8,604 km2)	State map highlighting Monterey County
+
+
+Napa County	055	Napa	1850	Original	Disputed origin; possibly derived from the Patwin word napo, meaning home.	140,326	754 sq mi
+(1,953 km2)	State map highlighting Napa County
+
+
+Nevada County	057	Nevada City	1851	Yuba	The bordering state of Nevada, itself Spanish for "snow-covered", referencing the area's high elevation	98,200	958 sq mi
+(2,481 km2)	State map highlighting Nevada County
+
+
+Orange County	059	Santa Ana	1889	Los Angeles	The orange, which was widely abundant in the area at the time the county was established.	3,114,363	790 sq mi
+(2,046 km2)	State map highlighting Orange County
+
+
+Placer County	061	Auburn	1851	Sutter and Yuba	Spanish term for gravel deposits containing gold, a reference the California Gold Rush, which was centered in the area.	367,309	1,503 sq mi
+(3,893 km2)	State map highlighting Placer County
+
+
+Plumas County	063	Quincy	1854	Butte	Spanish for feathers.	18,859	2,554 sq mi
+(6,615 km2)	State map highlighting Plumas County
+
+
+Riverside County	065	Riverside	1893	San Bernardino and San Diego	The city of Riverside, named in turn because of its location on the Santa Ana River.	2,292,507	7,208 sq mi
+(18,669 km2)	State map highlighting Riverside County
+
+
+Sacramento County	067	Sacramento	1850	Original	The city of Sacramento, named in turn after the Santisimo Sacramento (Spanish for "Most Holy Sacrament").	1,462,131	966 sq mi
+(2,502 km2)	State map highlighting Sacramento County
+
+
+San Benito County	069	Hollister	1874	Monterey	Saint Benedict (San Benedicto in Spanish; Benito is the diminutive of Benedicto).	57,600	1,389 sq mi
+(3,597 km2)	State map highlighting San Benito County
+
+
+San Bernardino County	071	San Bernardino	1853	Los Angeles	The city of San Bernardino, named in turn after Saint Bernardino of Siena (San Bernardino de Siena in Spanish)	2,088,371	20,062 sq mi
+(51,960 km2)	State map highlighting San Bernardino County
+
+
+San Diego County	073	San Diego	1850	Original	The city of San Diego, itself Spanish for Saint Didacus	3,211,252	4,204 sq mi
+(10,888 km2)	State map highlighting San Diego County
+
+
+San Francisco County	075	San Francisco	1850	Original	The city of San Francisco, itself Spanish for Saint Francis.	837,442	47 sq mi
+(122 km2)	State map highlighting City and County of San Francisco
+
+
+San Joaquin County	077	Stockton	1850	Original	Spanish for Saint Joachim.	704,379	1,399 sq mi
+(3,623 km2)	State map highlighting San Joaquin County
+
+
+San Luis Obispo County	079	San Luis Obispo	1850	Original	The city of San Luis Obispo, itself Spanish for Saint Louis, the Bishop.	276,443	3,304 sq mi
+(8,557 km2)	State map highlighting San Luis Obispo County
+
+
+San Mateo County	081	Redwood City	1856	San Francisco and Santa Cruz	Spanish for Saint Matthew.	747,373	449 sq mi
+(1,163 km2)	State map highlighting San Mateo County
+
+
+Santa Barbara County	083	Santa Barbara	1850	Original	The city of Santa Barbara, itself Spanish for Saint Barbara.	435,697	2,738 sq mi
+(7,091 km2)	State map highlighting Santa Barbara County
+
+
+Santa Clara County	085	San Jose	1850	Original	Mission Santa Clara de Asís, itself Spanish for Saint Clare of Assisi.	1,862,041	1,291 sq mi
+(3,344 km2)	State map highlighting Santa Clara County
+
+
+Santa Cruz County	087	Santa Cruz	1850	Original	The city of Santa Cruz, itself Spanish for holy cross	269,419	446 sq mi
+(1,155 km2)	State map highlighting Santa Cruz County
+
+
+Shasta County	089	Redding	1850	Original	Mount Shasta; the indigenous Shasta people	178,980	3,786 sq mi
+(9,806 km2)	State map highlighting Shasta County
+
+
+Sierra County	091	Downieville	1852	Yuba	Spanish for "mountain range", a reference to the area's topography	3,047	953 sq mi
+(2,468 km2)	State map highlighting Sierra County
+
+
+Siskiyou County	093	Yreka	1852	Shasta and Klamath	Siskiyou Mountains; exact etymology of Siskiyou is disputed.	43,799	6,287 sq mi
+(16,283 km2)	State map highlighting Siskiyou County
+
+
+Solano County	095	Fairfield	1850	Original	Chief Solano of the Suisunes	424,788	828 sq mi
+(2,145 km2)	State map highlighting Solano County
+
+
+Sonoma County	097	Santa Rosa	1850	Original	Exact etymology disputed; probably a Pomo term meaning "valley of the moon", which references a native legend about spiritual activity in the area.	495,025	1,576 sq mi
+(4,082 km2)	State map highlighting Sonoma County
+
+
+Stanislaus County	099	Modesto	1854	Tuolumne	Stanislaus River, named after Estanislao.	525,491	1,495 sq mi
+(3,872 km2)	State map highlighting Stanislaus County
+
+
+Sutter County	101	Yuba City	1850	Original	John Sutter, a Swiss pioneer of California associated with the California Gold Rush.	95,350	603 sq mi
+(1,562 km2)	State map highlighting Sutter County
+
+
+Tehama County	103	Red Bluff	1856	Butte, Colusa and Shasta	The city of Tehama, named after the Tehama people, a local Native American tribe.	63,057	2,951 sq mi
+(7,643 km2)	State map highlighting Tehama County
+
+
+Trinity County	105	Weaverville	1850	Original	The city of Trinidad, itself Spanish for "Trinity".	13,448	3,179 sq mi
+(8,234 km2)	State map highlighting Trinity County
+
+
+Tulare County	107	Visalia	1852	Mariposa	Tulare Lake, which is named after the tule rush (Schoenoplectus acutus) that lined the marshes and sloughs of its shores.	454,143	4,824 sq mi
+(12,494 km2)	State map highlighting Tulare County
+
+
+Tuolumne County	109	Sonora	1850	Original	Exact etymology disputed; probably a corruption of the native term talmalamne, which means cluster of stone wigwams, a reference to local cave dwelling tribes.	53,874	2,236 sq mi
+(5,791 km2)	State map highlighting Tuolumne County
+
+
+Ventura County	111	Ventura	1872	Santa Barbara	The city of Ventura, itself an abbreviation of San Buenaventura, Spanish for St. Bonaventure.	839,620	1,846 sq mi
+(4,781 km2)	State map highlighting Ventura County
+
+
+Yolo County	113	Woodland	1850	Original	The Yolan people, a local Native American tribe.	204,593	1,012 sq mi
+(2,621 km2)	State map highlighting Yolo County
+
+
+Yuba County	115	Marysville	1850	Original	Either named by the Maidu people, a local Native American tribe who live on the banks of the Feather & Yuba Rivers, or by Gabriel Moraga, who used the Spanish name for the wild grapes (Vitis californica) that grow abundantly at the edge of the rivers.	73,340	630 sq mi
+(1,632 km2)	State map highlighting Yuba County
