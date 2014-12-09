@@ -361,21 +361,59 @@ the `dplyr` package
 
 If you were needing a little more elbow room in the great Golden State, this shows you where you can find it:
 ```{r}
-ca_base + 
+# prepare to drop the axes and ticks but leave the guides and legends
+ditch_the_axes <- theme(
+  axis.text = element_blank(),
+  axis.line = element_blank(),
+  axis.ticks = element_blank(),
+  panel.border = element_blank(),
+  panel.grid = element_blank(),
+  axis.title = element_blank()
+  )
+
+elbow_room1 <- ca_base + 
       geom_polygon(data = cacopa, aes(fill = people_per_mile), color = "white") +
       geom_polygon(color = "black", fill = NA) +
-      scale_fill_gradient(trans = "log10") + 
-      theme_bw()
-    
+      theme_bw() +
+      ditch_the_axes
+
+elbow_room1 
 ```
+
+#### Lame!
+
+* The popuation density in San Francisco is so great that it makes it hard to discern differences between
+other areas.
+* This is a job for a scale transformation.  Let's take the log-base-10 of the population density.
+* Instead of making a new column which is log10 of the `people_per_mile` we can just apply the
+transformation in the gradient we using the `trans` argument
+```{r}
+elbow_room1 + scale_fill_gradient(trans = "log10")
+```
+
+ 
+#### Still not great
+I personally like more color than ggplot uses in its default gradient.  In that respect I gravitate more 
+toward Matlab's default color gradient.  Can we do something similar with `ggplot`?
+```{r}
+eb2 <- elbow_room1 + 
+    scale_fill_gradientn(colours = rev(rainbow(7)),
+                         breaks = c(2, 4, 10, 100, 1000, 10000),
+                         trans = "log10")
+eb2
+```
+
+That is reasonably cool.
+
 
 
 ### zoom in?
-Note that the scale of these maps kinda sucks!
+Note that the scale of these maps from package `maps` are not great. We can zoom in to the 
+santa cruz region, and it sort of works scale-wise, but if we had more to zoom in, it would
+be tough.  
 
 ```{r, eval=FALSE}
-wc3 <- wc2 + xlim(-123, -121.5) + ylim(36, 38)
-wc3
+eb2 + xlim(-123, -120.5) + ylim(36, 38)
 ```
 
 That is an epic fail because it clips the data and tries to complete the polygon with that ridiculous line
