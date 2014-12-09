@@ -36,8 +36,8 @@ More recently, a third approach to convenient mapping, using `ggmap` has been de
 detailed base maps from Google Earth or Open Street Maps, upon which spatial data may be plotted.
 Today, we are going to focus on mapping using base maps from R's tried and true `maps` package and also using the
 `ggmap` package.  We won't cover the more advanced GIS-related topics nor using `rgdal`, or `sp` to plot
-maps with different projections, etc.  However, we will talk briefly about the somewhat more simplified
-approach using the `mapproj` package.
+maps with different projections, etc.  Nor will cover the somewhat more simplified
+approach to projections using the `mapproj` package.
 
 As in our previous explorations in this course, when it comes to plotting, we are going to completely
 skip over R's base graphics system and head directly to Hadley Wickham's `ggplot2` package.  Hadley has
@@ -52,10 +52,9 @@ for further ggplotting.  It is pretty sweet, but does not support different proj
 1. Introduce readers to the map outlines available in the `maps` package
     + Show how to convert those data into data frames that `ggplot2` can deal with
     + Discuss some `ggplot2` related issues about plotting things.
-2. Look at how one might do a small number of different projections using the `mapproj` package.
-3. Use `ggmap` to make some pretty decent looking maps
+2. Use `ggmap` to make some pretty decent looking maps
 
-I feel that the above three topics should cover a large part of what people will need for making
+I feel that the above twp topics should cover a large part of what people will need for making
 useful maps of field sites, or sampling locations, or fishing track lines, etc. 
 
 For today we will be skipping how to read in traditional GIS "shapefiles" so as to minimize
@@ -307,12 +306,12 @@ using the super-wonderful `theme_nothing()`.
     ca_base <- ggplot(data = ca_df, mapping = aes(x = long, y = lat, group = group)) + 
       coord_fixed(1.3) + 
       geom_polygon(color = "black", fill = "gray")
-    ca_base
+    ca_base + theme_nothing()
     ```
 
 * Now plot the county boundaries in white:
     ```{r}
-    ca_base + 
+    ca_base + theme_nothing() + 
       geom_polygon(data = ca_county, fill = NA, color = "white") +
       geom_polygon(color = "black", fill = NA)  # get the state border back on top
     ```
@@ -364,6 +363,7 @@ the `dplyr` package
 If you were needing a little more elbow room in the great Golden State, this shows you where you can find it:
 ```{r}
 # prepare to drop the axes and ticks but leave the guides and legends
+# We can't just throw down a theme_nothing()!
 ditch_the_axes <- theme(
   axis.text = element_blank(),
   axis.line = element_blank(),
@@ -503,6 +503,9 @@ go from 3 (world scale to 20 (house scale)).
 * We can plot the route like this:
     ```{r}
     bike <- read.csv("data/bike-ride.csv")
+    head(bike)
+
+
     bikemap1 <- get_map(location = c(-122.080954, 36.971709), maptype = "terrain", source = "google", zoom = 14)
     ggmap(bikemap1) + 
       geom_path(data = bike, aes(color = elevation), size = 3, lineend = "round") + 
