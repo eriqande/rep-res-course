@@ -91,6 +91,11 @@
 - dollar-sign
 - list-add-or-change
 - list-essentials
+./lectures/making-maps-with-R.rmd:
+- map-making-in-R
+- map-making-intro
+- maps-package-and-ggplot
+- ggmap-hooray
 ./lectures/put-your-own-stuff-on-github.rmd: put-it-on-github
 ./lectures/rstudio-orientation.rmd:
 - rstudio-orientation

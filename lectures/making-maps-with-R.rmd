@@ -92,7 +92,7 @@ library(mapdata)
 ```
 
 
-## Plotting maps-package maps with ggplot
+## Plotting maps-package maps with ggplot  {#maps-package-and-ggplot}
 
 ### The main players:
 
@@ -325,7 +325,7 @@ those counties.
 and grab population and area data for each county.
 * In fact, I copied their little table on Wikipedia and saved it into `data/ca-counties-wikipedia.txt`.
 * Watch this regex fun:
-    ```{r}
+```{r, warning=FALSE, message=FALSE}
     library(stringr)
     library(dplyr)
 
@@ -355,6 +355,8 @@ the `dplyr` package
 * And finally, add a column of `people_per_mile`:
     ```{r}
     cacopa$people_per_mile <- cacopa$population / cacopa$area
+
+    head(cacopa)
     ```
 
 #### Now plot population density by county
@@ -386,7 +388,7 @@ elbow_room1
 other areas.
 * This is a job for a scale transformation.  Let's take the log-base-10 of the population density.
 * Instead of making a new column which is log10 of the `people_per_mile` we can just apply the
-transformation in the gradient we using the `trans` argument
+transformation in the gradient using the `trans` argument
 ```{r}
 elbow_room1 + scale_fill_gradient(trans = "log10")
 ```
@@ -409,18 +411,107 @@ That is reasonably cool.
 
 ### zoom in?
 Note that the scale of these maps from package `maps` are not great. We can zoom in to the 
-santa cruz region, and it sort of works scale-wise, but if we had more to zoom in, it would
+Bay region, and it sort of works scale-wise, but if we wanted to zoom in more, it would
 be tough.  
 
-```{r, eval=FALSE}
-eb2 + xlim(-123, -120.5) + ylim(36, 38)
+Let's try!
+```{r}
+eb2 + xlim(-123, -121.0) + ylim(36, 38)
 ```
 
-That is an epic fail because it clips the data and tries to complete the polygon with that ridiculous line
+* Whoa! That is an epic fail. Why?
+* Recall that `geom_polygon()` connects the end point of a `group` to its starting point.
+* And the kicker: the `xlim` and `ylim` functions in `ggplot2` discard all the data that is
+not within the plot area.  
+    + Hence there are new starting points and ending points for some groups (or in this case the
+    black-line permiter of California) and those points get connected.  Not good.
 
-Better to chop it off using `coord_cartesian()`:
-```{r, eval=FALSE}
-wc4 <- wc2 + coord_cartesian(xlim = c(-123, -121.5),  ylim = c(36, 38))
-wc4
-```
+
+### True zoom.
+
+* If you want to keep all the data the same but just zoom in, you can use the `xlim` and `ylim` arguments to `coord_cartesian()`.  Though, to keep the aspect ratio correct we must use `coord_fixed()` instead of 
+`coord_cartesian()`.
+* This chops stuff off but doesn't discard it from the data set:
+    ```{r}
+    eb2 + coord_fixed(xlim = c(-123, -121.0),  ylim = c(36, 38), ratio = 1.3)
+    ```
+
+
+## ggmap {#ggmap-hooray}
+
+The `ggmap` package is the most exciting R mapping tool in a long time!  You might be able to get
+better looking maps at some resolutions by using shapefiles and rasters from naturalearthdata.com
+but `ggmap` will get you 95% of the way there with only 5% of the work!
+
+### Three examples
+
+* I am going to run through three examples.  Working from the small spatial scale up to a larger spatial scale.
+    1. Named "sampling" points on the Sisquoc River from the "Sisquoctober Adventure"
+    2. A GPS track from a short bike ride in Wilder Ranch.
+    3. Fish sampling locations from the coded wire tag data base.
     
+### How ggmap works
+
+* ggmap simplifies the process of downloading base maps from Google or Open Street Maps or Stamen Maps
+to use in the background of your plots.
+* It also sets the axis scales, etc, in a nice way.  
+* Once you have gotten your maps, you make a call with `ggmap()` much as you would with `ggplot()`
+* Let's do by example.
+
+### Sisquoctober
+
+* Here is a small data frame of points from the Sisquoc River.
+    ```{r}
+    sisquoc <- read.table("data/sisquoc-points.txt", sep = "\t", header = TRUE)
+    sisquoc
+
+    # note that ggmap tends to use "lon" instead of "long" for longitude.
+    ```
+* `ggmap` typically asks you for a zoom level, but we can try using `ggmap`'s `make_bbox` function:
+    ```{r}
+    sbbox <- make_bbox(lon = sisquoc$lon, lat = sisquoc$lat, f = .1)
+    sbbox
+    ```
+* Now, when we grab the map ggmap will try to fit it into that bounding box.  Let's try:
+    ```{r}
+    # First get the map. By default it gets it from Google.  I want it to be a satellite map
+    sq_map <- get_map(location = sbbox, maptype = "satellite", source = "google")
+    ggmap(sq_map) + geom_point(data = sisquoc, mapping = aes(x = lon, y = lat), color = "red")
+    ```
+* Nope! That was a fail, but we got a warning about it too.  Let's try using the zoom level.  Zoom levels
+go from 3 (world scale to 20 (house scale)).
+    ```{r}
+    # compute the mean lat and lon
+    ll_means <- sapply(sisquoc[2:3], mean)
+    sq_map2 <- get_map(location = ll_means,  maptype = "satellite", source = "google", zoom = 15)
+    ggmap(sq_map2) + 
+      geom_point(data = sisquoc, color = "red", size = 4) +
+      geom_text(data = sisquoc, aes(label = paste("  ", as.character(name), sep="")), angle = 60, hjust = 0, color = "yellow")
+    ```
+* That is decent.  How about if we use the "terrain" type of map:
+    ```{r}
+    sq_map3 <- get_map(location = ll_means,  maptype = "terrain", source = "google", zoom = 15)
+    ggmap(sq_map3) + 
+      geom_point(data = sisquoc, color = "red", size = 4) +
+      geom_text(data = sisquoc, aes(label = paste("  ", as.character(name), sep="")), angle = 60, hjust = 0, color = "yellow")
+    ```
+
+
+### How about a bike ride?
+
+* I was riding my bike one day with a my phone and downloaded the GPS readings at short intervals.
+* We can plot the route like this:
+    ```{r}
+    bike <- read.csv("data/bike-ride.csv")
+    bikemap1 <- get_map(location = c(-122.080954, 36.971709), maptype = "terrain", source = "google", zoom = 14)
+    ggmap(bikemap1) + 
+      geom_path(data = bike, aes(color = elevation), size = 3, lineend = "round") + 
+      scale_color_gradientn(colours = rainbow(7), breaks = seq(25, 200, by = 25))
+    ```
+* See how we have mapped elevation to the color of the path using our
+rainbow colors again.
+* Note that getting the right zoom and position for the map is sort of trial and
+error.  You can go to google maps to figure out where the center should be (right click and choose "What's here?" to get the lat-long of any point. )
+* The `make_bbox` function has never really worked for me.
+
+
