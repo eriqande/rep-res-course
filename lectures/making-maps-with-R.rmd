@@ -322,7 +322,9 @@ using the super-wonderful `theme_nothing()`.
 those counties.  
 * Now I can go to wikipedia or http://www.california-demographics.com/counties_by_population
 and grab population and area data for each county.
-* In fact, I copied their little table on Wikipedia and saved it into `data/ca-counties-wikipedia.txt`.
+* In fact, I copied their little table on Wikipedia and saved it into `data/ca-counties-wikipedia.txt`. In
+full disclosure I also edited the name of San Francisco from "City and County of San Francisco" to 
+"San Francisco County" to be like the others (and not break my regex!)
 * Watch this regex fun:
 ```{r, warning=FALSE, message=FALSE}
     library(stringr)
@@ -478,7 +480,8 @@ to use in the background of your plots.
     sq_map <- get_map(location = sbbox, maptype = "satellite", source = "google")
     ggmap(sq_map) + geom_point(data = sisquoc, mapping = aes(x = lon, y = lat), color = "red")
     ```
-* Nope! That was a fail, but we got a warning about it too.  Let's try using the zoom level.  Zoom levels
+* Nope! That was a fail, but we got a warning about it too. (Actually it is a little better than before
+because I hacked `ggmap` a bit...) Let's try using the zoom level.  Zoom levels
 go from 3 (world scale to 20 (house scale)).
     ```{r}
     # compute the mean lat and lon
@@ -495,6 +498,8 @@ go from 3 (world scale to 20 (house scale)).
       geom_point(data = sisquoc, color = "red", size = 4) +
       geom_text(data = sisquoc, aes(label = paste("  ", as.character(name), sep="")), angle = 60, hjust = 0, color = "yellow")
     ```
+    
+* That is cool, but I would search for a better color for the lettering...
 
 
 ### How about a bike ride?
@@ -518,3 +523,105 @@ error.  You can go to google maps to figure out where the center should be (righ
 * The `make_bbox` function has never really worked for me.
 
 
+### Fish sampling locations
+
+For this, I have whittled down some stuff in the coded wire tag data base to georeferenced marine locations in
+British Columbia where at least one Chinook salmon was recovered in between 2000 and 2012 inclusive.  To see how
+I did all that you can check out [this](https://github.com/eriqande/pbt-feasibility/blob/4ea2fc960f74f66b5ec3a11c107cdc52bfb346dc/Rmd/02-02-explore-recovery-and-catch-sample-data.Rmd#looking-at-locations-of-location-codes)
+
+Let's have a look at the data:
+```{r}
+bc <- readRDS("data/bc_sites.rds")
+
+# look at some of it:
+bc %>% select(state_or_province:sub_location, longitude, latitude)
+```
+
+So, we have 1,113 points to play with.  
+
+#### What do we hope to learn?
+
+* These locations in BC are hierarchically structured.  I am basically interested in how close together
+sites in the same "region" or "area" or "sector" are, and pondering whether it is OK to aggregate
+fish recoveries at a certain level for the purposes of getting a better overall estimate of the proportion
+of fish from different hatcheries in these areas.
+
+* So, pretty simple stuff.  I just want to plot these points on a map, and paint them a different
+color according to their sector, region, area, etc.
+* Let's just enumerate things first, using `dplyr`:
+    ```{r}
+    bc %>% group_by(sector, region, area) %>% tally()
+    ```
+* That looks good.  It appears like we could probably color code over the whole area down to region, and
+then down to area within subregions.
+
+#### Makin' a map.
+
+* Let us try again to use `make_bbox()` to see if it will work better when used on a large scale.
+```{r}
+# compute the bounding box
+bc_bbox <- make_bbox(lat = latitude, lon = longitude, data = bc)
+bc_bbox
+
+# grab the maps from google
+bc_big <- get_map(location = bc_bbox, source = "google", maptype = "terrain")
+
+# plot the points and color them by sector
+ggmap(bc_big) + 
+  geom_point(data = bc, mapping = aes(x = longitude, y = latitude, color = sector))
+```
+
+* Cool! That was about as easy as could be.  North is in the north, south is in the south, and 
+the three reddish points are clearly aberrant ones at the mouths of rivers.
+
+
+#### Coloring it by region
+
+* We should be able to color these all by region to some extent (it might get overwhelming), but let
+us have a go with it.
+* Notice that region names are unique overall (not just within N or S) so we can just color by region name.
+```{r}
+ggmap(bc_big) + 
+  geom_point(data = bc, mapping = aes(x = longitude, y = latitude, color = region))
+```
+
+* Once again that was dirt easy, though at this scale with all the different
+regions, it is hard to resolve all the colors.
+
+
+#### Zooming in on each region and coloring by area
+
+* It is time to really put this thing through its paces.  (Keeping in mind
+that `make_bbox()` might fail...)
+* I want to make series of maps.  One for each region, in which the the areas
+in that region are colored differently.
+* How?  Let's make a function:  you pass it the region and it makes the plot.
+* Keep in mind that there are no factors in this data frame so we don't have to
+worry about dropping levels, etc.
+```{r}
+region_plot <- function(MyRegion) {
+  tmp <- bc %>% filter(region == MyRegion)
+  bbox <- make_bbox(lon = longitude, lat = latitude, data = tmp)
+  mymap <- get_map(location = bbox, source = "google", maptype = "terrain")
+  # now we want to count up how many areas there are
+  NumAreas <- tmp %>% summarise(n_distinct(area))
+  NumPoints <- nrow(tmp)
+  
+  the_map <- ggmap(mymap) +
+    geom_point(data = tmp, mapping = aes(x = longitude, y = latitude), size = 4, color = "black") +
+    geom_point(data = tmp, mapping = aes(x = longitude, y = latitude, color = area), size = 3) +
+    ggtitle(
+      paste("BC Region: ", MyRegion, " with ", NumPoints, " locations in ", NumAreas, " area(s)", sep = "")
+      )
+  
+  ggsave(paste("bc_region", MyRegion, ".pdf", sep = ""), the_map, width = 9, height = 9)
+}
+```
+
+So, with that function we just need to cycle over the regions and make all those plots.
+
+Note that I am saving them to PDFs because it is no fun to make a web page with all of those in there.
+
+```{r, eval=FALSE}
+dump <- lapply(unique(bc$region), region_plot)
+```
