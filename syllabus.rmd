@@ -227,6 +227,9 @@ _A more formal look at functions. lapply()_
 ### `r  course_day("Tu", 10)`
 _Plotting on top of maps in R_
 
+* __Lecture:__
+    + [Making maps with R](#map-making-in-R)
+
 ### `r  course_day("Th", 10)`
 _NO CLASS. NMFS LAB PARTY_
 
@@ -235,8 +238,7 @@ _NO CLASS. NMFS LAB PARTY_
 ## Week 11 {#syl-week-10}
 
 ### `r  course_day("Tu", 10)`
-_LAST CLASS MEETING_
-_dply intro_
+_NO CLASS_
 
 
 
